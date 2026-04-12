@@ -22,7 +22,7 @@ import kotlin.math.abs
  * - Advisory callouts (Note:, Warning:, …)
  * - Epigraph / block-quote detection
  * - Table detection (x-clustered rows with ≥2 columns and ≥3 rows)
- * - ToC entry normalisation (strip underline leaders)
+ * - ToC entry normalisation (strip dot/underscore leaders)
  */
 object DeterministicMarkdownConverter {
 
@@ -30,24 +30,14 @@ object DeterministicMarkdownConverter {
 
     /** Isolated page-number strings with no body content. */
     private val PAGE_NUMBER_REGEX = Regex(
-        // Bare 1–2-digit page numbers (optional surrounding spaces)
-        """^[\s]*\d{1,2}[\s]*$""" +
+        // Bare 1–4-digit page numbers (optional surrounding spaces)
+        """^[\s]*\d{1,4}[\s]*$""" +
         // Numbers decorated with separator characters on at least one side
         """|^[\s]*[\-–—|]+[\s\-–—|]*\d+[\s\-–—|]*$""" +
         """|^[\s\-–—|]*\d+[\s]*[\-–—|]+[\s]*$""" +
-        // "Page N" / "Page N of M"
-        """|^[Pp]age\s+\d+(\s+of\s+\d+)?$""" +
         // "N / M" fraction form
-        """|\d+\s*/\s*\d+""" +
-        // "N | S e i t e" (German)
-        """|\d[\s]*\|[\s]*S[\s]*e[\s]*i[\s]*t[\s]*e"""
+        """|\d+\s*/\s*\d+"""
     )
-
-    /**
-     * Footer URL artifacts added by web-to-PDF converters (e.g. localhost temp-file links).
-     * Only localhost URLs are filtered; real web URLs (github.com, etc.) may appear in code blocks.
-     */
-    private val FOOTER_URL_REGEX = Regex("""^https?://localhost""", RegexOption.IGNORE_CASE)
 
     /** Bullet-marker prefix: •, ■, -, *, □, · followed by a space. */
     private val BULLET_PREFIX_REGEX   = Regex("""^[•■\*□·]\s|^-\s""")
@@ -66,11 +56,11 @@ object DeterministicMarkdownConverter {
     /** "1.2" or "1.2.3" — numbered sub-section heading candidate. */
     private val NUMBERED_H3_REGEX = Regex("""^\d+\.\d""")
 
-    /** Three or more consecutive underscores ⇒ ToC entry (leader dots). */
-    private val TOC_UNDERSCORES = Regex("""_{3,}""")
+    /** Three or more consecutive dots or underscores ⇒ ToC entry leader characters. */
+    private val TOC_LEADERS = Regex("""[._]{3,}""")
 
-    /** Trailing spaces/underscores + page number at end of a ToC line. */
-    private val TOC_PAGE_NUMBER = Regex("""[\s_]+\d+\s*$""")
+    /** Trailing spaces/dots/underscores + page number at end of a ToC line. */
+    private val TOC_PAGE_NUMBER = Regex("""[\s._]+\d+\s*$""")
 
     // ─── Internal block types ─────────────────────────────────────────────────
 
@@ -205,7 +195,6 @@ object DeterministicMarkdownConverter {
     fun isPageNumber(text: String): Boolean {
         val t = text.trim()
         if (t.isEmpty()) return false
-        if (FOOTER_URL_REGEX.containsMatchIn(t)) return true
         return t.length <= 20 && PAGE_NUMBER_REGEX.containsMatchIn(t)
     }
 
@@ -429,9 +418,9 @@ object DeterministicMarkdownConverter {
                 }
                 val headingText = headingParts.joinToString(" ")
 
-                if (TOC_UNDERSCORES.containsMatchIn(headingText)) {
+                if (TOC_LEADERS.containsMatchIn(headingText)) {
                     if (options.includeToc) {
-                        val clean = headingText.replace(TOC_UNDERSCORES, "")
+                        val clean = headingText.replace(TOC_LEADERS, "")
                             .replace(TOC_PAGE_NUMBER, "").trim()
                         blocks.add(Block.Paragraph(listOf(el.copy(text = clean))))
                     }
@@ -624,25 +613,6 @@ object DeterministicMarkdownConverter {
         return text.removePrefix(m.value).trimStart()
     }
 
-    // ─── Code language detection ──────────────────────────────────────────────
-
-    private fun detectCodeLanguage(lines: List<String>): String {
-        val joined = lines.joinToString("\n")
-        // Strong Python indicators — each alone is sufficient
-        val pythonStrong = listOf("def ", "import ", "class ", "elif ", "lambda ", "self.", "__init__", "print(")
-        // Strong bash indicators — each alone is sufficient
-        val bashStrong   = listOf("#!/", "sudo ", "apt-", "apt ", "brew ", "pip ", "npm ", "git ", "curl ", "wget ",
-                                  "echo ", "grep ", "export ", "chmod ", "mkdir ", " && ", " || ", "$ ")
-        // Plain-text/ASCII-art indicators: box-drawing borders or fill-in underscores
-        val textStrong   = listOf("+--", "+==", "|  ", "| ", "___")
-        return when {
-            pythonStrong.any { joined.contains(it) } -> "python"
-            bashStrong.any   { joined.contains(it) } -> "bash"
-            textStrong.any   { joined.contains(it) } -> "text"
-            else                                     -> ""
-        }
-    }
-
     // ─── Block rendering ──────────────────────────────────────────────────────
 
     private fun renderBlock(block: Block, options: ConversionOptions = ConversionOptions.READABLE): String = when (block) {
@@ -653,8 +623,7 @@ object DeterministicMarkdownConverter {
         is Block.ListItems -> block.items.joinToString("\n") { "- " + stripBulletPrefix(it.text.trim()) }
 
         is Block.CodeBlock -> buildString {
-            val lang = detectCodeLanguage(block.lines.map { it.text })
-            appendLine("```$lang")
+            appendLine("```")
             block.lines.forEach { appendLine(it.text.trim()) }
             append("```")
         }

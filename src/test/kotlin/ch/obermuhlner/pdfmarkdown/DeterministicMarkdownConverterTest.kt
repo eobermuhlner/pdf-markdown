@@ -59,26 +59,11 @@ class DeterministicMarkdownConverterTest {
     @Test fun `page number with dashes`() =
         assertTrue(DeterministicMarkdownConverter.isPageNumber("- 3 -"))
 
-    @Test fun `page number Page N`() =
-        assertTrue(DeterministicMarkdownConverter.isPageNumber("Page 5"))
-
-    @Test fun `page number Page N of M`() =
-        assertTrue(DeterministicMarkdownConverter.isPageNumber("Page 5 of 10"))
-
     @Test fun `page number fraction`() =
         assertTrue(DeterministicMarkdownConverter.isPageNumber("3 / 10"))
 
-    @Test fun `page number footer URL`() =
-        assertTrue(DeterministicMarkdownConverter.isPageNumber("http://localhost:1234/some/path"))
-
-    @Test fun `page number footer HTTPS URL localhost`() =
-        assertTrue(DeterministicMarkdownConverter.isPageNumber("https://localhost:8080/tmp/doc.md#"))
-
-    @Test fun `not page number real web URL`() =
-        assertFalse(DeterministicMarkdownConverter.isPageNumber("https://example.com/doc.pdf#page=3"))
-
-    @Test fun `not page number github URL`() =
-        assertFalse(DeterministicMarkdownConverter.isPageNumber("https://github.com/user/repo"))
+    @Test fun `page number 4 digit`() =
+        assertTrue(DeterministicMarkdownConverter.isPageNumber("1234"))
 
     @Test fun `not page number body text`() =
         assertFalse(DeterministicMarkdownConverter.isPageNumber("Introduction"))
@@ -481,7 +466,7 @@ class DeterministicMarkdownConverterTest {
     }
 
     @Test fun `page with only page number returns empty string`() {
-        val result = page(el(289, 750, "Page 1 of 5"))
+        val result = page(el(289, 750, "- 3 -"))
         assertEquals("", result)
     }
 }
