@@ -16,13 +16,16 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Extract version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
         env:
           GITHUB_REF: ${{ github.ref }}
 
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
+          distribution: temurin
           java-version: ${{ env.JDK_VERSION }}
 
       - name: Build fat JAR
@@ -58,13 +61,16 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Extract version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
         env:
           GITHUB_REF: ${{ github.ref }}
 
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
+          distribution: temurin
           java-version: ${{ env.JDK_VERSION }}
 
       - name: Build install distribution
