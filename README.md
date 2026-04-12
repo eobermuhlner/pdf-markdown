@@ -155,7 +155,44 @@ This format is stable and intended as an interchange format — you can pipe it 
 ./gradlew test       # tests only
 ```
 
-## Requirements
+## CI/CD
+
+This project uses GitHub Actions for continuous integration and release builds.
+
+### Workflows
+
+- **Build** — Runs on every push/PR to `main`. Builds and tests the project.
+- **Release** — Runs when a version tag is pushed. Creates a GitHub Release with multi-platform artifacts.
+
+### Creating a Release
+
+```bash
+# 1. Ensure you're on main and have the latest
+git checkout main
+git pull origin main
+
+# 2. Build and test locally
+./gradlew build -Pversion=0.1.0
+
+# 3. Create a version tag (format: v{major}.{minor}.{patch})
+git tag v0.1.0
+
+# 4. Push the tag to trigger the release workflow
+git push --tags
+```
+
+The release workflow builds on three platforms (Ubuntu, macOS, Windows) and creates a GitHub Release with these artifacts:
+
+| Artifact | Description |
+|----------|-------------|
+| `pdf-markdown-{VERSION}-all.jar` | Fat JAR (run with `java -jar`) |
+| `pdf-markdown-{VERSION}-linux.zip` | CLI distribution for Linux/macOS |
+| `pdf-markdown-{VERSION}-macos.zip` | CLI distribution for macOS |
+| `pdf-markdown-{VERSION}-windows.zip` | CLI distribution for Windows |
+| `pdf-markdown-{VERSION}-sources.jar` | Library sources |
+| `pdf-markdown-{VERSION}-javadoc.jar` | API documentation |
+
+### Requirements
 
 - JDK 11+
 - Gradle (wrapper included)
