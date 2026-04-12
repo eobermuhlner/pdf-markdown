@@ -49,8 +49,8 @@ object DeterministicMarkdownConverter {
      */
     private val FOOTER_URL_REGEX = Regex("""^https?://localhost""", RegexOption.IGNORE_CASE)
 
-    /** Bullet-marker prefix: •, -, *, □, · followed by a space. */
-    private val BULLET_PREFIX_REGEX   = Regex("""^[•\*□·]\s|^-\s""")
+    /** Bullet-marker prefix: •, ■, -, *, □, · followed by a space. */
+    private val BULLET_PREFIX_REGEX   = Regex("""^[•■\*□·]\s|^-\s""")
 
     /** Numbered/lettered item prefix: "1. ", "2) ", "a. " etc. */
     private val NUMBERED_PREFIX_REGEX = Regex("""^\d+[.)]\s|^[a-z][.)]\s""")
@@ -615,6 +615,15 @@ object DeterministicMarkdownConverter {
     private fun hasBulletOrNumberedPrefix(text: String): Boolean =
         BULLET_PREFIX_REGEX.containsMatchIn(text) || NUMBERED_PREFIX_REGEX.containsMatchIn(text)
 
+    /**
+     * Removes a leading bullet character from [text], if present.
+     * Numbered prefixes (1., 2), a.) are left intact — the number carries meaning.
+     */
+    private fun stripBulletPrefix(text: String): String {
+        val m = BULLET_PREFIX_REGEX.find(text) ?: return text
+        return text.removePrefix(m.value).trimStart()
+    }
+
     // ─── Code language detection ──────────────────────────────────────────────
 
     private fun detectCodeLanguage(lines: List<String>): String {
@@ -641,7 +650,7 @@ object DeterministicMarkdownConverter {
 
         is Block.Paragraph -> renderParagraph(block.lines, options)
 
-        is Block.ListItems -> block.items.joinToString("\n") { "- " + it.text.trim() }
+        is Block.ListItems -> block.items.joinToString("\n") { "- " + stripBulletPrefix(it.text.trim()) }
 
         is Block.CodeBlock -> buildString {
             val lang = detectCodeLanguage(block.lines.map { it.text })
