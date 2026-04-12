@@ -17,7 +17,7 @@ jobs:
 
       - name: Extract version
         run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
+          VERSION=$(echo "$GITHUB_REF" | sed 's/refs\/tags\/v//')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
         env:
           GITHUB_REF: ${{ github.ref }}
@@ -62,7 +62,7 @@ jobs:
 
       - name: Extract version
         run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
+          VERSION=$(echo "$GITHUB_REF" | sed 's/refs\/tags\/v//')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
         env:
           GITHUB_REF: ${{ github.ref }}
@@ -74,7 +74,12 @@ jobs:
           java-version: ${{ env.JDK_VERSION }}
 
       - name: Build install distribution
-        run: bash ./gradlew installDistZip -Pversion=${{ env.VERSION }}
+        run: |
+          if [[ "${{ matrix.os }}" == windows-latest ]]; then
+            ./gradlew.bat installDistZip -Pversion=${{ env.VERSION }}
+          else
+            bash ./gradlew installDistZip -Pversion=${{ env.VERSION }}
+          fi
 
       - name: Upload install distribution
         uses: actions/upload-artifact@v4
