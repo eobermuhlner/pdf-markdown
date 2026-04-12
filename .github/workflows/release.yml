@@ -36,35 +36,68 @@ jobs:
       - name: Build install distribution
         run: bash ./gradlew distZip -Pversion=${{ env.VERSION }}
 
-      - name: Upload all artifacts
+      - name: Upload fat JAR
         uses: actions/upload-artifact@v4
         with:
-          name: release-artifacts
-          path: |
-            build/libs/pdf-markdown-*.jar
-            build/libs/pdf-markdown-*-sources.jar
-            build/libs/pdf-markdown-*-javadoc.jar
-            build/distributions/pdf-markdown-*.zip
+          name: fat-jar
+          path: build/libs/pdf-markdown-*.jar
+
+      - name: Upload sources JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: sources-jar
+          path: build/libs/pdf-markdown-*-sources.jar
+
+      - name: Upload javadoc JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: javadoc-jar
+          path: build/libs/pdf-markdown-*-javadoc.jar
+
+      - name: Upload distribution ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-zip
+          path: build/distributions/pdf-markdown-*.zip
 
   release:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download all artifacts
+      - name: Download fat JAR
         uses: actions/download-artifact@v4
         with:
-          name: release-artifacts
+          name: fat-jar
           path: release/
 
-      - name: Rename install distribution
+      - name: Download sources JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: sources-jar
+          path: release/
+
+      - name: Download javadoc JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: javadoc-jar
+          path: release/
+
+      - name: Download distribution ZIP
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-zip
+          path: release/
+
+      - name: Rename distribution
         run: |
           cd release
-          mv pdf-markdown-*.zip pdf-markdown-${{ env.VERSION }}-linux.zip || true
+          VERSION="${GITHUB_REF_NAME#v}"
+          mv pdf-markdown-*.zip "pdf-markdown-${VERSION}-linux.zip"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          generate_release_notes: true
+          body: "Release ${{ github.ref_name }}"
           files: release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
