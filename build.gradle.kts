@@ -38,6 +38,9 @@ tasks.test {
     if (project.hasProperty("eval.full")) {
         systemProperty("eval.full", project.property("eval.full")!!)
     }
+    if (project.hasProperty("eval.dir")) {
+        systemProperty("eval.dir", project.property("eval.dir")!!)
+    }
 }
 
 kotlin {

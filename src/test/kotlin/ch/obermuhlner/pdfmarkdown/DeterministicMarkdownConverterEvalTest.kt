@@ -21,6 +21,8 @@ import kotlin.test.assertTrue
  *   `src/test/resources/eval/` — no download or setup required.
  * - Full (`./gradlew test -Deval.full=true`): evaluates all pairs in [FULL_EVAL_DIR].
  *   Requires the dataset to be downloaded first: `./gradlew downloadEvalData`
+ * - Custom dir (`./gradlew test -Deval.dir=/path/to/dir`): evaluates all PDF/MD pairs in
+ *   the given directory. Skipped when the directory does not exist.
  */
 @Tag("eval")
 class DeterministicMarkdownConverterEvalTest {
@@ -47,21 +49,33 @@ class DeterministicMarkdownConverterEvalTest {
 
     @Test
     fun `word coverage on synthetic sample`() {
+        val customDirProp = System.getProperty("eval.dir")
         val fullMode = System.getProperty("eval.full") == "true"
 
         val dataDir: File
         val maxFiles: Int
-        if (fullMode) {
-            assumeTrue(
-                FULL_EVAL_DIR.isDirectory,
-                "Full eval data not found at ${FULL_EVAL_DIR.path}. " +
-                "Run: ./gradlew downloadEvalData"
-            )
-            dataDir = FULL_EVAL_DIR
-            maxFiles = Int.MAX_VALUE
-        } else {
-            dataDir = RESOURCES_EVAL_DIR
-            maxFiles = DEFAULT_SAMPLE_SIZE
+        when {
+            customDirProp != null -> {
+                dataDir = File(customDirProp)
+                assumeTrue(
+                    dataDir.isDirectory,
+                    "Custom eval dir not found: ${dataDir.path}"
+                )
+                maxFiles = Int.MAX_VALUE
+            }
+            fullMode -> {
+                assumeTrue(
+                    FULL_EVAL_DIR.isDirectory,
+                    "Full eval data not found at ${FULL_EVAL_DIR.path}. " +
+                    "Run: ./gradlew downloadEvalData"
+                )
+                dataDir = FULL_EVAL_DIR
+                maxFiles = Int.MAX_VALUE
+            }
+            else -> {
+                dataDir = RESOURCES_EVAL_DIR
+                maxFiles = DEFAULT_SAMPLE_SIZE
+            }
         }
 
         val pairs = dataDir
