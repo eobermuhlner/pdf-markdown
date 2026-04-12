@@ -32,7 +32,13 @@ jobs:
 
       - name: Build and create distributions
         run: |
-          bash ./gradlew build sourcesJar javadocJar distZip -Pversion=${{ env.VERSION }}
+          bash ./gradlew jar sourcesJar javadocJar distZip -Pversion=${{ env.VERSION }}
+
+      - name: Upload thin JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: thin-jar
+          path: build/libs/pdf-markdown-*.jar
 
       - name: Upload sources JAR
         uses: actions/upload-artifact@v4
@@ -49,13 +55,19 @@ jobs:
       - name: Upload distribution ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: dist-zip
+          name: cli-zip
           path: build/distributions/pdf-markdown-*.zip
 
   release:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Download thin JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: thin-jar
+          path: release/
+
       - name: Download sources JAR
         uses: actions/download-artifact@v4
         with:
@@ -68,17 +80,20 @@ jobs:
           name: javadoc-jar
           path: release/
 
-      - name: Download distribution ZIP
+      - name: Download CLI ZIP
         uses: actions/download-artifact@v4
         with:
-          name: dist-zip
+          name: cli-zip
           path: release/
 
-      - name: Rename distribution
+      - name: Rename artifacts
         run: |
           cd release
           VERSION="${GITHUB_REF_NAME#v}"
-          mv pdf-markdown-*.zip "pdf-markdown-${VERSION}-linux.zip"
+          # CLI distribution
+          mv pdf-markdown-*.zip "pdf-markdown-${VERSION}.zip"
+          # Thin JAR (ensure correct name)
+          for f in pdf-markdown-$VERSION.jar; do [ -f "$f" ] && mv "$f" "pdf-markdown-${VERSION}.jar" || true; done
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
