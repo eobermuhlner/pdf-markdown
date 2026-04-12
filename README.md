@@ -68,25 +68,59 @@ val markdown = PdfMarkdown.toMarkdown(File("document.pdf"), maxPages = 10)
 
 ### As a CLI
 
-Build the fat JAR:
+The CLI can be run in two ways:
+
+**Using Gradle (no build required):**
 
 ```bash
-./gradlew build
-```
-
-Convert a PDF to Markdown:
-
-```bash
-java -jar build/libs/pdf-markdown-0.1.0.jar markdown document.pdf
-java -jar build/libs/pdf-markdown-0.1.0.jar markdown document.pdf output.md
-java -jar build/libs/pdf-markdown-0.1.0.jar markdown document.pdf --max-pages 5
+./gradlew run --args="markdown document.pdf"
+./gradlew run --args="markdown document.pdf output.md"
+./gradlew run --args="markdown document.pdf --max-pages 5"
+./gradlew run --args="markdown document.pdf --mode rag"
 ```
 
 Dump the intermediate positional XML (useful for debugging extraction or feeding into an LLM):
 
 ```bash
+./gradlew run --args="xml document.pdf"
+./gradlew run --args="xml document.pdf output.xml --max-pages 10"
+```
+
+**Using the installed distribution:**
+
+Install and run:
+
+```bash
+./gradlew installDist
+./build/install/pdf-markdown/bin/pdf-markdown markdown document.pdf
+./build/install/pdf-markdown/bin/pdf-markdown markdown document.pdf output.md
+./build/install/pdf-markdown/bin/pdf-markdown markdown document.pdf --max-pages 5
+./build/install/pdf-markdown/bin/pdf-markdown markdown document.pdf --mode rag
+./build/install/pdf-markdown/bin/pdf-markdown xml document.pdf
+```
+
+**Using the fat JAR:**
+
+Build the fat JAR first:
+
+```bash
+./gradlew build
+```
+
+Then run:
+
+```bash
+java -jar build/libs/pdf-markdown-0.1.0.jar markdown document.pdf
+java -jar build/libs/pdf-markdown-0.1.0.jar markdown document.pdf output.md
+java -jar build/libs/pdf-markdown-0.1.0.jar markdown document.pdf --max-pages 5
+java -jar build/libs/pdf-markdown-0.1.0.jar markdown document.pdf --mode rag
 java -jar build/libs/pdf-markdown-0.1.0.jar xml document.pdf
 ```
+
+### CLI Options
+
+- `--max-pages <n>` - Limit the number of pages to process (both `markdown` and `xml` commands)
+- `--mode <readable|rag>` - Output mode for `markdown` command: `readable` (default, human-friendly) or `rag` (optimized for RAG pipelines)
 
 ## Intermediate XML format
 
