@@ -35,10 +35,48 @@ tasks.jar {
 
 tasks.test {
     useJUnitPlatform()
+    if (project.hasProperty("eval.full")) {
+        systemProperty("eval.full", project.property("eval.full")!!)
+    }
 }
 
 kotlin {
     jvmToolchain(11)
+}
+
+// ─── Eval data ────────────────────────────────────────────────────────────────
+
+tasks.register("downloadEvalData") {
+    group = "verification"
+    description = "Downloads the full synthetic eval dataset (001 dir) from pdf-markdown-testdata."
+    doLast {
+        val dest = file("data/pdf/synthetic/data/001")
+        if (dest.exists() && (dest.listFiles()?.isNotEmpty() == true)) {
+            println("Eval data already present at ${dest.path} (${dest.listFiles()!!.size} files)")
+            return@doLast
+        }
+        dest.mkdirs()
+        val url = "https://github.com/eobermuhlner/pdf-markdown-testdata/archive/refs/heads/main.zip"
+        println("Downloading eval data from $url ...")
+        val zip = file("build/eval-data.zip")
+        zip.parentFile.mkdirs()
+        uri(url).toURL().openStream().use { input ->
+            zip.outputStream().use { out -> input.copyTo(out) }
+        }
+        println("Extracting to ${dest.path} ...")
+        copy {
+            from(zipTree(zip)) {
+                include("pdf-markdown-testdata-main/data/001/**")
+                eachFile {
+                    relativePath = RelativePath(true, *relativePath.segments.drop(2).toTypedArray())
+                }
+                includeEmptyDirs = false
+            }
+            into(dest)
+        }
+        zip.delete()
+        println("Done. ${dest.listFiles()?.size ?: 0} files extracted to ${dest.path}")
+    }
 }
 
 // ─── Publishing ───────────────────────────────────────────────────────────────
