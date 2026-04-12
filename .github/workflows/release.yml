@@ -119,10 +119,13 @@ jobs:
       - name: Rename platform distributions
         run: |
           cd release
-          mv pdf-markdown-*.zip pdf-markdown-${{ github.ref_name }}-${{ matrix.os }}.zip || true
-        shell: bash
-        env:
-          matrix os: ${{ matrix.os }}
+          for f in *.zip; do
+            case "$f" in
+              *ubuntu*) newname="${f%-ubuntu-latest*}"; mv "$f" "${newname}-linux.zip" ;;
+              *macos*) newname="${f%-macos-latest*}"; mv "$f" "${newname}-macos.zip" ;;
+              *windows*) newname="${f%-windows-latest*}"; mv "$f" "${newname}-windows.zip" ;;
+            esac
+          done
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
