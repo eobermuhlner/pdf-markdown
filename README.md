@@ -181,14 +181,12 @@ git tag v0.1.0
 git push --tags
 ```
 
-The release workflow builds on three platforms (Ubuntu, macOS, Windows) and creates a GitHub Release with these artifacts:
+The release workflow builds on Ubuntu and creates a GitHub Release with these artifacts:
 
 | Artifact | Description |
 |----------|-------------|
-| `pdf-markdown-{VERSION}-all.jar` | Fat JAR (run with `java -jar`) |
-| `pdf-markdown-{VERSION}-linux.zip` | CLI distribution for Linux/macOS |
-| `pdf-markdown-{VERSION}-macos.zip` | CLI distribution for macOS |
-| `pdf-markdown-{VERSION}-windows.zip` | CLI distribution for Windows |
+| `pdf-markdown-{VERSION}.jar` | Fat JAR (run with `java -jar`) |
+| `pdf-markdown-{VERSION}-linux.zip` | CLI distribution (unzip and run) |
 | `pdf-markdown-{VERSION}-sources.jar` | Library sources |
 | `pdf-markdown-{VERSION}-javadoc.jar` | API documentation |
 
