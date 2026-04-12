@@ -34,7 +34,7 @@ jobs:
         run: bash ./gradlew sourcesJar javadocJar -Pversion=${{ env.VERSION }}
 
       - name: Build install distribution
-        run: bash ./gradlew installDistZip -Pversion=${{ env.VERSION }}
+        run: bash ./gradlew distZip -Pversion=${{ env.VERSION }}
 
       - name: Upload all artifacts
         uses: actions/upload-artifact@v4
