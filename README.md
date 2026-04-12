@@ -183,12 +183,12 @@ git push --tags
 
 The release workflow builds on Ubuntu and creates a GitHub Release with these artifacts:
 
-| Artifact | Description |
-|----------|-------------|
-| `pdf-markdown-{VERSION}.zip` | CLI application (unzip and run) |
-| `pdf-markdown-{VERSION}.jar` | Thin JAR (use as library dependency) |
-| `pdf-markdown-{VERSION}-sources.jar` | Library sources |
-| `pdf-markdown-{VERSION}-javadoc.jar` | API documentation |
+| Artifact | Description | Usage |
+|----------|-------------|-------|
+| `pdf-markdown-{VERSION}.zip` | CLI application | `unzip && cd pdf-markdown-{VERSION} && ./bin/pdf-markdown ...` |
+| `pdf-markdown-{VERSION}.jar` | Thin JAR | Add as Gradle/Maven dependency |
+| `pdf-markdown-{VERSION}-sources.jar` | Library sources | For IDE dependency navigation |
+| `pdf-markdown-{VERSION}-javadoc.jar` | API documentation | For IDE offline docs |
 
 ### Requirements
 
