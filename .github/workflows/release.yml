@@ -89,11 +89,9 @@ jobs:
       - name: Rename artifacts
         run: |
           cd release
-          VERSION="${GITHUB_REF_NAME#v}"
-          # CLI distribution
-          mv pdf-markdown-*.zip "pdf-markdown-${VERSION}.zip"
-          # Thin JAR (ensure correct name)
-          for f in pdf-markdown-$VERSION.jar; do [ -f "$f" ] && mv "$f" "pdf-markdown-${VERSION}.jar" || true; done
+          # Files are already named with version by Gradle
+          # Just verify they exist
+          ls -la
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
