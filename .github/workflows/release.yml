@@ -1,0 +1,133 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches: [main]
+
+env:
+  JDK_VERSION: 11
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        env:
+          GITHUB_REF: ${{ github.ref }}
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JDK_VERSION }}
+
+      - name: Build fat JAR
+        run: ./gradlew build -Pversion=${{ env.VERSION }}
+
+      - name: Build sources and javadoc
+        run: ./gradlew sourcesJar javadocJar -Pversion=${{ env.VERSION }}
+
+      - name: Upload fat JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: fat-jar-${{ env.VERSION }}
+          path: build/libs/pdf-markdown-*.jar
+
+      - name: Upload sources
+        uses: actions/upload-artifact@v4
+        with:
+          name: sources-${{ env.VERSION }}
+          path: build/libs/pdf-markdown-*-sources.jar
+
+      - name: Upload javadoc
+        uses: actions/upload-artifact@v4
+        with:
+          name: javadoc-${{ env.VERSION }}
+          path: build/libs/pdf-markdown-*-javadoc.jar
+
+  build-dist:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        env:
+          GITHUB_REF: ${{ github.ref }}
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JDK_VERSION }}
+
+      - name: Build install distribution
+        run: ./gradlew installDistZip -Pversion=${{ env.VERSION }}
+
+      - name: Upload install distribution
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.os }}-${{ env.VERSION }}
+          path: build/distributions/*.zip
+
+  release:
+    needs: [build, build-dist]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download fat JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: fat-jar-${{ github.ref_name }}
+          path: release/
+
+      - name: Download sources
+        uses: actions/download-artifact@v4
+        with:
+          name: sources-${{ github.ref_name }}
+          path: release/
+
+      - name: Download javadoc
+        uses: actions/download-artifact@v4
+        with:
+          name: javadoc-${{ github.ref_name }}
+          path: release/
+
+      - name: Download Linux distribution
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-ubuntu-latest-${{ github.ref_name }}
+          path: release/
+
+      - name: Download macOS distribution
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-macos-latest-${{ github.ref_name }}
+          path: release/
+
+      - name: Download Windows distribution
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-windows-latest-${{ github.ref_name }}
+          path: release/
+
+      - name: Rename platform distributions
+        run: |
+          cd release
+          mv pdf-markdown-*.zip pdf-markdown-${{ github.ref_name }}-${{ matrix.os }}.zip || true
+        shell: bash
+        env:
+          matrix os: ${{ matrix.os }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: release/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

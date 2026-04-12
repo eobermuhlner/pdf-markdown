@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "ch.obermuhlner"
-version = "0.1.0"
+version = (project.findProperty("version") as String?) ?: "0.1.0-SNAPSHOT"
 
 application {
     mainClass = "ch.obermuhlner.pdfmarkdown.MainKt"
