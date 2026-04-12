@@ -30,20 +30,9 @@ jobs:
           distribution: temurin
           java-version: ${{ env.JDK_VERSION }}
 
-      - name: Build fat JAR
-        run: bash ./gradlew build -Pversion=${{ env.VERSION }}
-
-      - name: Build sources and javadoc
-        run: bash ./gradlew sourcesJar javadocJar -Pversion=${{ env.VERSION }}
-
-      - name: Build install distribution
-        run: bash ./gradlew distZip -Pversion=${{ env.VERSION }}
-
-      - name: Upload fat JAR
-        uses: actions/upload-artifact@v4
-        with:
-          name: fat-jar
-          path: build/libs/pdf-markdown-*.jar
+      - name: Build and create distributions
+        run: |
+          bash ./gradlew build sourcesJar javadocJar distZip -Pversion=${{ env.VERSION }}
 
       - name: Upload sources JAR
         uses: actions/upload-artifact@v4
@@ -67,12 +56,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download fat JAR
-        uses: actions/download-artifact@v4
-        with:
-          name: fat-jar
-          path: release/
-
       - name: Download sources JAR
         uses: actions/download-artifact@v4
         with:

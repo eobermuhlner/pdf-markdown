@@ -185,7 +185,6 @@ The release workflow builds on Ubuntu and creates a GitHub Release with these ar
 
 | Artifact | Description |
 |----------|-------------|
-| `pdf-markdown-{VERSION}.jar` | Fat JAR (run with `java -jar`) |
 | `pdf-markdown-{VERSION}-linux.zip` | CLI distribution (unzip and run) |
 | `pdf-markdown-{VERSION}-sources.jar` | Library sources |
 | `pdf-markdown-{VERSION}-javadoc.jar` | API documentation |
