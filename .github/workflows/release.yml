@@ -3,24 +3,23 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
-    branches: [main]
+      - "v*"
+    branches:
+      - main
 
 env:
-  JDK_VERSION: 11
+  JDK_VERSION: "11"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Extract version
-        run: |
-          VERSION=$(echo "$GITHUB_REF" | sed 's/refs\/tags\/v//')
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-        env:
-          GITHUB_REF: ${{ github.ref }}
+      - name: Set version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -34,109 +33,33 @@ jobs:
       - name: Build sources and javadoc
         run: bash ./gradlew sourcesJar javadocJar -Pversion=${{ env.VERSION }}
 
-      - name: Upload fat JAR
-        uses: actions/upload-artifact@v4
-        with:
-          name: fat-jar-${{ env.VERSION }}
-          path: build/libs/pdf-markdown-*.jar
-
-      - name: Upload sources
-        uses: actions/upload-artifact@v4
-        with:
-          name: sources-${{ env.VERSION }}
-          path: build/libs/pdf-markdown-*-sources.jar
-
-      - name: Upload javadoc
-        uses: actions/upload-artifact@v4
-        with:
-          name: javadoc-${{ env.VERSION }}
-          path: build/libs/pdf-markdown-*-javadoc.jar
-
-  build-dist:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Extract version
-        run: |
-          VERSION=$(echo "$GITHUB_REF" | sed 's/refs\/tags\/v//')
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-        env:
-          GITHUB_REF: ${{ github.ref }}
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: ${{ env.JDK_VERSION }}
-
       - name: Build install distribution
-        run: |
-          if [[ "${{ matrix.os }}" == windows-latest ]]; then
-            ./gradlew.bat installDistZip -Pversion=${{ env.VERSION }}
-          else
-            bash ./gradlew installDistZip -Pversion=${{ env.VERSION }}
-          fi
+        run: bash ./gradlew installDistZip -Pversion=${{ env.VERSION }}
 
-      - name: Upload install distribution
+      - name: Upload all artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dist-${{ matrix.os }}-${{ env.VERSION }}
-          path: build/distributions/*.zip
+          name: release-artifacts
+          path: |
+            build/libs/pdf-markdown-*.jar
+            build/libs/pdf-markdown-*-sources.jar
+            build/libs/pdf-markdown-*-javadoc.jar
+            build/distributions/pdf-markdown-*.zip
 
   release:
-    needs: [build, build-dist]
+    needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download fat JAR
+      - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          name: fat-jar-${{ github.ref_name }}
+          name: release-artifacts
           path: release/
 
-      - name: Download sources
-        uses: actions/download-artifact@v4
-        with:
-          name: sources-${{ github.ref_name }}
-          path: release/
-
-      - name: Download javadoc
-        uses: actions/download-artifact@v4
-        with:
-          name: javadoc-${{ github.ref_name }}
-          path: release/
-
-      - name: Download Linux distribution
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-ubuntu-latest-${{ github.ref_name }}
-          path: release/
-
-      - name: Download macOS distribution
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-macos-latest-${{ github.ref_name }}
-          path: release/
-
-      - name: Download Windows distribution
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-windows-latest-${{ github.ref_name }}
-          path: release/
-
-      - name: Rename platform distributions
+      - name: Rename install distribution
         run: |
           cd release
-          for f in *.zip; do
-            case "$f" in
-              *ubuntu*) newname="${f%-ubuntu-latest*}"; mv "$f" "${newname}-linux.zip" ;;
-              *macos*) newname="${f%-macos-latest*}"; mv "$f" "${newname}-macos.zip" ;;
-              *windows*) newname="${f%-windows-latest*}"; mv "$f" "${newname}-windows.zip" ;;
-            esac
-          done
+          mv pdf-markdown-*.zip pdf-markdown-${{ env.VERSION }}-linux.zip || true
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
