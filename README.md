@@ -161,15 +161,15 @@ This project uses GitHub Actions for continuous integration and release builds.
 
 ### Workflows
 
-- **Build** — Runs on every push/PR to `main`. Builds and tests the project.
+- **Build** — Runs on every push/PR to `master`. Builds and tests the project.
 - **Release** — Runs when a version tag is pushed. Creates a GitHub Release with multi-platform artifacts.
 
 ### Creating a Release
 
 ```bash
-# 1. Ensure you're on main and have the latest
-git checkout main
-git pull origin main
+# 1. Ensure you're on master and have the latest
+git checkout master
+git pull origin master
 
 # 2. Build and test locally
 ./gradlew build -Pversion=0.1.0
