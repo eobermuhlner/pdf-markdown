@@ -124,7 +124,8 @@ object DeterministicMarkdownConverter {
      */
     fun convertDocument(
         pageElementsList: List<List<TextElement>>,
-        docModeFontSize: Int
+        docModeFontSize: Int,
+        options: ConversionOptions = ConversionOptions.READABLE,
     ): List<String> {
         var titleUsed = false
         return pageElementsList.mapIndexed { idx, els ->
@@ -134,7 +135,8 @@ object DeterministicMarkdownConverter {
                 elements = els,
                 modeFontSize = pageMode,
                 isFirstPage = idx == 0,
-                titleAlreadyUsed = titleUsed
+                titleAlreadyUsed = titleUsed,
+                options = options,
             )
             if (md.lines().any { it.startsWith("# ") }) titleUsed = true
             md
@@ -148,7 +150,8 @@ object DeterministicMarkdownConverter {
         elements: List<TextElement>,
         modeFontSize: Int,
         isFirstPage: Boolean = false,
-        titleAlreadyUsed: Boolean = false
+        titleAlreadyUsed: Boolean = false,
+        options: ConversionOptions = ConversionOptions.READABLE,
     ): String {
         if (elements.isEmpty()) return ""
 
@@ -181,11 +184,11 @@ object DeterministicMarkdownConverter {
             }.toSet()
             val prose = withInitials.filter { it !in inTable }
 
-            val blocks = buildBlocks(prose, bodyMargin, modeFontSize, isFirstPage, titleUsed, titleCandidateFontSize)
+            val blocks = buildBlocks(prose, bodyMargin, modeFontSize, isFirstPage, titleUsed, titleCandidateFontSize, options)
 
             for (block in blocks) {
                 if (block is Block.Heading && block.level == 1) titleUsed = true
-                val rendered = renderBlock(block)
+                val rendered = renderBlock(block, options)
                 if (rendered.isNotEmpty()) chunks.add(Chunk(block.minY, rendered))
             }
             for (tr in tableRegions) {
@@ -381,7 +384,8 @@ object DeterministicMarkdownConverter {
         modeFontSize: Int,
         isFirstPage: Boolean,
         initialTitleUsed: Boolean,
-        titleCandidateFontSize: Int? = null
+        titleCandidateFontSize: Int? = null,
+        options: ConversionOptions = ConversionOptions.READABLE,
     ): List<Block> {
         val blocks    = mutableListOf<Block>()
         var i         = 0
@@ -426,9 +430,11 @@ object DeterministicMarkdownConverter {
                 val headingText = headingParts.joinToString(" ")
 
                 if (TOC_UNDERSCORES.containsMatchIn(headingText)) {
-                    val clean = headingText.replace(TOC_UNDERSCORES, "")
-                        .replace(TOC_PAGE_NUMBER, "").trim()
-                    blocks.add(Block.Paragraph(listOf(el.copy(text = clean))))
+                    if (options.includeToc) {
+                        val clean = headingText.replace(TOC_UNDERSCORES, "")
+                            .replace(TOC_PAGE_NUMBER, "").trim()
+                        blocks.add(Block.Paragraph(listOf(el.copy(text = clean))))
+                    }
                 } else {
                     if (headingLevel == 1) titleUsed = true
                     blocks.add(Block.Heading(headingLevel, headingText, el))
@@ -630,10 +636,10 @@ object DeterministicMarkdownConverter {
 
     // ─── Block rendering ──────────────────────────────────────────────────────
 
-    private fun renderBlock(block: Block): String = when (block) {
+    private fun renderBlock(block: Block, options: ConversionOptions = ConversionOptions.READABLE): String = when (block) {
         is Block.Heading -> "#".repeat(block.level) + " " + block.text
 
-        is Block.Paragraph -> renderParagraph(block.lines)
+        is Block.Paragraph -> renderParagraph(block.lines, options)
 
         is Block.ListItems -> block.items.joinToString("\n") { "- " + it.text.trim() }
 
@@ -644,21 +650,36 @@ object DeterministicMarkdownConverter {
             append("```")
         }
 
-        is Block.Advisory -> "> **${block.label}:** ${block.rest}"
+        is Block.Advisory -> when (options.advisoryFormat) {
+            ConversionOptions.AdvisoryFormat.BLOCKQUOTE -> "> **${block.label}:** ${block.rest}"
+            ConversionOptions.AdvisoryFormat.PLAIN      -> "${block.label}: ${block.rest}"
+        }
 
-        is Block.Epigraph -> buildString {
-            block.lines.forEachIndexed { idx, el ->
-                if (idx < block.lines.size - 1 || block.attribution != null) {
-                    appendLine("> " + el.text.trim())
-                } else {
-                    append("> " + el.text.trim())
+        is Block.Epigraph -> when (options.epigraphFormat) {
+            ConversionOptions.EpigraphFormat.BLOCKQUOTE -> buildString {
+                block.lines.forEachIndexed { idx, el ->
+                    if (idx < block.lines.size - 1 || block.attribution != null) {
+                        appendLine("> " + el.text.trim())
+                    } else {
+                        append("> " + el.text.trim())
+                    }
                 }
+                block.attribution?.let { append("\n> — " + it.text.trim()) }
             }
-            block.attribution?.let { append("\n> — " + it.text.trim()) }
+            ConversionOptions.EpigraphFormat.PLAIN -> buildString {
+                block.lines.forEachIndexed { idx, el ->
+                    if (idx < block.lines.size - 1 || block.attribution != null) {
+                        appendLine(el.text.trim())
+                    } else {
+                        append(el.text.trim())
+                    }
+                }
+                block.attribution?.let { append("\n— " + it.text.trim()) }
+            }
         }
     }
 
-    private fun renderParagraph(lines: List<TextElement>): String {
+    private fun renderParagraph(lines: List<TextElement>, options: ConversionOptions = ConversionOptions.READABLE): String {
         if (lines.isEmpty()) return ""
         val joined = buildString {
             for ((idx, el) in lines.withIndex()) {
@@ -674,7 +695,7 @@ object DeterministicMarkdownConverter {
                 }
             }
         }
-        return applyEmphasis(joined, lines.first().font)
+        return if (options.stripInlineFormatting) joined else applyEmphasis(joined, lines.first().font)
     }
 
     private fun applyEmphasis(text: String, font: String): String = when (font) {

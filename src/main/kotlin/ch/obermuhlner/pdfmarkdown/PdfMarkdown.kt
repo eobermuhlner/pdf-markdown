@@ -18,9 +18,13 @@ object PdfMarkdown {
      * @param maxPages  Maximum number of pages to process (default: all pages).
      * @return          Full document Markdown, pages joined by blank lines.
      */
-    fun toMarkdown(file: File, maxPages: Int = Int.MAX_VALUE): String {
+    fun toMarkdown(
+        file: File,
+        maxPages: Int = Int.MAX_VALUE,
+        options: ConversionOptions = ConversionOptions.READABLE,
+    ): String {
         val (pageElements, modeFontSize) = extractFilteredPageElements(file, maxPages)
-        return DeterministicMarkdownConverter.convertDocument(pageElements, modeFontSize)
+        return DeterministicMarkdownConverter.convertDocument(pageElements, modeFontSize, options)
             .joinToString("\n\n")
     }
 

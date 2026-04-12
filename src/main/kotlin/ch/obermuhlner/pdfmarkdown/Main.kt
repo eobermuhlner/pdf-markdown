@@ -4,7 +4,9 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
+import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.int
 import java.io.File
@@ -42,9 +44,14 @@ class MarkdownCommand : CliktCommand(
     private val inputFile: File by argument(help = "Input PDF file").file(mustExist = true, canBeDir = false)
     private val outputFile: File? by argument(help = "Output file (default: stdout)").file().optional()
     private val maxPages: Int? by option("--max-pages", help = "Maximum number of pages to process").int()
+    private val mode: String by option(
+        "--mode",
+        help = "Output mode: 'readable' (default, human-friendly) or 'rag' (semantic, for RAG pipelines)"
+    ).choice("readable", "rag").default("readable")
 
     override fun run() {
-        val markdown = PdfMarkdown.toMarkdown(inputFile, maxPages ?: Int.MAX_VALUE)
+        val options = if (mode == "rag") ConversionOptions.RAG else ConversionOptions.READABLE
+        val markdown = PdfMarkdown.toMarkdown(inputFile, maxPages ?: Int.MAX_VALUE, options)
         write(markdown, outputFile)
     }
 }
