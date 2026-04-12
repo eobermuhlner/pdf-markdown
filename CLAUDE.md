@@ -5,8 +5,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-# Build (compiles + creates fat JAR)
+# Build (compiles + creates fat JAR + CLI distribution)
 ./gradlew build
+
+# Build thin JAR only (for library use)
+./gradlew jar -Pversion=0.1.0
 
 # Run tests
 ./gradlew test
@@ -24,6 +27,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 # Publish to local staging directory (build/staging-deploy)
 ./gradlew publishMavenJavaPublicationToStagingRepository
+
+# Create release (tag format: v{major}.{minor}.{patch})
+git tag v0.1.0
+git push --tags
 ```
 
 ## Architecture
@@ -51,7 +58,7 @@ The `PdfMarkdown` object is the sole public entry point:
 - `PdfMarkdown.toXml(file, maxPages)` — extraction only, emitting positional XML (useful for debugging or LLM-based post-processing)
 
 **CLI — `Main.kt`**
-Built with Clikt. Two subcommands (`markdown`, `xml`) wrap the `PdfMarkdown` API. The fat JAR built by `./gradlew build` is self-contained and runnable directly.
+Built with Clikt. Two subcommands (`markdown`, `xml`) wrap the `PdfMarkdown` API. The CLI distribution can be built with `./gradlew distZip` and run directly after unzipping.
 
 ## Key design constraint
 
