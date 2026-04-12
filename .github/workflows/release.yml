@@ -29,10 +29,10 @@ jobs:
           java-version: ${{ env.JDK_VERSION }}
 
       - name: Build fat JAR
-        run: ./gradlew build -Pversion=${{ env.VERSION }}
+        run: bash ./gradlew build -Pversion=${{ env.VERSION }}
 
       - name: Build sources and javadoc
-        run: ./gradlew sourcesJar javadocJar -Pversion=${{ env.VERSION }}
+        run: bash ./gradlew sourcesJar javadocJar -Pversion=${{ env.VERSION }}
 
       - name: Upload fat JAR
         uses: actions/upload-artifact@v4
@@ -74,7 +74,7 @@ jobs:
           java-version: ${{ env.JDK_VERSION }}
 
       - name: Build install distribution
-        run: ./gradlew installDistZip -Pversion=${{ env.VERSION }}
+        run: bash ./gradlew installDistZip -Pversion=${{ env.VERSION }}
 
       - name: Upload install distribution
         uses: actions/upload-artifact@v4

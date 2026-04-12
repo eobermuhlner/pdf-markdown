@@ -19,7 +19,7 @@ jobs:
           java-version: 11
 
       - name: Build and Test
-        run: ./gradlew build
+        run: bash ./gradlew build
 
       - name: Upload test reports
         if: always()
