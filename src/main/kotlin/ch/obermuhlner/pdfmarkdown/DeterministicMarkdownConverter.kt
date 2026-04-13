@@ -546,8 +546,12 @@ object DeterministicMarkdownConverter {
                 val nextHead   = detectHeadingLevel(next, modeFontSize, false, titleUsed, null) > 0
                 val nextAdv    = ADVISORY_REGEX.containsMatchIn(next.text.trim()) &&
                                  (next.font.contains("bold") || next.font.contains("italic"))
+                // Prevent merging elements from different layout zones (e.g. separate columns
+                // or a diagram's time column vs. its description column).  Genuine paragraph
+                // continuation lines wrap at (nearly) the same left margin as the first line.
+                val nextXFar   = abs(next.x - el.x) > 150
                 if (next.font == el.font && yGap <= maxGap &&
-                    !nextMono && !nextHead && !nextAdv) {
+                    !nextMono && !nextHead && !nextAdv && !nextXFar) {
                     paraLines.add(next); j++
                 } else break
             }
@@ -589,9 +593,11 @@ object DeterministicMarkdownConverter {
         if (size == "large" && NUMBERED_H3_REGEX.containsMatchIn(text) && text.length < 80) return 3
 
         // (4) Bold ALL-CAPS short standalone → ##
+        // Require at least 5 letters to avoid false positives on short abbreviations
+        // like "(CET)" (3 letters), "CLOB" (4 letters), "QDM" (3 letters), etc.
         val hasLetters = text.any(Char::isLetter)
         val allCaps    = hasLetters && text.filter(Char::isLetter).all(Char::isUpperCase)
-        if (isBold && allCaps && text.length < 80) return 2
+        if (isBold && allCaps && text.length < 80 && text.count(Char::isLetter) >= 5) return 2
 
         // (5) Bold x-large/xx-large standalone → ##
         if (isBold && size in setOf("x-large", "xx-large")) return 2

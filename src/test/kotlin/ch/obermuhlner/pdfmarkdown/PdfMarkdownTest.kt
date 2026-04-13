@@ -44,6 +44,37 @@ class PdfMarkdownTest {
     }
 
     @Test
+    fun `page 7 of trading guide has no O UCH`() {
+        val file = java.io.File("src/test/resources/trading-guide.pdf")
+        if (!file.exists()) return  // skip if PDF not available
+        val (pageElements, _) = extractFilteredPageElements(file, maxPages = 7)
+        val page7texts = pageElements.lastOrNull()?.map { it.text } ?: emptyList()
+        val allText = page7texts.joinToString(" ")
+        // Dump character codes around "O UCH" for debugging
+        val problematic = page7texts.filter { it.contains("O UCH") }
+        if (problematic.isNotEmpty()) {
+            val s = problematic.first()
+            val idx = s.indexOf("O UCH")
+            val chars = s.substring(maxOf(0, idx - 2), minOf(s.length, idx + 10))
+                .map { "'$it'(${it.code})" }.joinToString(", ")
+            error("Found 'O UCH' in page 7. Chars around it: $chars")
+        }
+    }
+
+    @Test
+    fun `normalizeSpreadText collapses O UCH into OUCH`() {
+        val input = "QTI Good-for-Business-Day (pre-opening, continuous trading, closing auction, post trading) O UCH Trading Interface (OTI)"
+        val result = normalizeSpreadText(input)
+        assert(result.contains("OUCH")) { "Expected OUCH but got: $result" }
+        assert(!result.contains("O UCH")) { "Still contains O UCH: $result" }
+    }
+
+    @Test
+    fun `normalizeSpreadText leaves valid as of 01 intact`() {
+        assertEquals("valid as of 01 July 2024", normalizeSpreadText("valid as of 01 July 2024"))
+    }
+
+    @Test
     fun `detectRepeatedElements finds elements appearing on multiple pages`() {
         val el = TextElement(x = 10, y = 10, endX = 50, height = 12, fontSize = 12, font = "normal", text = "Header")
         val page1 = listOf(el, TextElement(x = 10, y = 100, endX = 200, height = 12, fontSize = 12, font = "normal", text = "Content 1"))

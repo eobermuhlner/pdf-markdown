@@ -202,6 +202,10 @@ class PositionalTextStripper : PDFTextStripper() {
 /**
  * Merges adjacent [TextElement]s on the same line that share the same font and size into a single
  * element.  Elements are first sorted by (y, x) so merging is left-to-right within each line.
+ *
+ * After each merge run, [normalizeSpreadText] is applied to collapse artificially-spaced text
+ * such as "B u si n e ss  D a y" (produced by PDFBox when extracting rotated/vertical glyphs)
+ * into readable words like "Business Day".
  */
 fun mergeElements(elements: List<TextElement>): List<TextElement> {
     if (elements.isEmpty()) return elements
@@ -218,22 +222,66 @@ fun mergeElements(elements: List<TextElement>): List<TextElement> {
                 text = current.text + separator + next.text,
             )
         } else {
-            result.add(current)
+            result.add(current.copy(text = normalizeSpreadText(current.text)))
             current = next
         }
     }
-    result.add(current)
+    result.add(current.copy(text = normalizeSpreadText(current.text)))
     return result
 }
 
 fun canMerge(a: TextElement, b: TextElement): Boolean {
     val yTolerance = maxOf(2, a.fontSize / 4)
-    val maxGap = a.fontSize * 1.5
+    // When fontSize is zero or negative (rotated/vertical text extracted by PDFBox yields
+    // implausible sizes), fall back to the element's physical height so that adjacent glyphs
+    // on the same baseline can still be merged.  A 2× height multiplier is used (vs 1.5× for
+    // normal text) because individual-glyph extractions can have zero-width bounding boxes
+    // with inter-glyph gaps that exactly equal 1.5× height.
+    val maxGap = if (a.fontSize > 0) a.fontSize.toDouble() * 1.5 else a.height.toDouble() * 2.0
     return abs(a.y - b.y) <= yTolerance &&
             a.font == b.font &&
             abs(a.fontSize - b.fontSize) <= 1 &&
             b.x >= a.x &&
             (b.x - a.endX) < maxGap
+}
+
+/**
+ * Collapses artificially-spaced text that PDFBox produces when extracting rotated glyphs.
+ *
+ * PDFBox extracts vertical/rotated text character-by-character, inserting spaces between
+ * each glyph.  This leaves strings like "B u si n e ss  D a y" or "T ra d in g" in the
+ * element text.  The heuristic works in two passes:
+ *
+ * 1. Split on 2+ consecutive spaces (which mark real word boundaries in spread text).
+ * 2. Within each part, collapse runs of 3+ consecutive 1–2-char tokens (or 2 single-char
+ *    tokens) into one word, leaving longer tokens unchanged.
+ *
+ * Examples:
+ *   "B u si n e ss  D a y"               →  "Business Day"
+ *   "T ra d in g -A t- L a st"           →  "Trading-At-Last"
+ *   "E n d  o f  T ra d in g"            →  "End of Trading"
+ *   "Q T I Good-for-Business-Day OUCH"   →  "QTI Good-for-Business-Day OUCH"
+ *   "Market Model and Matching Rules"    →  unchanged  (tokens longer than 2 chars)
+ */
+fun normalizeSpreadText(text: String): String {
+    if (text.length < 3) return text
+    val parts = text.split(Regex(" {2,}")).mapNotNull { part ->
+        val trimmed = part.trim()
+        if (trimmed.isEmpty()) return@mapNotNull null
+        val tokens = trimmed.split(' ').filter { it.isNotEmpty() }
+        when {
+            // Entire part is short tokens: collapse all
+            tokens.size >= 3 && tokens.all { it.length <= 2 } -> tokens.joinToString("")
+            tokens.size == 2 && tokens.all { it.length == 1 } -> tokens.joinToString("")
+            // Mixed content: collapse consecutive runs of letter-bearing 1–2-char tokens
+            // anywhere in the text.  A run must have ≥3 tokens (or 2 single-char tokens)
+            // to be collapsed.  Non-letter tokens (digits, punctuation like "01", "|")
+            // break the run so that "valid as of 01 July" is left intact.
+            else -> collapseLetterRuns(tokens)
+        }
+    }
+    if (parts.isEmpty()) return text.trim()
+    return parts.joinToString(" ")
 }
 
 /** Normalises a [PDFont] into one of the style tokens used throughout this library. */
@@ -264,6 +312,53 @@ fun normalizeFontStyle(font: PDFont): String {
     return if (monoByName) "$base-mono" else base
 }
 
+/**
+ * Collapses runs of spread-text tokens inside a pre-split token list.
+ *
+ * A run begins with a single-letter token (a clear sign that PDFBox split a glyph out
+ * individually from rotated/vertical text) and continues while subsequent tokens are
+ * "spread-like" (see [isSpreadFragment]).  The run is collapsed only when it has ≥ 2 tokens.
+ * Long words and tokens with no letters break any run, so normal text like
+ * "valid as of 01 July 2024" is left intact.
+ */
+private fun collapseLetterRuns(tokens: List<String>): String {
+    val sb = StringBuilder()
+    var i = 0
+    while (i < tokens.size) {
+        val t = tokens[i]
+        if (t.length == 1 && t[0].isLetter()) {
+            // Single-letter token: potential start of a spread run.
+            var j = i
+            while (j < tokens.size && isSpreadFragment(tokens[j])) j++
+            val run = tokens.subList(i, j)
+            if (sb.isNotEmpty()) sb.append(' ')
+            if (run.size >= 2) sb.append(run.joinToString(""))
+            else sb.append(t)
+            i = j
+        } else {
+            if (sb.isNotEmpty()) sb.append(' ')
+            sb.append(t)
+            i++
+        }
+    }
+    return sb.toString()
+}
+
+/**
+ * Returns true when [t] looks like a fragment of a word split by PDFBox character-by-character
+ * extraction from rotated/vertical text:
+ *   - a single letter (e.g. "O", "U", "C", "H"),
+ *   - a 2-char token containing at least one letter (e.g. "si", "ra"), or
+ *   - a 3–4-char token made entirely of uppercase letters (e.g. "UCH" from "OUCH",
+ *     "QTI", "OTI" from vertical column labels).
+ */
+private fun isSpreadFragment(t: String): Boolean = when (t.length) {
+    1    -> t[0].isLetter()
+    2    -> t.any { it.isLetter() }
+    3, 4 -> t.all { it.isUpperCase() }
+    else -> false
+}
+
 /** Normalises common Unicode whitespace and soft-hyphen variants found in PDFs. */
 fun normalizeText(text: String): String = text
     .replace('\u00A0', ' ')       // non-breaking space → regular space
@@ -273,3 +368,4 @@ fun normalizeText(text: String): String = text
     .replace("\u00AD", "")        // soft hyphen → remove
     .replace("\u2060", "")        // word joiner → remove
     .replace("\uFEFF", "")        // zero-width no-break space (BOM) → remove
+    .replace(Regex("[\uE000-\uF8FF]"), "")  // BMP Private Use Area — font-specific glyph codes with no text meaning
