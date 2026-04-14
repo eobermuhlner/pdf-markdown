@@ -168,7 +168,7 @@ object DeterministicMarkdownConverter {
             val sorted      = col.sortedBy { it.y }
             val withInitials = mergeDropInitials(sorted)
 
-            val tableRegions = detectTableRegions(withInitials)
+            val tableRegions = detectTableRegions(withInitials, options)
             val inTable      = withInitials.filter { el ->
                 tableRegions.any { tr -> tr.allElements.any { it === el } }
             }.toSet()
@@ -182,7 +182,7 @@ object DeterministicMarkdownConverter {
                 if (rendered.isNotEmpty()) chunks.add(Chunk(block.minY, rendered))
             }
             for (tr in tableRegions) {
-                chunks.add(Chunk(tr.minY, renderTableRegion(tr)))
+                chunks.add(Chunk(tr.minY, renderTableRegion(tr, options)))
             }
         }
 
@@ -691,7 +691,10 @@ object DeterministicMarkdownConverter {
 
     // ─── Table detection ──────────────────────────────────────────────────────
 
-    private fun detectTableRegions(elements: List<TextElement>): List<TableRegion> {
+    private fun detectTableRegions(
+        elements: List<TextElement>,
+        options: ConversionOptions = ConversionOptions.READABLE,
+    ): List<TableRegion> {
         if (elements.size < 6) return emptyList()
 
         val yRows = groupByYRows(elements, tolerance = 15)
@@ -703,7 +706,7 @@ object DeterministicMarkdownConverter {
         fun flushRun(endExclusive: Int) {
             if (runStart < 0) return
             val runRows = yRows.subList(runStart, endExclusive)
-            if (runRows.size >= 3) buildTableRegion(runRows)?.let { result.add(it) }
+            if (runRows.size >= 3) buildTableRegion(runRows, options)?.let { result.add(it) }
             runStart = -1
         }
 
@@ -750,7 +753,10 @@ object DeterministicMarkdownConverter {
         return count
     }
 
-    private fun buildTableRegion(yRows: List<List<TextElement>>): TableRegion? {
+    private fun buildTableRegion(
+        yRows: List<List<TextElement>>,
+        options: ConversionOptions = ConversionOptions.READABLE,
+    ): TableRegion? {
         val allElements = yRows.flatten()
 
         // Collect all distinct x-starts and cluster them into column start positions
@@ -774,6 +780,21 @@ object DeterministicMarkdownConverter {
                 cells[colIdx] = if (cells[colIdx].isEmpty()) el.text.trim()
                                 else "${cells[colIdx]} ${el.text.trim()}"
             }
+            // Normalization: repeat a cell's text into empty neighbours whose column
+            // boundary the cell's endX reaches. Only active when normalizeTableSpans is set.
+            if (options.normalizeTableSpans) {
+                for (k in 0 until colCount - 1) {
+                    if (cells[k].isEmpty()) continue
+                    val maxEndX = rowEls
+                        .filter { el -> colRanges.indexOfFirst { el.x in it }
+                            .let { if (it < 0) colCount - 1 else it } == k }
+                        .maxOfOrNull { it.endX } ?: continue
+                    for (m in k + 1 until colCount) {
+                        if (maxEndX >= colStarts[m] && cells[m].isEmpty()) cells[m] = cells[k]
+                        else break
+                    }
+                }
+            }
             return cells.toList()
         }
 
@@ -792,7 +813,10 @@ object DeterministicMarkdownConverter {
         )
     }
 
-    private fun renderTableRegion(tr: TableRegion): String = buildString {
+    private fun renderTableRegion(
+        tr: TableRegion,
+        @Suppress("UNUSED_PARAMETER") options: ConversionOptions = ConversionOptions.READABLE,
+    ): String = buildString {
         fun appendRow(cells: List<String>) {
             append("| ")
             append(cells.joinToString(" | ") { it.replace("|", "\\|") })

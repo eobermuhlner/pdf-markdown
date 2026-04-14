@@ -404,6 +404,92 @@ class DeterministicMarkdownConverterTest {
         assertFalse(result.contains("| --- |"))
     }
 
+    // ─── Table span normalisation ─────────────────────────────────────────────
+
+    /**
+     * Layout (3 columns: x=50, x=200, x=350):
+     *   y=100 header:  "H0"@50  |  "H1"@200  |  "H2"@350   (all bold, all separate)
+     *   y=120 data:    "SpanCell"@50,endX=260 spans col0+col1  |  (col1 empty)  |  "Value"@350
+     *   y=140 data:    "A2"@50  |  "B2"@200  |  (col2 empty)
+     *   y=160 data:    "A3"@50  |  "B3"@200  |  (col2 empty)
+     *
+     * Only 2 elements at x=350 (H2 and Value) → right-side count (2) < minColSize (4) →
+     * page column detector does NOT split the page, all elements are processed as one column.
+     *
+     * In RAG mode:    row y=120 becomes | SpanCell | SpanCell | Value |
+     * In READABLE:    row y=120 becomes | SpanCell |  | Value |
+     */
+    @Test fun `colspan normalization fires in RAG mode and not in READABLE`() {
+        val elements = listOf(
+            // Header: all three columns, bold, narrow endX (no spanning)
+            TextElement(50,  100, 100, 12, 12, "bold",   "H0"),
+            TextElement(200, 100, 240, 12, 12, "bold",   "H1"),
+            TextElement(350, 100, 390, 12, 12, "bold",   "H2"),
+            // Row 1: spanning cell at col0 (endX=260 ≥ colStarts[1]=200), col1 empty, col2 has value
+            TextElement(50,  120, 260, 12, 12, "normal", "SpanCell"),
+            TextElement(350, 120, 390, 12, 12, "normal", "Value"),
+            // Rows 2–3: two normal columns, col2 empty
+            TextElement(50,  140, 100, 12, 12, "normal", "A2"),
+            TextElement(200, 140, 240, 12, 12, "normal", "B2"),
+            TextElement(50,  160, 100, 12, 12, "normal", "A3"),
+            TextElement(200, 160, 240, 12, 12, "normal", "B3"),
+        )
+
+        val readable = DeterministicMarkdownConverter.convertPage(
+            elements = elements, modeFontSize = 12, options = ConversionOptions.READABLE)
+        val rag = DeterministicMarkdownConverter.convertPage(
+            elements = elements, modeFontSize = 12, options = ConversionOptions.RAG)
+
+        // READABLE: col1 slot stays empty in the spanning row
+        assertTrue(readable.contains("| SpanCell |  | Value |"), "READABLE should keep col1 empty: $readable")
+        // RAG: col1 is filled with the spanning cell's text
+        assertTrue(rag.contains("| SpanCell | SpanCell | Value |"), "RAG should normalize col1: $rag")
+    }
+
+    @Test fun `colspan normalization does not fire when neighbour has content`() {
+        // Row 1 has a wide cell at col0 (endX=260) but col1 also has its own content.
+        // The normalization must not overwrite the existing col1 value.
+        val elements = listOf(
+            TextElement(50,  100, 100, 12, 12, "bold",   "H0"),
+            TextElement(200, 100, 240, 12, 12, "bold",   "H1"),
+            TextElement(350, 100, 390, 12, 12, "bold",   "H2"),
+            // Row 1: wide col0 + real col1 + col2
+            TextElement(50,  120, 260, 12, 12, "normal", "SpanCell"),
+            TextElement(200, 120, 240, 12, 12, "normal", "Neighbor"),
+            TextElement(350, 120, 390, 12, 12, "normal", "Value"),
+            TextElement(50,  140, 100, 12, 12, "normal", "A2"),
+            TextElement(200, 140, 240, 12, 12, "normal", "B2"),
+            TextElement(50,  160, 100, 12, 12, "normal", "A3"),
+            TextElement(200, 160, 240, 12, 12, "normal", "B3"),
+        )
+
+        val rag = DeterministicMarkdownConverter.convertPage(
+            elements = elements, modeFontSize = 12, options = ConversionOptions.RAG)
+
+        assertTrue(rag.contains("| SpanCell | Neighbor | Value |"), "Non-empty neighbour must not be overwritten: $rag")
+    }
+
+    @Test fun `narrow merged cell stays empty in both modes`() {
+        // Element endX=120 does not reach colStarts[1]=200 — no normalization should fire.
+        val elements = listOf(
+            TextElement(50,  100, 100, 12, 12, "bold",   "H0"),
+            TextElement(200, 100, 240, 12, 12, "bold",   "H1"),
+            TextElement(350, 100, 390, 12, 12, "bold",   "H2"),
+            // Row 1: narrow cell (endX=120 < colStarts[1]=200), col1 empty, col2 has value
+            TextElement(50,  120, 120, 12, 12, "normal", "NarrowCell"),
+            TextElement(350, 120, 390, 12, 12, "normal", "Value"),
+            TextElement(50,  140, 100, 12, 12, "normal", "A2"),
+            TextElement(200, 140, 240, 12, 12, "normal", "B2"),
+            TextElement(50,  160, 100, 12, 12, "normal", "A3"),
+            TextElement(200, 160, 240, 12, 12, "normal", "B3"),
+        )
+
+        val rag = DeterministicMarkdownConverter.convertPage(
+            elements = elements, modeFontSize = 12, options = ConversionOptions.RAG)
+
+        assertTrue(rag.contains("| NarrowCell |  | Value |"), "Narrow cell must not be normalized: $rag")
+    }
+
     // ─── ToC entry normalisation ──────────────────────────────────────────────
 
     @Test fun `toc underscore leader stripped and not a heading`() {

@@ -25,6 +25,15 @@ data class ConversionOptions(
 
     /** How advisory callouts (Note:, Warning:, …) are rendered. */
     val advisoryFormat: AdvisoryFormat = AdvisoryFormat.BLOCKQUOTE,
+
+    /**
+     * When true, a cell whose [TextElement.endX] reaches the start of the next column
+     * AND whose neighbour column slots are empty is treated as a colspan candidate:
+     * the cell text is repeated into those empty slots.
+     * Reduces silent data loss in RAG pipelines at the cost of possible text duplication
+     * when a normal cell happens to be wide with an empty neighbour.
+     */
+    val normalizeTableSpans: Boolean = false,
 ) {
     enum class EpigraphFormat {
         /** Render as Markdown block quote: `> text`. */
@@ -53,6 +62,7 @@ data class ConversionOptions(
             includeToc = false,
             epigraphFormat = EpigraphFormat.PLAIN,
             advisoryFormat = AdvisoryFormat.PLAIN,
+            normalizeTableSpans = true,
         )
     }
 }
