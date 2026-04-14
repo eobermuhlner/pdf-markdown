@@ -234,10 +234,15 @@ fun canMerge(a: TextElement, b: TextElement): Boolean {
     val yTolerance = maxOf(2, a.fontSize / 4)
     // When fontSize is zero or negative (rotated/vertical text extracted by PDFBox yields
     // implausible sizes), fall back to the element's physical height so that adjacent glyphs
-    // on the same baseline can still be merged.  A 2× height multiplier is used (vs 1.5× for
+    // on the same baseline can still be merged.  A 2× height multiplier is used (vs 1.0× for
     // normal text) because individual-glyph extractions can have zero-width bounding boxes
-    // with inter-glyph gaps that exactly equal 1.5× height.
-    val maxGap = if (a.fontSize > 0) a.fontSize.toDouble() * 1.5 else a.height.toDouble() * 2.0
+    // with inter-glyph gaps that exactly equal 1.0× height.
+    //
+    // 1.0× fontSize is intentionally tighter than the former 1.5×:
+    // - Typical inter-word space is ~0.3× fontSize → merges fine at 1.0×.
+    // - Column gaps in compact financial tables are ~1.3–2× fontSize → no longer merged,
+    //   allowing the table detector to see the correct x-clusters.
+    val maxGap = if (a.fontSize > 0) a.fontSize.toDouble() * 1.0 else a.height.toDouble() * 2.0
     return abs(a.y - b.y) <= yTolerance &&
             a.font == b.font &&
             abs(a.fontSize - b.fontSize) <= 1 &&
