@@ -697,7 +697,7 @@ object DeterministicMarkdownConverter {
     ): List<TableRegion> {
         if (elements.size < 6) return emptyList()
 
-        val yRows = groupByYRows(elements, tolerance = 15)
+        val yRows = groupByYRows(elements, tolerance = 12)
         if (yRows.size < 3) return emptyList()
 
         val result   = mutableListOf<TableRegion>()
