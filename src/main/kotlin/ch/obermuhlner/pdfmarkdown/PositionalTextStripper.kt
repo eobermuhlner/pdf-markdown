@@ -133,19 +133,52 @@ class PositionalTextStripper : PDFTextStripper() {
     override fun writeString(text: String, textPositions: List<TextPosition>) {
         if (text.isBlank()) return
         val first = textPositions.firstOrNull() ?: return
-        val x = first.xDirAdj.roundToInt()
-        val y = first.yDirAdj.roundToInt()
         val fontSize = first.fontSizeInPt.roundToInt()
         val height = textPositions.maxOf { it.heightDir }.roundToInt()
         val font = normalizeFontStyle(first.font)
-        val last = textPositions.last()
-        val endX = (last.xDirAdj + last.width).roundToInt()
-        elements.add(
-            TextElement(
-                x, y, endX, height, fontSize, font,
-                normalizeText(remapFallbackGlyphs(text, textPositions))
+        val y = first.yDirAdj.roundToInt()
+
+        // Split runs at large intra-run gaps (column-sized whitespace that PDFBox delivers
+        // as a single text run). Only possible when text:position mapping is 1-to-1.
+        val splitThreshold = if (fontSize > 0) fontSize * 3.0 else height * 4.0
+        val splitPoints: List<Int> = if (text.length == textPositions.size) {
+            (0 until textPositions.size - 1).filter { i ->
+                textPositions[i + 1].xDirAdj - (textPositions[i].xDirAdj + textPositions[i].width) > splitThreshold
+            }
+        } else emptyList()
+
+        if (splitPoints.isEmpty()) {
+            // Fast path — single element (existing behaviour)
+            val x = first.xDirAdj.roundToInt()
+            val last = textPositions.last()
+            val endX = (last.xDirAdj + last.width).roundToInt()
+            elements.add(
+                TextElement(
+                    x, y, endX, height, fontSize, font,
+                    normalizeText(remapFallbackGlyphs(text, textPositions))
+                )
             )
-        )
+        } else {
+            // Slow path — emit one element per segment between split points
+            val boundaries = listOf(-1) + splitPoints + listOf(textPositions.size - 1)
+            for (b in 0 until boundaries.size - 1) {
+                val start = boundaries[b] + 1
+                val end = boundaries[b + 1]
+                val segText = text.substring(start, end + 1)
+                if (segText.isBlank()) continue
+                val segPositions = textPositions.subList(start, end + 1)
+                val segFirst = segPositions.first()
+                val segLast = segPositions.last()
+                val segX = segFirst.xDirAdj.roundToInt()
+                val segEndX = (segLast.xDirAdj + segLast.width).roundToInt()
+                elements.add(
+                    TextElement(
+                        segX, y, segEndX, height, fontSize, font,
+                        normalizeText(remapFallbackGlyphs(segText, segPositions))
+                    )
+                )
+            }
+        }
     }
 
     /**
