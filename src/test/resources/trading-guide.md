@@ -4,101 +4,40 @@ valid as of 12 May 2025
 
 ## Business Day Overview
 
-|  | Business Day | valid as of 01 July 2024 |  |  |
-| --- | --- | --- | --- | --- |
-| End of Business Day Segments | Clearing Day |  | Trading Period | 06:00 Start of Business Day |
-| End of Clearing Day | Trading Day |  |  | 08:00 Start of Clearing Day |
+valid as of 01 July 2024
 
-**Time**
-
-22:00
-
-**Description (CET)**
-
-18:15
-
-Bonds - CHF Swiss Confederation (incl. Quote on Demand) Bonds - CHF Swiss Pfandbriefe (incl. Quote on Demand) Bonds - Non CHF
-
-Opening 08:30 Start of Trading
-
-Blue Chip Shares Investment Funds Mid-/Small-Cap Shares Exchange Traded Funds (ETF) Sparks Shares Exchange Traded Funds (ETF) on Bonds Secondary Listing Shares of the Swiss Confederation Sponsored Foreign Shares Exchange Traded Products (ETP) Separate Trading Lines
-
-09:00 Opening
-
-SwissAtMid Quote on Demand Swiss EBBO ETF/ETP QOD Europe
-
-09:00 Start of Trading
-
-Sponsored Funds Structured Products Rights and Options
-
-09:15 Opening
-
-Opening 09:30 Start of Trading
-
-Bonds – CHF (incl. Quote on Demand)
-
-15:00 Opening
-
-Global Depository Receipts
-
-Bonds - CHF Swiss Confederation Bonds – CHF (incl. Quote on (incl. Quote on Demand) Demand) Bonds - CHF Swiss Pfandbriefe Exchange Traded Funds (ETF) on (incl. Quote on Demand) Bonds of the Swiss Confederation Bonds - Non CHF
-
-17:00 End of Trading
-
-Structured Products Rights and Options
-
-17:15 End of Trading
-
-SwissAtMid Swiss EBBO
-
-17:20 End of Trading
-
-| Sponsored Funds Exchange Traded Funds (ETF) |  |  | Contin- |  |  |
-| --- | --- | --- | --- | --- | --- |
-| Blue Chip Shares Mid-/Small-Cap Shares |  | Secondary Listing Shares Sponsored Foreign Shares |  |  |  |
-| Sparks Shares Global Depository Receipts |  | Separate Trading Lines Investment Funds |  |  |  |
-| Exchange Traded Products (ETP) | End of Trading |  | uous | Opening | Opening Pre- |
-| Blue Chip Shares |  | Secondary Listing Shares | Trading |  |  |
-| Mid-/Small-Cap Shares Sparks Shares |  | Sponsored Foreign Shares Separate Trading Lines |  |  |  |
-| Global Depository Receipts |  | Investment Funds |  |  |  |
-
-17:20 Start of Closing Auction
-
-17:30 Start of Closing Auction
-
-**Post- Trading-At-Last Trading**
-
-17:30 Run Auction and Close
-
-Quote on Demand ETF/ETP QOD Europe
-
-17:30 End of Trading
-
-Sponsored Funds Exchange Traded Funds (ETF) Exchange Traded Products (ETP)
-
-17:35 Run Auction and Close
-
-| Blue Chip Shares Mid-/Small-Cap Shares | Global Depository Receipts |  |
+| Time (CET) | Description | Segments |
 | --- | --- | --- |
-| Sparks Shares | Investment Funds |  |
-| Blue Chip Shares Mid-/Small-Cap Shares | Global Depository Receipts |  |
-| Sparks Shares | Investment Funds |  |
-| Trading Guide |  | 2\|40 |
+| 06:00 | Start of Business Day | |
+| 08:00 | Start of Clearing Day | |
+| 08:30 | Opening, Start of Trading | Bonds – CHF Swiss Confederation (incl. Quote on Demand), Bonds – CHF Swiss Pfandbriefe (incl. Quote on Demand), Bonds – Non CHF |
+| 09:00 | Opening | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Investment Funds, Secondary Listing Shares, Exchange Traded Funds (ETF), Sponsored Foreign Shares, Exchange Traded Products (ETP), Separate Trading Lines |
+| 09:00 | Start of Trading | SwissAtMid, Quote on Demand, Swiss EBBO, ETF/ETP QOD Europe |
+| 09:15 | Opening | Sponsored Funds, Structured Products, Rights and Options |
+| 09:30 | Opening, Start of Trading | Bonds – CHF (incl. Quote on Demand) |
+| 15:00 | Opening | Global Depository Receipts |
+| 17:00 | End of Trading | Bonds – CHF Swiss Confederation (incl. Quote on Demand), Bonds – CHF Swiss Pfandbriefe (incl. Quote on Demand), Bonds – Non CHF, Exchange Traded Funds (ETF) on Bonds of the Swiss Confederation |
+| 17:15 | End of Trading | Structured Products, Rights and Options |
+| 17:20 | End of Trading | SwissAtMid, Swiss EBBO |
+| 17:20 | Start of Closing Auction | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts |
+| 17:30 | Start of Closing Auction | Sponsored Funds, Exchange Traded Funds (ETF), Exchange Traded Products (ETP) |
+| 17:30 | Run Auction and Close | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts |
+| 17:30 | End of Trading | Quote on Demand, ETF/ETP QOD Europe |
+| 17:30 | Start of Trading-At-Last | |
+| 17:35 | Run Auction and Close | Sponsored Funds, Exchange Traded Funds (ETF), Exchange Traded Products (ETP) |
+| 17:35 | End of Trading | Sponsored Funds, Exchange Traded Funds (ETF), Exchange Traded Products (ETP) |
+| 17:40 | End of Trading-At-Last | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds |
+| 18:15 | End of Clearing Day | |
+| 22:00 | End of Business Day | |
 
-17:30 Start of Trading-At-Last
+## Trading Hours
 
-17:40 End of Trading-At-Last
+valid as of 01 July 2024
 
-| Trading Hours |  |  |  |  |  |  |  |  |  | valid as of 01 July 2024 |  |
+| Trading Segment | Start of Business Day | Opening Auction (Random Time 2min) | Start Closing Auction | Run Auction and Close (Random Time 2min) | End of Trading | End of Trading-At-Last | End of Business Day | Market Model | Partition | Market Code | CCP |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Trading Segment | Business Start of | Opening Auction | Start Closing Auction | Run Auction and Close | End of | End of | Business End of | Market Model | Partition Market Code |  | CCP |
-|  | Day | (Random |  | (Random | Trading | Trading-At- Last | Day |  |  |  |  |
-|  |  | Time 2min) |  | Time 2min) |  |  |  |  |  |  |  |
-
-**Equity Market**
-
+| **Equity Market** | | | | | | | | | | | |
 | Blue Chip Shares | 06:00 | 09:00 | 17:20 | 17:30 | 17:30 | 17:40 | 22:00 | CLOB | P1 | XSWX | Yes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Mid-/Small-Cap Shares | 06:00 | 09:00 | 17:20 | 17:30 | 17:30 | 17:40 | 22:00 | CLOB | P1 | XSWX | Yes |
 | Sparks Shares | 06:00 | 09:00 | 17:20 | 17:30 | 17:30 | 17:40 | 22:00 | CLOB | P1 | XSWX | Yes |
 | Global Depository Receipts | 06:00 | 15:00 | 17:20 | 17:30 | 17:30 | 17:40 | 22:00 | CLOB | P1 | XSWX | Yes |
@@ -106,316 +45,130 @@ Sponsored Funds Exchange Traded Funds (ETF) Exchange Traded Products (ETP)
 | Sponsored Foreign Shares | 06:00 | 09:00 | 17:20 | 17:30 | 17:30 |  | 22:00 | QDM | P2 | XSWX |  |
 | Separate Trading Lines | 06:00 | 09:00 | 17:20 | 17:30 | 17:30 |  | 22:00 | CLOB | P1 | XSWX |  |
 | Rights and Options | 06:00 | 09:15 |  |  | 17:15 |  | 22:00 | CLOB | P1 | XSWX |  |
-
-**Fund Market and Other Financial Products**
-
+| **Fund Market and Other Financial Products** | | | | | | | | | | | |
 | Investment Funds | 06:00 | 09:00 | 17:20 | 17:30 | 17:30 | 17:40 | 22:00 | CLOB | P1 | XSWX |  |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Sponsored Funds | 06:00 | 09:15 | 17:30 | 17:35 | 17:35 |  | 22:00 | QDM | P2 | XSWX |  |
 | Exchange Traded Funds (ETF) | 06:00 | 09:00 | 17:30 | 17:35 | 17:35 |  | 22:00 | QDM | P2 | XSWX | Yes |
 | ETF on Bonds of the Swiss Confederation | 06:00 | 09:00 |  |  | 17:00 |  | 22:00 | QDM | P2 | XSWX | Yes |
 | Exchange Traded Products (ETP) | 06:00 | 09:00 | 17:30 | 17:35 | 17:35 |  | 22:00 | QDM | P2 | XSWX | Partially* |
 | ETF/ETP QOD Europe | 06:00 | 09:00 |  |  | 17:30 |  | 22:00 | QOD | P2 | XSWX | Yes |
-
-**Bond Market**
-
-| Bonds – CHF Swiss Confederation | 06:00 | 08:30 | 17:00 | 22:00 | CLOB | P2 | XSWX | Yes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Bonds – CHF Swiss Pfandbriefe | 06:00 | 08:30 | 17:00 | 22:00 | CLOB | P2 | XSWX | Yes |
-| Bonds – CHF | 06:00 | 09:30 | 17:00 | 22:00 | CLOB | P2 | XSWX | Partially* |
-| Bonds – Non CHF | 06:00 | 08:30 | 17:00 | 22:00 | QDM | P2 | XSWX |  |
-
-**Structured Products Market**
-
-| Structured Products | 06:00 | 09:15 | 17:15 | 22:00 | PVM | P2 | XQMH |  |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **Bond Market** | | | | | | | | | | | |
+| Bonds – CHF Swiss Confederation | 06:00 | 08:30 |  |  | 17:00 |  | 22:00 | CLOB | P2 | XSWX |  |
+| Bonds – CHF Swiss Pfandbriefe | 06:00 | 08:30 |  |  | 17:00 |  | 22:00 | CLOB | P2 | XSWX | Yes |
+| Bonds – CHF | 06:00 | 09:30 |  |  | 17:00 |  | 22:00 | CLOB | P2 | XSWX | Partially* |
+| Bonds – Non CHF | 06:00 | 08:30 |  |  | 17:00 |  | 22:00 | QDM | P2 | XSWX |  |
+| **Structured Products Market** | | | | | | | | | | | |
+| Structured Products | 06:00 | 09:15 |  |  | 17:15 |  | 22:00 | PVM | P2 | XQMH |  |
 
 \* Please refer to the Product Guides
 
 **3|40**
 
-| Market Model and Order Validity Overview | Standard Trading Interface (STI) |  |  |  |  | valid as of 12 May 2025 |
+## Market Model and Order Validity Overview
+
+valid as of 12 May 2025
+
+**Routing Instruction: SWX (Swiss Exchange Displayed Order)**
+
+| | OBM Partition 1: Equities (CLOB) | OBM Partition 1: Equities (CLOB) | OBM Partition 2: Non-Equities (CLOB) | OBM Partition 2: Non-Equities (QDM) | OBM Partition 2: Non-Equities (QDM) | OBM Partition 2: Non-Equities (PVM) |
 | --- | --- | --- | --- | --- | --- | --- |
-| Routing Instruction |  |  | SWX (Swiss Exchange Displayed Order) |  |  |  |
-| On Book Matcher - Partition | OBM Partition 1: Equities |  | OBM Partition 2: Non-Equities |  |  |  |
-| Market Model and Matching Rules | CLOB |  | CLOB | QDM |  | PVM |
-| Pre-Trade Transparency | Yes |  | Yes | Yes |  | Yes |
-| Trading Segments | Blue Chip Shares Mid-/Small-Cap Shares | Rights and Options Separate Trading | Bonds - CHF Swiss Confederation | Sponsored Foreign Shares Sponsored Funds | ETF ETP | Bonds – non CHF Products Structured |
-|  | Sparks Shares Global Depository Receipts | Lines | Bonds - CHF Swiss Pfandbriefe |  | ETF on Bonds of the Swiss Confederation |  |
-|  | Secondary Listing Shares Investment Funds |  | Bonds – CHF |  |  |  |
-
-**Order Type**
-
-**Normal Iceberg Retail AVD Normal Retail Normal Iceberg Normal Iceberg Retail* Normal Iceberg Retail* Normal Normal Retail**
-
-Limit Market or Market or Market or Market
-
-Market or Limit Market or Limit Market or Market or
-
-Limit Market or Market or Market or Market
-
-**Price Limit**
-
-**Market or**
-
-Limit Limit Limit Limit
-
-or Limit Limit Limit
-
-Limit Limit Limit Limit
-
-Limit or Limit
-
-- Good-for-Day
-- (pre-opening, continuous trading, closing auction,
-
-    
-
-    
-
-    
-
- 
-
-- trading-at-last)
-- Immediate or Cancel
-
-| Fill or Kill (continuous trading, trading-at-last) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| (continuous trading, trading-at-last) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| At the Opening (pre-opening) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-
-- Good for Auction – only for QOD
-- (pre-opening, continuous trading)
-- At the Close
-
- 
-
-(pre-opening, continuous trading, closing auction,
-
-(not ETF on (not ETF on
-
-Bonds of Bonds of
-
-trading-at-last)
-
-    (not Rights
-
-   the Swiss the Swiss
-
-& Options)
-
-Confederati Confederati on) on)
-
-**Good-till-Date**
-
-    
-
-    
-
-    
-
- 
-
-- (pre-opening, continuous trading, closing auction,
-- post trading, trading-at-last)
+| **Pre-Trade Transparency** | Yes | Yes | Yes | Yes | Yes | Yes |
+| **Trading Segments** | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Secondary Listing Shares, Investment Funds, Separate Trading Lines | Rights and Options | Bonds – CHF Swiss Confederation, Bonds – CHF Swiss Pfandbriefe, Bonds – CHF | Sponsored Foreign Shares, Sponsored Funds | Exchange Traded Funds (ETF), ETF on Bonds of the Swiss Confederation, Exchange Traded Products (ETP), Bonds – Non CHF | Structured Products |
+| **Order Type** | Normal, Iceberg, Retail, AVD | Normal, Retail | Normal, Iceberg | Normal, Iceberg, Retail | Normal, Iceberg, Retail | Normal |
+| **Price Limit** | Market or Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit |
+| **Good-for-Day** (pre-opening, continuous trading, closing auction, trading-at-last) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| **Immediate or Cancel** (continuous trading, trading-at-last) | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| **Fill or Kill** | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| **At the Opening** (pre-opening) | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| **Good for Auction** – only for QOD (pre-opening, continuous trading) | | | | | | |
+| **At the Close** (pre-opening, continuous trading, closing auction, trading-at-last) | ✓ (not Rights and Options) | | ✓ | ✓ | ✓ (not ETF on Bonds of the Swiss Confederation) | |
+| **Good-till-Date** (pre-opening, continuous trading, closing auction, post trading, trading-at-last) | ✓ | ✓ | ✓ | ✓ | ✓ | |
 
 **Retail Max Spread Values applied by Trading Segment in QDM**
 
-**Trading Segment Underlying**
+| Trading Segment | Underlying | Max Spread Value |
+| --- | --- | --- |
+| ETF | Money Market | 0.50% |
+| ETF on Bonds of the Swiss Confederation | Bonds | 1.00% |
+|  | Collective Capital Investments | 1.00% |
+| Sponsored Funds | Equities | 2.00% |
+|  | Commodities | 2.00% |
+| ETP | ETP | 2.00% |
+| Sponsored Foreign Shares | BX | 2.00% |
 
-**Max Spread Value**
-
-Money Market 0.50% ETF
-
-Bonds 1.00% ETF on bonds of the Swiss conf. Collective capital investments 1.00%
-
-Equities 2.00% Sponsored Funds (except: Collective capital investments) Commodities 2.00%
-
-ETP ETP
-
-2.00%
-
-Sponsored Foreign Shares SFS
-
-2.00%
-
-*Please note, Retail Orders in QDM markets can be triggered by trades, reference price adjustments or Market Maker quotes that comply with the Max Spread Values defined per this table
-
-**4|40**
-
-| Market Model and Order Validity Overview | QTI Good-for-Business-Day | OUCH Trading Interface (OTI) |  |  |  |  |  | valid as of 04 December 2023 |  |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Routing Instruction |  |  |  |  | SWX (Swiss Exchange Displayed Order) |  |  |  |  |
-| On Book Matcher - Partition |  |  | OBM Partition 1: Equities |  | OBM Partition 2: Non-Equities |  |  |  |  |
-| Market Model and Matching Rules |  |  | CLOB |  | CLOB | QDM |  |  | PVM |
-| Pre-Trade Transparency |  |  | Yes |  | Yes | Yes |  |  | Yes |
-| Trading Segments |  |  | Blue Chip Shares Mid-/Small-Cap Shares | Rights and Options | Bonds - CHF Swiss Confederation | Sponsored Foreign Shares | ETF ETP | Bonds – non Structured CHF | Products |
-|  |  |  | Sparks Shares Global Depository Receipts | Separate Trading | Bonds - CHF Swiss Pfandbriefe | Sponsored Funds | ETF on Bonds of the Swiss Confederation |  |  |
-|  |  |  | Secondary Listing Shares Investment Funds | Lines | Bonds – CHF |  |  |  |  |
-
-| Order Type | Normal Iceberg |  | AVD Normal Normal Iceberg Normal Iceberg Normal Iceberg Normal Normal |  |  |  |  |  |  |  |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Price Limit | Market or Limit | Limit Market or | Limit Market or Limit Market or Limit | Limit Market or | Limit | Limit Market or | Limit | Limit | Market or Limit | Market or Limit |
-| Good-for-Day (pre-opening, continuous trading, closing auction, trading-at-last) Immediate or Cancel (continuous trading, trading-at-last) |  |  |  |  |  |  |  |  |  |  |
-| Fill or Kill (continuous trading, trading-at-last) At the Opening (pre-opening) |  |  |  |  |  |  |  |  |  |  |
-
-- Good for Auction – only for QOD
-- (pre-opening, continuous trading)
-
-| At the Close (pre-opening, continuous trading, closing auction, trading-at-last) |  |  |  |  | (not ETF on  (not ETF on  |
-| --- | --- | --- | --- | --- | --- |
-|  |  |  | (not Rights & Options) |  | Bonds of the Swiss Bonds of the Swiss |
-| Good-till-Date |  |  |  |  | Federation) Federation) |
-
-(pre-opening, continuous trading, closing auction, post trading)
-
- 
-
-  
-
-(pre-opening, continuous trading, closing auction, post trading)
-
-**5|40**
-
-## Market Model and Order Validity Overview valid as of 15 May 2023
-
-**QTI Good-for-Business-Day (pre-opening, continuous trading, closing auction, post trading) OUCH Trading Interface (OTI) Good-for-Day**
-
-**Standard Trading Interface (STI)**
-
-| Routing Instruction | SWM (SwissAtMid Normal Order) | SWMX* (SwissAtMid Sweep Order) |  | SWMB** (Iceberg Plus and Limit Plus Order) |  | SWML (SwissAtMid Block Order) | SEB*** (Swiss EBBO Order) |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| On Book Matcher - Partition | OBM Partition 1 :Equities | OBM Partition 1: Equities |  | OBM Partition 1: Equities |  | OBM Partition 1: Equities | OBM Partition 1: Equities |
-| Market Model and Matching Rules | Mid-Point Order Book (MPOB) | MPOB then CLOB |  | MPOB and CLOB simultaneously |  | Mid-Point Order Book (MPOB) | CLOB, MPOB, Swiss EBBO Order Book (EBBO) |
-| Pre-Trade Transparency Trading Segments | No Blue Chip Shares | CLOB Yes Blue Chip Shares | MPOB No CLOB Yes | Blue Chip Shares | MPOB No | No Blue Chip Shares | No Blue Chip Shares |
-|  | Mid-/Small-Cap Shares Sparks Shares | Mid-/Small-Cap Shares Sparks Shares |  | Mid-/Small-Cap Shares Sparks Shares |  | Mid-/Small-Cap Shares Sparks Shares | Mid-/Small-Cap Shares |
-|  | Global Depository Receipts Investment Funds | Global Depository Receipts Investment Funds |  | Global Depository Receipts Investment Funds |  | Global Depository Receipts Investment Funds |  |
-| Order Type Price Limit | Market or Limit Normal | Market or Normal | Market or Retail | Normal | Iceberg Limit | Retail Market or Limit Block | Market or Limit (EBBO client Normal Retail |
-|  |  | Limit | Limit |  |  |  | Limit (EBBO Liquidity Provider orders) |
-| Good-for-Day |  |  |  |  |  |  | orders)  |
-| (pre-opening, continuous trading, closing auction) |  |  |  | (not during closing auction) |  |  | (EBBO client orders only) (EBBO client orders only) |
-| Immediate or Cancel (continuous trading) |  |  |  |  |  | (binding or firmed-up block  |  |
-| Fill or Kill |  |  |  |  |  | orders)  |  |
-| (continuous trading) |  |  |  |  |  | (binding or firmed-up block orders) |  |
-
-- At the Opening
-- (pre-opening)
-- Good for Auction
-- (pre-opening, continuous trading)
-- At the Close
-- (pre-opening, continuous trading, closing auction)
-
-| Good-till-Date (pre-opening, continuous trading, closing auction, post trading) |  |  |  |  |  |  | (EBBO client  | (EBBO client  |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|  |  |  |  |  |  |  | orders only) | orders only) |
-| (pre-opening, continuous trading, closing auction) |  |  |  | (not during closing auction) |  |  |  |  |
-| Immediate or Cancel (continuous trading) |  |  |  |  |  | (binding or firmed-up block  |  |  |
-| Fill or Kill |  |  |  |  |  | orders)  |  |  |
-| (continuous trading) |  |  |  |  |  | (binding or firmed-up block orders) |  |  |
-
-- At the Opening
-- (pre-opening)
-- At the Close (pre-opening, continuous trading, closing auction)
-- Good-till-Date (pre-opening, continuous trading, closing auction, post trading)
-
-- If the order book without pre-trade transparency is not activated for a given trading segment or while the order book is not in continuous trading, orders with Routing Instruction "SWMX" are forwarded directly to the CLOB or QDM. ** If the order book
-
-without pre-trade transparency is not activated for a given trading segment, orders with Routing Instruction "SWMB" will be directly routed to the CLOB or QDM as normal limit or normal Iceberg orders (where are allowed). *** If the EBBO order book is not activated for a given trading segment, orders with Routing Instruction "SEB" will be directly routed to the CLOB, MPOB (where activated) and QDM as normal order or Sweep.
-
-**6|40**
+\* Please note, Retail Orders in QDM markets can be triggered by trades, reference price adjustments or Market Maker quotes that comply with the Max Spread Values defined per this table
 
 ## Market Model and Order Validity Overview
 
-## valid as of 10 June 2024
+valid as of 04 December 2023
 
-**QTI Good-for-Business-Day (pre-opening, continuous trading, closing auction, post trading) OUCH Trading Interface (OTI)**
+**Routing Instruction: SWX (Swiss Exchange Displayed Order)**
 
-**Standard Trading Interface (STI)**
+**Standard Trading Interface (STI), OUCH Trading Interface (OTI), QTI Good-for-Business-Day**
 
-****
+| | OBM Partition 1: Equities (CLOB) | OBM Partition 1: Equities (CLOB) | OBM Partition 2: Non-Equities (CLOB) | OBM Partition 2: Non-Equities (QDM) | OBM Partition 2: Non-Equities (QDM) | OBM Partition 2: Non-Equities (PVM) |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Pre-Trade Transparency** | Yes | Yes | Yes | Yes | Yes | Yes |
+| **Trading Segments** | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Secondary Listing Shares, Investment Funds, Separate Trading Lines | Rights and Options | Bonds – CHF Swiss Confederation, Bonds – CHF Swiss Pfandbriefe, Bonds – CHF | Sponsored Foreign Shares, Sponsored Funds | Exchange Traded Funds (ETF), ETF on Bonds of the Swiss Confederation, Exchange Traded Products (ETP), Bonds – Non CHF | Structured Products |
+| **Order Type** | Normal, Iceberg, AVD | Normal | Normal, Iceberg | Normal, Iceberg | Normal, Iceberg | Normal |
+| **Price Limit** | Market or Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit |
+| **Good-for-Day** (pre-opening, continuous trading, closing auction, trading-at-last) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| **Immediate or Cancel** (continuous trading, trading-at-last) | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| **Fill or Kill** | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| **At the Opening** (pre-opening) | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| **Good for Auction** – only for QOD | | | | | | |
+| **At the Close** (pre-opening, continuous trading, closing auction, trading-at-last) | ✓ (not Rights and Options) | | ✓ | ✓ | ✓ (not ETF on Bonds of the Swiss Confederation) | |
+| **Good-till-Date** (pre-opening, continuous trading, closing auction, post trading) | ✓ | ✓ | ✓ | ✓ | ✓ | |
 
-**Routing Instruction**
+## Market Model and Order Validity Overview
 
-**QODN (Quote on Demand non Sweep**
+valid as of 15 May 2023
 
-QODS (Quote on Demand with Sweep Order)
+**Standard Trading Interface (STI), OUCH Trading Interface (OTI) Good-for-Day, QTI Good-for-Business-Day**
 
-Order)
+| Routing Instruction | SWM (SwissAtMid Normal Order) | SWMX* (SwissAtMid Sweep Order) | SWMB** (Iceberg Plus and Limit Plus Order) | SWML (SwissAtMid Block Order) | SEB*** (Swiss EBBO Order) |
+| --- | --- | --- | --- | --- | --- |
+| On Book Matcher – Partition | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities |
+| Market Model and Matching Rules | Mid-Point Order Book (MPOB) | MPOB then CLOB | MPOB and CLOB simultaneously | Mid-Point Order Book (MPOB) | CLOB, MPOB, Swiss EBBO Order Book (EBBO) |
+| Pre-Trade Transparency | No | CLOB: Yes, MPOB: No | CLOB: Yes, MPOB: No | No | No |
+| Trading Segments | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares |
+| Order Type | Normal | Normal, Retail | Normal, Iceberg | Block | Normal, Retail (EBBO client orders), Liquidity Provider |
+| Price Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit |
+| Good-for-Day (pre-opening, continuous trading, closing auction) | ✓ | ✓ | ✓ (not during closing auction) | | ✓ (EBBO client orders only) |
+| Immediate or Cancel (continuous trading) | ✓ | ✓ | ✓ | ✓ (binding or firmed-up block orders) | |
+| Fill or Kill (continuous trading) | ✓ | ✓ | ✓ | ✓ (binding or firmed-up block orders) | |
+| At the Opening (pre-opening) | ✓ | ✓ | ✓ | | |
+| Good for Auction (pre-opening, continuous trading) | ✓ | ✓ | ✓ | | |
+| At the Close (pre-opening, continuous trading, closing auction) | ✓ | ✓ | ✓ (not during closing auction) | | |
+| Good-till-Date (pre-opening, continuous trading, closing auction, post trading) | ✓ | ✓ | ✓ (not during closing auction) | | ✓ (EBBO client orders only) |
 
-**On Book Matcher - Partition**
+\* If the order book without pre-trade transparency is not activated for a given trading segment or while the order book is not in continuous trading, orders with Routing Instruction "SWMX" are forwarded directly to the CLOB or QDM.
 
-**OBM Partition 2: Non-Equities**
+\*\* If the order book without pre-trade transparency is not activated for a given trading segment, orders with Routing Instruction "SWMB" will be directly routed to the CLOB or QDM as normal limit or normal Iceberg orders (where allowed).
 
-**OBM Partition 2: Non-Equities**
+\*\*\* If the EBBO order book is not activated for a given trading segment, orders with Routing Instruction "SEB" will be directly routed to the CLOB, MPOB (where activated) and QDM as normal order or Sweep.
 
-**Market Model and Matching Rules**
+## Market Model and Order Validity Overview
 
-**Quote on Demand Order Book (QOD) QOD and QDM simultaneously**
+valid as of 10 June 2024
 
-**Pre-Trade Transparency**
+**Standard Trading Interface (STI), OUCH Trading Interface (OTI), QTI Good-for-Business-Day**
 
-**No**
-
-**QDM Yes QOD No**
-
-ETF ETF on Bonds of the Swiss Confederation ETP
-
-**Trading Segments**
-
-**ETF**
-
-ETF on Bonds of the Swiss Confederation ETP ETF/ETP QOD Europe Bonds - CHF Swiss Confederation Bonds - CHF Swiss Pfandbriefe Bonds - CHF
-
-QOD Request
-
-**Order Type**
-
-**QOD Request**
-
-QOD Quote
-
-**Price Limit**
-
-**Market or Limit**
-
-**Market or Limit**
-
-- Good-for-Day
-- (pre-opening, continuous trading, closing auction)
-- Immediate or Cancel
-- (continuous trading)
-- Fill or Kill
-- (continuous trading)
-- At the Opening
-- (pre-opening)
-- Good for Auction
-- (pre-opening, continuous trading)
-- At the Close
-- (pre-opening, continuous trading, closing auction)
-- Good-till-Date (pre-opening, continuous trading, closing auction, post trading)
-- Good-for-Day
-- (pre-opening, continuous trading, closing auction)
-- Immediate or Cancel
-- (continuous trading)
-- Fill or Kill
-- (continuous trading)
-- At the Opening
-- (pre-opening)
-- Good for Auction
-- (pre-opening, continuous trading)
-
-(QOD Request for Participant only)
-
-(QOD Quotes for Liquidity Providers only) (QOD Request for Participant only)
-
-- At the Close
-- (pre-opening, continuous trading, closing auction)
-- Good-till-Date (pre-opening, continuous trading, closing auction, post trading)
-
-(QOD Quote for Liqudity Providers only)
-
-**7|40**
+| Routing Instruction | QODN (Quote on Demand non Sweep Order) | QODS (Quote on Demand with Sweep Order) |
+| --- | --- | --- |
+| On Book Matcher – Partition | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities |
+| Market Model and Matching Rules | Quote on Demand Order Book (QOD) | QOD and QDM simultaneously |
+| Pre-Trade Transparency | No | QDM: Yes, QOD: No |
+| Trading Segments (QODN) | ETF, ETF on Bonds of the Swiss Confederation, ETP, ETF/ETP QOD Europe, Bonds – CHF Swiss Confederation, Bonds – CHF Swiss Pfandbriefe, Bonds – CHF | ETF, ETF on Bonds of the Swiss Confederation, ETP |
+| Order Type | QOD Request | QOD Request, QOD Quote |
+| Price Limit | Market or Limit | Market or Limit |
+| Good-for-Day (pre-opening, continuous trading, closing auction) | ✓ | ✓ |
+| Immediate or Cancel (continuous trading) | ✓ | ✓ |
+| Fill or Kill (continuous trading) | ✓ | ✓ |
+| At the Opening (pre-opening) | ✓ | ✓ |
+| Good for Auction (pre-opening, continuous trading) | ✓ (QOD Request for Participant only) | ✓ (QOD Request for Participant only) |
+| At the Close (pre-opening, continuous trading, closing auction) | ✓ | ✓ |
+| Good-till-Date (pre-opening, continuous trading, closing auction, post trading) | ✓ | ✓ (QOD Quote for Liquidity Providers only) |
 
 | Trading Services and Trading Interruptions |  |  | valid as of 15 May 2023 |
 | --- | --- | --- | --- |
