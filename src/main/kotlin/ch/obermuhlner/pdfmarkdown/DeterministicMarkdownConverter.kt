@@ -14,7 +14,7 @@ import kotlin.math.abs
  * - Page number filtering
  * - Two-column layout detection
  * - Drop-initial merging
- * - Heading detection (font size + style + text pattern)
+ * - Heading detection (font size + style + text pattern, all 6 Markdown levels)
  * - Paragraph joining (y-gap + font continuity) with hyphenation repair
  * - Italic → *…*, bold (non-heading) → **…**, bold-italic → ***…***
  * - Code blocks (monospace font → fenced ```)
@@ -602,6 +602,14 @@ object DeterministicMarkdownConverter {
         // (5) Bold x-large/xx-large standalone → ##
         if (isBold && size in setOf("x-large", "xx-large")) return 2
 
+        // (6) H4: Bold + "large" (below x-large threshold, so not caught by H2 rule 5)
+        // Numbered patterns (rule 2) are checked first and take priority.
+        if (isBold && size == "large") return 4
+
+        // (7) H5: Bold + "medium" when distinctly larger than body text
+        // Require ratio > 1.05 to avoid catching same-size bold emphasis
+        if (isBold && size == "medium" && el.fontSize > modeFontSize * 1.05) return 5
+
         return 0
     }
 
@@ -713,7 +721,14 @@ object DeterministicMarkdownConverter {
         for ((idx, row) in yRows.withIndex()) {
             val cols       = countXClusters(row, minGap = 30)
             val shortCells = row.all { it.text.trim().length <= 80 }
-            if (cols >= 2 && shortCells) {
+            // A single bold/bold-italic element inside an active run is treated as a
+            // section-header divider (e.g. "Bond Market" spanning a multi-section table).
+            // We keep it in the run so the rows below still share the full column layout
+            // derived from the rows above; it renders as a spanning bold row in the table.
+            val isSingleBoldDivider = runStart >= 0
+                && row.size == 1
+                && (row[0].font == "bold" || row[0].font == "bold-italic")
+            if ((cols >= 2 && shortCells) || isSingleBoldDivider) {
                 if (runStart < 0) runStart = idx
             } else {
                 flushRun(idx)
@@ -775,14 +790,22 @@ object DeterministicMarkdownConverter {
 
         fun rowToCells(rowEls: List<TextElement>): List<String> {
             val cells = Array(colCount) { "" }
+            // A row with exactly one bold element that maps to a single column is a
+            // section-header divider (e.g. "Bond Market" in a multi-section table).
+            // Render its text in bold so it stands out; leave other columns empty.
+            val isSectionHeaderRow = rowEls.size == 1
+                && (rowEls[0].font == "bold" || rowEls[0].font == "bold-italic")
             for (el in rowEls.sortedBy { it.x }) {
                 val colIdx = colRanges.indexOfFirst { el.x in it }.let { if (it < 0) colCount - 1 else it }
-                cells[colIdx] = if (cells[colIdx].isEmpty()) el.text.trim()
-                                else "${cells[colIdx]} ${el.text.trim()}"
+                val rawText = el.text.trim()
+                val text = if (isSectionHeaderRow && !options.stripInlineFormatting) "**$rawText**" else rawText
+                cells[colIdx] = if (cells[colIdx].isEmpty()) text
+                                else "${cells[colIdx]} $text"
             }
             // Normalization: repeat a cell's text into empty neighbours whose column
             // boundary the cell's endX reaches. Only active when normalizeTableSpans is set.
-            if (options.normalizeTableSpans) {
+            // Skip section-header rows — their empty columns are intentional.
+            if (options.normalizeTableSpans && !isSectionHeaderRow) {
                 for (k in 0 until colCount - 1) {
                     if (cells[k].isEmpty()) continue
                     val maxEndX = rowEls

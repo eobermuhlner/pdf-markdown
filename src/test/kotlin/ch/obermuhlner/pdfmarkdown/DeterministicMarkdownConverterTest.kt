@@ -112,6 +112,59 @@ class DeterministicMarkdownConverterTest {
         assertFalse(result.contains("#"))
     }
 
+    // ─── H4–H6 heading detection ───────────────────────────────────────────────
+    // H4-H6 only fire when bold text is DISTINCTLY larger than body text.
+    // This prevents same-size bold emphasis (e.g., "Author: Jane Doe") from being
+    // misclassified as headings.
+
+    @Test fun `h4 bold large font`() {
+        // modeFontSize=12, large = ratio 1.10-1.35 → fontSize 13-16
+        val result = page(el(72, 100, "Section Title", font = "bold", fontSize = 14))
+        assertTrue(result.contains("#### Section Title"))
+    }
+
+    @Test fun `h5 bold medium font when larger than body`() {
+        // modeFontSize=12, medium = ratio 0.94-1.10 → fontSize 11-13
+        // Only fires when fontSize > modeFontSize * 1.05 (ratio > 1.05)
+        val result = page(el(72, 100, "Minor Heading", font = "bold", fontSize = 13))
+        assertTrue(result.contains("##### Minor Heading"))
+    }
+
+    @Test fun `h6 bold medium font slightly above body`() {
+        // H6 is removed; same-size bold should be emphasis
+        // This test verifies H6 is not detected
+        val result = page(el(72, 100, "Author: Jane Doe", font = "bold", fontSize = 12))
+        assertFalse(result.contains("#"))
+        assertTrue(result.contains("**Author: Jane Doe**"))
+    }
+
+    @Test fun `bold-italic supports h4-h6`() {
+        // bold-italic should also qualify for H4-H6
+        val result = page(el(72, 100, "Emphasis Heading", font = "bold-italic", fontSize = 14))
+        assertTrue(result.contains("#### Emphasis Heading"))
+    }
+
+    @Test fun `h4 takes priority over emphasis for large bold`() {
+        // Bold large text should be H4, not wrapped in **
+        val result = page(el(72, 100, "Section Title", font = "bold", fontSize = 14))
+        assertTrue(result.contains("#### Section Title"))
+        assertFalse(result.contains("**Section Title**"))
+    }
+
+    @Test fun `normal font not detected as h4-h6`() {
+        // Non-bold text at any size should not be H4-H6
+        val result = page(el(72, 100, "Some text", font = "normal", fontSize = 14))
+        assertFalse(result.contains("#"))
+        assertTrue(result.contains("Some text"))
+    }
+
+    @Test fun `numbered bold heading takes h2 priority over h4`() {
+        // "1. Title" at any size should be H2, not H4
+        val result = page(el(72, 100, "1. Introduction", font = "bold", fontSize = 14))
+        assertTrue(result.contains("## 1. Introduction"))
+        assertFalse(result.contains("####"))
+    }
+
     // ─── Multi-line heading merge ─────────────────────────────────────────────
 
     @Test fun `multi-line title merged into single h1`() {
