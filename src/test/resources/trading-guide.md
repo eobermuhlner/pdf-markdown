@@ -70,19 +70,20 @@ valid as of 12 May 2025
 
 **Routing Instruction: SWX (Swiss Exchange Displayed Order)**
 
-| | OBM Partition 1: Equities (CLOB) | OBM Partition 1: Equities (CLOB) | OBM Partition 2: Non-Equities (CLOB) | OBM Partition 2: Non-Equities (QDM) | OBM Partition 2: Non-Equities (QDM) | OBM Partition 2: Non-Equities (PVM) |
-| --- | --- | --- | --- | --- | --- | --- |
-| **Pre-Trade Transparency** | Yes | Yes | Yes | Yes | Yes | Yes |
-| **Trading Segments** | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Secondary Listing Shares, Investment Funds, Separate Trading Lines | Rights and Options | Bonds – CHF Swiss Confederation, Bonds – CHF Swiss Pfandbriefe, Bonds – CHF | Sponsored Foreign Shares, Sponsored Funds | Exchange Traded Funds (ETF), ETF on Bonds of the Swiss Confederation, Exchange Traded Products (ETP), Bonds – Non CHF | Structured Products |
-| **Order Type** | Normal, Iceberg, Retail, AVD | Normal, Retail | Normal, Iceberg | Normal, Iceberg, Retail | Normal, Iceberg, Retail | Normal |
-| **Price Limit** | Market or Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit |
-| **Good-for-Day** (pre-opening, continuous trading, closing auction, trading-at-last) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| **Immediate or Cancel** (continuous trading, trading-at-last) | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| **Fill or Kill** | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| **At the Opening** (pre-opening) | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| **Good for Auction** – only for QOD (pre-opening, continuous trading) | | | | | | |
-| **At the Close** (pre-opening, continuous trading, closing auction, trading-at-last) | ✓ (not Rights and Options) | | ✓ | ✓ | ✓ (not ETF on Bonds of the Swiss Confederation) | |
-| **Good-till-Date** (pre-opening, continuous trading, closing auction, post trading, trading-at-last) | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| | Normal | Iceberg | Retail | AVD | Normal | Retail | Normal | Iceberg | Normal | Iceberg | Retail\* | Normal | Iceberg | Retail\* | Normal | Normal | Retail |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **On Book Matcher – Partition** | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities |
+| **Market Model** | CLOB | CLOB | CLOB | CLOB | CLOB | CLOB | CLOB | CLOB | QDM | QDM | QDM | QDM | QDM | QDM | QDM | PVM | PVM |
+| **Pre-Trade Transparency** | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| **Trading Segments** | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Secondary Listing Shares, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Secondary Listing Shares, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Secondary Listing Shares, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Secondary Listing Shares, Investment Funds | Rights and Options, Separate Trading Lines | Rights and Options, Separate Trading Lines | Bonds – CHF Swiss Confederation, Bonds – CHF Swiss Pfandbriefe, Bonds – CHF | Bonds – CHF Swiss Confederation, Bonds – CHF Swiss Pfandbriefe, Bonds – CHF | Sponsored Foreign Shares, Sponsored Funds | Sponsored Foreign Shares, Sponsored Funds | Sponsored Foreign Shares, Sponsored Funds | Exchange Traded Funds (ETF), ETF on Bonds of the Swiss Confederation, Exchange Traded Products (ETP) | Exchange Traded Funds (ETF), ETF on Bonds of the Swiss Confederation, Exchange Traded Products (ETP) | Exchange Traded Funds (ETF), ETF on Bonds of the Swiss Confederation, Exchange Traded Products (ETP) | Bonds – Non CHF | Structured Products | Structured Products |
+| **Price Limit** | Market or Limit | Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit | Limit | Market or Limit | Limit | Market or Limit | Market or Limit | Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit |
+| **Good-for-Day** (pre-opening, continuous trading, closing auction, trading-at-last) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| **Immediate or Cancel** (continuous trading, trading-at-last) | ✓ | | | | ✓ | | ✓ | | ✓ | | | ✓ | | | ✓ | | |
+| **Fill or Kill** (continuous trading, trading-at-last) | ✓ | | | | ✓ | | ✓ | | ✓ | | | ✓ | | | ✓ | | |
+| **At the Opening** (pre-opening) | ✓ | ✓ | | ✓ | ✓ | | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ | | ✓ | | |
+| **Good for Auction** – only for QOD (pre-opening, continuous trading) | | | | | | | | | | | | | | | | | |
+| **At the Close** (pre-opening, continuous trading, closing auction, trading-at-last) | ✓ | ✓ | | | ✓ (not Rights and Options) | | | | ✓ | ✓ | | ✓ (not ETF on Bonds of the Swiss Confederation) | ✓ (not ETF on Bonds of the Swiss Confederation) | | | | |
+| **Good-till-Date** (pre-opening, continuous trading, closing auction, post trading, trading-at-last) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | | |
 
 **Retail Max Spread Values applied by Trading Segment in QDM**
 
@@ -106,19 +107,20 @@ valid as of 04 December 2023
 
 **Standard Trading Interface (STI), OUCH Trading Interface (OTI), QTI Good-for-Business-Day**
 
-| | OBM Partition 1: Equities (CLOB) | OBM Partition 1: Equities (CLOB) | OBM Partition 2: Non-Equities (CLOB) | OBM Partition 2: Non-Equities (QDM) | OBM Partition 2: Non-Equities (QDM) | OBM Partition 2: Non-Equities (PVM) |
-| --- | --- | --- | --- | --- | --- | --- |
-| **Pre-Trade Transparency** | Yes | Yes | Yes | Yes | Yes | Yes |
-| **Trading Segments** | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Secondary Listing Shares, Investment Funds, Separate Trading Lines | Rights and Options | Bonds – CHF Swiss Confederation, Bonds – CHF Swiss Pfandbriefe, Bonds – CHF | Sponsored Foreign Shares, Sponsored Funds | Exchange Traded Funds (ETF), ETF on Bonds of the Swiss Confederation, Exchange Traded Products (ETP), Bonds – Non CHF | Structured Products |
-| **Order Type** | Normal, Iceberg, AVD | Normal | Normal, Iceberg | Normal, Iceberg | Normal, Iceberg | Normal |
-| **Price Limit** | Market or Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit |
-| **Good-for-Day** (pre-opening, continuous trading, closing auction, trading-at-last) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| **Immediate or Cancel** (continuous trading, trading-at-last) | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| **Fill or Kill** | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| **At the Opening** (pre-opening) | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| **Good for Auction** – only for QOD | | | | | | |
-| **At the Close** (pre-opening, continuous trading, closing auction, trading-at-last) | ✓ (not Rights and Options) | | ✓ | ✓ | ✓ (not ETF on Bonds of the Swiss Confederation) | |
-| **Good-till-Date** (pre-opening, continuous trading, closing auction, post trading) | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| | Normal | Iceberg | AVD | Normal | Normal | Iceberg | Normal | Iceberg | Normal | Iceberg | Normal |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **On Book Matcher – Partition** | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities |
+| **Market Model** | CLOB | CLOB | CLOB | CLOB | CLOB | CLOB | QDM | QDM | QDM | QDM | PVM |
+| **Pre-Trade Transparency** | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| **Trading Segments** | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Secondary Listing Shares, Investment Funds, Separate Trading Lines | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Secondary Listing Shares, Investment Funds, Separate Trading Lines | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Secondary Listing Shares, Investment Funds, Separate Trading Lines | Rights and Options | Bonds – CHF Swiss Confederation, Bonds – CHF Swiss Pfandbriefe, Bonds – CHF | Bonds – CHF Swiss Confederation, Bonds – CHF Swiss Pfandbriefe, Bonds – CHF | Sponsored Foreign Shares, Sponsored Funds | Sponsored Foreign Shares, Sponsored Funds | Exchange Traded Funds (ETF), ETF on Bonds of the Swiss Confederation, Exchange Traded Products (ETP), Bonds – Non CHF | Exchange Traded Funds (ETF), ETF on Bonds of the Swiss Confederation, Exchange Traded Products (ETP), Bonds – Non CHF | Structured Products |
+| **Price Limit** | Market or Limit | Limit | Market or Limit | Market or Limit | Market or Limit | Limit | Market or Limit | Limit | Market or Limit | Limit | Market or Limit |
+| **Good-for-Day** (pre-opening, continuous trading, closing auction, trading-at-last) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| **Immediate or Cancel** (continuous trading, trading-at-last) | ✓ | | | ✓ | ✓ | | ✓ | | ✓ | | |
+| **Fill or Kill** | ✓ | | | ✓ | ✓ | | ✓ | | ✓ | | |
+| **At the Opening** (pre-opening) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| **Good for Auction** – only for QOD | | | | | | | | | | | |
+| **At the Close** (pre-opening, continuous trading, closing auction, trading-at-last) | ✓ | ✓ | | | ✓ | ✓ | ✓ | ✓ | ✓ (not ETF on Bonds of the Swiss Confederation) | ✓ (not ETF on Bonds of the Swiss Confederation) | |
+| **Good-till-Date** (pre-opening, continuous trading, closing auction, post trading) | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
 
 ## Market Model and Order Validity Overview
 
@@ -126,21 +128,21 @@ valid as of 15 May 2023
 
 **Standard Trading Interface (STI), OUCH Trading Interface (OTI) Good-for-Day, QTI Good-for-Business-Day**
 
-| Routing Instruction | SWM (SwissAtMid Normal Order) | SWMX* (SwissAtMid Sweep Order) | SWMB** (Iceberg Plus and Limit Plus Order) | SWML (SwissAtMid Block Order) | SEB*** (Swiss EBBO Order) |
-| --- | --- | --- | --- | --- | --- |
-| On Book Matcher – Partition | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities |
-| Market Model and Matching Rules | Mid-Point Order Book (MPOB) | MPOB then CLOB | MPOB and CLOB simultaneously | Mid-Point Order Book (MPOB) | CLOB, MPOB, Swiss EBBO Order Book (EBBO) |
-| Pre-Trade Transparency | No | CLOB: Yes, MPOB: No | CLOB: Yes, MPOB: No | No | No |
-| Trading Segments | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares |
-| Order Type | Normal | Normal, Retail | Normal, Iceberg | Block | Normal, Retail (EBBO client orders), Liquidity Provider |
-| Price Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit |
-| Good-for-Day (pre-opening, continuous trading, closing auction) | ✓ | ✓ | ✓ (not during closing auction) | | ✓ (EBBO client orders only) |
-| Immediate or Cancel (continuous trading) | ✓ | ✓ | ✓ | ✓ (binding or firmed-up block orders) | |
-| Fill or Kill (continuous trading) | ✓ | ✓ | ✓ | ✓ (binding or firmed-up block orders) | |
-| At the Opening (pre-opening) | ✓ | ✓ | ✓ | | |
-| Good for Auction (pre-opening, continuous trading) | ✓ | ✓ | ✓ | | |
-| At the Close (pre-opening, continuous trading, closing auction) | ✓ | ✓ | ✓ (not during closing auction) | | |
-| Good-till-Date (pre-opening, continuous trading, closing auction, post trading) | ✓ | ✓ | ✓ (not during closing auction) | | ✓ (EBBO client orders only) |
+| | Normal | Normal | Retail | Normal | Iceberg | Block | Normal | Retail | Liquidity Provider |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **Routing Instruction** | SWM (SwissAtMid Normal Order) | SWMX\* (SwissAtMid Sweep Order) | SWMX\* | SWMB\*\* (Iceberg Plus and Limit Plus Order) | SWMB\*\* | SWML (SwissAtMid Block Order) | SEB\*\*\* (Swiss EBBO Order) | SEB\*\*\* | SEB\*\*\* |
+| **On Book Matcher – Partition** | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities |
+| **Market Model and Matching Rules** | Mid-Point Order Book (MPOB) | MPOB then CLOB | MPOB then CLOB | MPOB and CLOB simultaneously | MPOB and CLOB simultaneously | Mid-Point Order Book (MPOB) | CLOB, MPOB, Swiss EBBO Order Book (EBBO) | CLOB, MPOB, Swiss EBBO Order Book (EBBO) | CLOB, MPOB, Swiss EBBO Order Book (EBBO) |
+| **Pre-Trade Transparency** | No | CLOB: Yes, MPOB: No | CLOB: Yes, MPOB: No | CLOB: Yes, MPOB: No | CLOB: Yes, MPOB: No | No | No | No | No |
+| **Trading Segments** | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares | Blue Chip Shares, Mid-/Small-Cap Shares | Blue Chip Shares, Mid-/Small-Cap Shares |
+| **Price Limit** | Market or Limit | Market or Limit | Market or Limit | Market or Limit | Limit | Market or Limit | Market or Limit | Market or Limit | Market or Limit |
+| **Good-for-Day** (pre-opening, continuous trading, closing auction) | ✓ | ✓ | ✓ | ✓ (not during closing auction) | ✓ (not during closing auction) | | ✓ (EBBO client orders only) | ✓ (EBBO client orders only) | |
+| **Immediate or Cancel** (continuous trading) | ✓ | ✓ | | ✓ | | ✓ (binding or firmed-up block orders) | | | |
+| **Fill or Kill** (continuous trading) | ✓ | ✓ | | ✓ | | ✓ (binding or firmed-up block orders) | | | |
+| **At the Opening** (pre-opening) | ✓ | ✓ | | ✓ | ✓ | | | | |
+| **Good for Auction** (pre-opening, continuous trading) | ✓ | ✓ | ✓ | ✓ | ✓ | | | | |
+| **At the Close** (pre-opening, continuous trading, closing auction) | ✓ | ✓ | ✓ | ✓ (not during closing auction) | ✓ (not during closing auction) | | | | |
+| **Good-till-Date** (pre-opening, continuous trading, closing auction, post trading) | ✓ | ✓ | ✓ | ✓ (not during closing auction) | ✓ (not during closing auction) | | ✓ (EBBO client orders only) | ✓ (EBBO client orders only) | |
 
 \* If the order book without pre-trade transparency is not activated for a given trading segment or while the order book is not in continuous trading, orders with Routing Instruction "SWMX" are forwarded directly to the CLOB or QDM.
 
@@ -154,170 +156,97 @@ valid as of 10 June 2024
 
 **Standard Trading Interface (STI), OUCH Trading Interface (OTI), QTI Good-for-Business-Day**
 
-| Routing Instruction | QODN (Quote on Demand non Sweep Order) | QODS (Quote on Demand with Sweep Order) |
-| --- | --- | --- |
-| On Book Matcher – Partition | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities |
-| Market Model and Matching Rules | Quote on Demand Order Book (QOD) | QOD and QDM simultaneously |
-| Pre-Trade Transparency | No | QDM: Yes, QOD: No |
-| Trading Segments (QODN) | ETF, ETF on Bonds of the Swiss Confederation, ETP, ETF/ETP QOD Europe, Bonds – CHF Swiss Confederation, Bonds – CHF Swiss Pfandbriefe, Bonds – CHF | ETF, ETF on Bonds of the Swiss Confederation, ETP |
-| Order Type | QOD Request | QOD Request, QOD Quote |
-| Price Limit | Market or Limit | Market or Limit |
-| Good-for-Day (pre-opening, continuous trading, closing auction) | ✓ | ✓ |
-| Immediate or Cancel (continuous trading) | ✓ | ✓ |
-| Fill or Kill (continuous trading) | ✓ | ✓ |
-| At the Opening (pre-opening) | ✓ | ✓ |
-| Good for Auction (pre-opening, continuous trading) | ✓ (QOD Request for Participant only) | ✓ (QOD Request for Participant only) |
-| At the Close (pre-opening, continuous trading, closing auction) | ✓ | ✓ |
-| Good-till-Date (pre-opening, continuous trading, closing auction, post trading) | ✓ | ✓ (QOD Quote for Liquidity Providers only) |
-
-| Trading Services and Trading Interruptions |  |  | valid as of 15 May 2023 |
+| | QOD Request | QOD Request | QOD Quote |
 | --- | --- | --- | --- |
-| Trading Service | SwissAtMid | Swiss EBBO |  |
-| On Book Matcher - Partition | OBM Partition 1: Equities | OBM Partition 1: Equities |  |
-| Market Model | Mid-Point Order Book (MPOB) | Swiss EBBO Order Book (EBBO) |  |
+| **Routing Instruction** | QODN (Quote on Demand non Sweep Order) | QODS (Quote on Demand with Sweep Order) | QODS |
+| **On Book Matcher – Partition** | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities |
+| **Market Model and Matching Rules** | Quote on Demand Order Book (QOD) | QOD and QDM simultaneously | QOD and QDM simultaneously |
+| **Pre-Trade Transparency** | No | QDM: Yes, QOD: No | QDM: Yes, QOD: No |
+| **Trading Segments** | ETF, ETF on Bonds of the Swiss Confederation, ETP, ETF/ETP QOD Europe, Bonds – CHF Swiss Confederation, Bonds – CHF Swiss Pfandbriefe, Bonds – CHF | ETF, ETF on Bonds of the Swiss Confederation, ETP | ETF, ETF on Bonds of the Swiss Confederation, ETP |
+| **Price Limit** | Market or Limit | Market or Limit | Market or Limit |
+| **Good-for-Day** (pre-opening, continuous trading, closing auction) | ✓ | ✓ | ✓ |
+| **Immediate or Cancel** (continuous trading) | ✓ | ✓ | |
+| **Fill or Kill** (continuous trading) | ✓ | ✓ | |
+| **At the Opening** (pre-opening) | ✓ | ✓ | |
+| **Good for Auction** (pre-opening, continuous trading) | ✓ (QOD Request for Participant only) | ✓ (QOD Request for Participant only) | |
+| **At the Close** (pre-opening, continuous trading, closing auction) | ✓ | ✓ | ✓ |
+| **Good-till-Date** (pre-opening, continuous trading, closing auction, post trading) | ✓ | ✓ | ✓ (for Liquidity Providers only) |
 
-**Trading Segments Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds**
+## Trading Services and Trading Interruptions
 
-**Blue Chip Shares**
+valid as of 15 May 2023
 
-Mid-/Small-Cap Shares
-
-**Routing Instruction SWM (SwissAtMid Normal**
-
-SWMX (SwissAtMid Sweep SWMB (Iceberg Plus and Limit
-
-SWML (SwissAtMid Block Order) SEB (Swiss EBBO Order)
-
-Order) Order)
-
-Plus Order)
-
-**Trading Interruptions No mid-point price in CLOB:**
-
-*CLOB CLOB*
-
-*No mid-point price in CLOB: Security not tradeable in CLOB: Primary*
-
-Trading Interruption
-
-*Deviation from the Reference Deviation from the Reference*
-
-Trading Interruption Condition
-
-*Price: Delayed Opening, Price: Delayed Opening, Security not tradeable in CLOB:*
-
-Stop Trading, Avalanche Stop Stop Trading, Avalanche
-
-| Primary Condition | Trading | Non-executable market orders: | Security not tradeable in CLOB: Primary Condition | Deviation between EBBO price and CLOB Reference Price: If the price of the next |
-| --- | --- | --- | --- | --- |
-| Deviation between MPOB price | Non-executable market orders: Non-Opening | Non-Opening Underlying not trading: |  | execution in Swiss EBBO compared to the reference price on the Primary Reference |
-| and CLOB Price: | Underlying not trading: | Underlying Condition | Deviation between MPOB price and CLOB Price: | Market in the Central Limit Order Book |
-| MPOB Stop Trading, MPOB Avalanche Stop Trading | Underlying Condition | MPOB | MPOB Stop Trading, MPOB | (CLOB) is outside a range determined by the Exchange (Stop Trading), the order will not |
-|  | MPOB | No mid-point price in CLOB: | Avalanche Stop Trading | be executed in the hybrid order book. |
-|  | No mid-point price in CLOB: Order will be routed to CLOB | MPOB Stop Trading Security not tradeable in CLOB: |  | EBBO Avalanche Stop Trading, orders will be routed to the CLOB |
-
-Primary Condition
-
-*Security not tradeable in CLOB:*
-
-Primary Condition, order will be
-
-*Deviation between MPOB price*
-
-routed to CLOB
-
-*and CLOB Reference Price: Deviation between MPOB price*
-
-MPOB Stop Trading, MPOB
-
-*and CLOB Reference Price: MPOB*
-
-Avalanche Stop Trading Stop Trading, Avalanche Stop Trading, order will be routed to CLOB
-
-| Routing Instruction Exceptions | If the order book without pre- trade transparency is not | If the order book without pre- trade transparency is not | If the EBBO order book is not activated for a given trading segment, orders with Routing |
-| --- | --- | --- | --- |
-|  | activated for a given trading segment or while the order | activated for a given trading segment, orders with Routing | Instruction "SEB" will be directly routed to the CLOB, MPOB (where activated) and |
-|  | book is not in continuous trading, orders with Routing | Instruction "SWMB" will be directly routed to the CLOB as | QDM as normal limit or Iceberg orders (where allowed). |
-
-Instruction "SWMX" are normal limit or normal Iceberg forwarded directly to the CLOB (where allowed) or to QDM.
+| | SWM (SwissAtMid Normal Order) | SWMX\* (SwissAtMid Sweep Order) | SWMB\*\* (Iceberg Plus and Limit Plus Order) | SWML (SwissAtMid Block Order) | SEB\*\*\* (Swiss EBBO Order) |
+| --- | --- | --- | --- | --- | --- |
+| **Trading Service** | SwissAtMid | SwissAtMid | SwissAtMid | SwissAtMid | Swiss EBBO |
+| **On Book Matcher – Partition** | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities | OBM Partition 1: Equities |
+| **Market Model** | Mid-Point Order Book (MPOB) | MPOB then CLOB | MPOB and CLOB simultaneously | Mid-Point Order Book (MPOB) | Swiss EBBO Order Book (EBBO) |
+| **Trading Segments** | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds | Blue Chip Shares, Mid-/Small-Cap Shares |
+| **Trading Interruptions** | No mid-point price in CLOB: MPOB Stop Trading, MPOB Avalanche Stop Trading. Security not tradeable in CLOB: Primary Condition. Deviation from the Reference Price: Delayed Opening, Stop Trading, Avalanche Stop Trading. Deviation between MPOB price and CLOB Price: MPOB Stop Trading, MPOB Avalanche Stop Trading. | No mid-point price in CLOB: Order will be routed to CLOB. Security not tradeable in CLOB: Primary Condition. Deviation from the Reference Price: Delayed Opening, Stop Trading, Avalanche Stop Trading. Non-executable market orders: Non-Opening. Underlying not trading: Underlying Condition. | No mid-point price in CLOB: MPOB Stop Trading. Security not tradeable in CLOB: MPOB Stop Trading. Non-executable market orders: Non-Opening. Underlying not trading: Underlying Condition. | Security not tradeable in CLOB: Primary Condition. Deviation between MPOB price and CLOB Reference Price: MPOB Stop Trading, MPOB Avalanche Stop Trading, order will be routed to CLOB. | Security not tradeable in CLOB: Primary Condition. Deviation between EBBO price and CLOB Reference Price: If the price of the next execution in Swiss EBBO compared to the reference price on the Primary Reference Market in the Central Limit Order Book (CLOB) is outside a range determined by the Exchange (Stop Trading), the order will not be executed in the hybrid order book. EBBO Avalanche Stop Trading: orders will be routed to the CLOB. |
+| **Routing Instruction Exceptions** | | If the order book without pre-trade transparency is not activated for a given trading segment or while the order book is not in continuous trading, orders with Routing Instruction "SWMX" are forwarded directly to the CLOB or QDM. | If the order book without pre-trade transparency is not activated for a given trading segment, orders with Routing Instruction "SWMB" will be directly routed to the CLOB or QDM as normal limit or normal Iceberg orders (where allowed). | | If the EBBO order book is not activated for a given trading segment, orders with Routing Instruction "SEB" will be directly routed to the CLOB, MPOB (where activated) and QDM as normal order or Sweep. |
 
 **8|40**
 
-| Trading Services and Trading Interruptions |  |  |  |  | valid as of 10 June 2024 |
-| --- | --- | --- | --- | --- | --- |
-| Trading Service | Quote on Demand |  | ETF/ETP QOD Europe | QOD CHF-Bonds |  |
-| On Book Matcher - Partition | OBM Partition 2: Non-Equities |  | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities |  |
-| Market Model Trading Segments | Quote on Demand Order Book (QOD) ETF |  | Quote on Demand Order Book (QOD) Quote on Demand Order Book (QOD) ETF/ETP QOD Europe | Bonds – CHF |  |
-|  | ETF on Bonds of the Swiss Confederation |  |  | Bonds – CHF Swiss Confederation Bonds – CHF Swiss Pfandbriefe |  |
-| Routing Instructions | ETP QODN (Quote | QODS (Quote on Demand with | QODN (Quote on Demand non Sweep | QODN (Quote on Demand non Sweep |  |
-|  | on Demand non Sweep | Sweep Order) | Order) | Order) |  |
-|  | Order) |  | None | None |  |
-| Trading Interruptions | QDM Executable orders without quotes in the order book: |  |  |  |  |
+## Trading Services and Trading Interruptions
 
-Delayed Opening, Stop Trading
+valid as of 10 June 2024
 
-*Non-executable market orders: Non-Opening Underlying not trading: Underlying Condition*
-
-**QOD**
-
-*Security not tradeable in QDM: QOD Primary*
-
-Condition
-
-| Routing Instruction Exceptions | If the Quote on Demand trading service is not enabled for a trading segment or security, QOD | If the Quote on Demand trading service is not enabled for a trading | If the Quote on Demand trading service is not enabled for a trading segment or |
-| --- | --- | --- | --- |
-|  | Requests and Quotes will be rejected. | segment or security, QOD Requests and Quotes will be rejected. | security, QOD Requests and Quotes will be rejected. |
-|  |  | If aQODS order is submitted it will be treated like aQODN order. | If aQODS order is submitted it will be treated like aQODN order. |
+| | QODN | QODS | QODN (ETF/ETP QOD Europe) | QODN (QOD CHF-Bonds) |
+| --- | --- | --- | --- | --- |
+| **Trading Service** | Quote on Demand | Quote on Demand | ETF/ETP QOD Europe | QOD CHF-Bonds |
+| **On Book Matcher – Partition** | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities | OBM Partition 2: Non-Equities |
+| **Market Model** | Quote on Demand Order Book (QOD) | Quote on Demand Order Book (QOD) | Quote on Demand Order Book (QOD) | Quote on Demand Order Book (QOD) |
+| **Trading Segments** | ETF, ETF on Bonds of the Swiss Confederation, ETP | ETF, ETF on Bonds of the Swiss Confederation, ETP | ETF/ETP QOD Europe | Bonds – CHF, Bonds – CHF Swiss Confederation, Bonds – CHF Swiss Pfandbriefe |
+| **Routing Instructions** | QODN (Quote on Demand non Sweep Order) | QODS (Quote on Demand with Sweep Order) | QODN (Quote on Demand non Sweep Order) | QODN (Quote on Demand non Sweep Order) |
+| **Trading Interruptions** | QDM: Executable orders without quotes in the order book: Delayed Opening, Stop Trading. Non-executable market orders: Non-Opening. Underlying not trading: Underlying Condition. QOD: Security not tradeable in QDM: QOD Primary Condition. | QDM: Executable orders without quotes in the order book: Delayed Opening, Stop Trading. Non-executable market orders: Non-Opening. Underlying not trading: Underlying Condition. QOD: Security not tradeable in QDM: QOD Primary Condition. | None | None |
+| **Routing Instruction Exceptions** | If the Quote on Demand trading service is not enabled for a trading segment or security, QOD Requests and Quotes will be rejected. | If the Quote on Demand trading service is not enabled for a trading segment or security, QOD Requests and Quotes will be rejected. If a QODS order is submitted it will be treated like a QODN order. | If the Quote on Demand trading service is not enabled for a trading segment or security, QOD Requests and Quotes will be rejected. If a QODS order is submitted it will be treated like a QODN order. | If the Quote on Demand trading service is not enabled for a trading segment or security, QOD Requests and Quotes will be rejected. If a QODS order is submitted it will be treated like a QODN order. |
 
 **9|40**
 
-| Trading Period Overview for CLOB, QDM and PVM | O rderD eletion & Expiry |  |  | O rder Entry S |  |  |  |  | valid as of 22 June 2020 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|  | Pre-Opening O TI Orders | Opening STI O rders | Continuous Trading | O TI Orders | Without Closing Auction With Closing TI Orders | End of Trading |  | Trading-At-Last | Post Trading |
-| Duration | 06:00 CET until | Not applicable | Opening until End of Trading Not applicable |  |  |  | Auction 10 minutes | End of Closing Auction until | Until 22:00 CET |
-| Random Time | Opening Not applicable | 2 minutes | Not applicable |  | None |  | 2 minutes at Run | 17:40 CET None | Not applicable |
-| Good-for-Day | Yes | No | Yes |  | No |  | Auction and Close Yes | Yes | No |
-| Immediate or Cancel No |  | No | Yes |  | No |  | No | Yes | No |
-| Fill or Kill | No | No | Yes |  | No |  | No | Yes | No |
-| At the Opening | Yes | No | No |  | No |  | No | No | No |
-| At the Close | Yes | No | Yes |  | No |  | Yes | Yes | No |
-| Good-till-Date | Yes | No | Yes |  | No |  | Yes | Yes | Yes |
-| Day | Yes | No | Yes |  | No |  | Yes (not SWM & SEB) Yes |  | No |
-| Immediate or Cancel No |  | No | Yes |  | No |  | No | Yes | No |
-| Fill or Kill | No | No | Yes |  | No |  | No | Yes | No |
-| At the Opening | Yes | No | No |  | No |  | No | No | No |
-| At the Close | Yes | No | Yes |  | No |  | Yes | Yes | No |
-| QTI Quotes | Yes | No | Yes |  | No |  | Yes | No | Yes (not QOD) |
-| Good-for-Day | Yes | No | Yes |  | No |  | Yes | Yes | No |
-| Immediate or Cancel No |  | No | Deletion if no execution |  | No |  | No | Deletion if no execution | No |
-| Fill or Kill | No | No | Deletion if no execution |  | No |  | No | Deletion if no execution | No |
-| At the Opening | Yes | Expiry if not executed in Opening | No |  | No |  | No | No | No |
-| At the Close | Yes | No | Yes |  | No |  | Yes | Yes | No |
-| Good-till-Date | Yes | No | Yes |  | No |  | Yes | Yes | Yes |
-| Good-for-Day | Yes | No | Yes |  | No |  | Yes | Yes | No |
-| Immediate or Cancel No |  | No | Deletion if no execution |  | No |  | No | Deletion if no execution | No |
-| Fill or Kill | No | No | Deletion if no execution |  | No |  | No | Deletion if no execution | No |
-| At the Opening | Yes | Expiry if not executed in Opening | No |  | No |  | No | No | No |
-| At the Close | Yes | No | Yes |  | No |  | Yes | Yes | No |
-| QTI Quotes | Yes | No | Yes |  | No |  | Yes | Not applicable | Yes (for QDM) No (for QOD) |
+## Trading Period Overview for CLOB, QDM and PVM
+
+valid as of 22 June 2020
+
+| | Pre-Opening | Opening | Continuous Trading | Without Closing Auction | With Closing Auction | Trading-At-Last | Post Trading |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Duration** | 06:00 CET until Opening | Not applicable | Opening until End of Trading | Not applicable | 10 minutes | End of Closing Auction until 17:40 CET | Until 22:00 CET |
+| **Random Time** | Not applicable | 2 minutes | Not applicable | None | 2 minutes | None | Not applicable |
+| **STI Orders** | | | | | | | |
+| Good-for-Day | Yes | No | Yes | No | Yes | Yes | No |
+| Immediate or Cancel | No | No | Yes | No | No | Yes | No |
+| Fill or Kill | No | No | Yes | No | No | Yes | No |
+| At the Opening | Yes | No | No | No | No | No | No |
+| At the Close | Yes | No | Yes | No | Yes | Yes | No |
+| Good-till-Date | Yes | No | Yes | No | Yes | Yes | Yes |
+| **OTI Orders** | | | | | | | |
+| Good-for-Day | Yes | No | Yes | No | Yes (not SWM & SEB) | Yes | No |
+| Immediate or Cancel | No | No | Yes | No | No | Yes | No |
+| Fill or Kill | No | No | Yes | No | No | Yes | No |
+| At the Opening | Yes | No | No | No | No | No | No |
+| At the Close | Yes | No | Yes | No | Yes | Yes | No |
+| **QTI Orders** | Yes | No | Yes | No | Yes | No | Yes (not QOD) |
+| Good-for-Day | Yes | No | Yes | No | Yes | Yes | No |
+| Immediate or Cancel | No | No | Deletion if no execution | No | No | Deletion if no execution | No |
+| Fill or Kill | No | No | Deletion if no execution | No | No | Deletion if no execution | No |
+| At the Opening | Yes | Expiry if not executed in Opening | No | No | No | No | No |
+| At the Close | Yes | No | Yes | No | Yes | Yes | No |
+| Good-till-Date | Yes | No | Yes | No | Yes | Yes | Yes |
+| **QTI Quotes** | Yes | No | Yes | No | Yes | Not applicable | Yes (for QDM) No (for QOD) |
 
 QDM quotes are deleted at End of Business Day
 
 **10|40**
 
-| Trading Period Overview for CLOB, QDM and PVM |  |  |  |  |  |  |  | valid as of 22 June 2020 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|  | Pre-Opening | Opening | Continuous Trading | Without Closing Auction With Closing Auction | End of Trading |  | Trading-At-Last | Post Trading |
-| Executions | None | Executions according to | Continuous execution of orders and quotes | None |  | During Closing Auction: No | Executions at the Closing Price determined during the | None |
-|  |  | principle of highest executable volume |  |  |  | At Run Auction and Close: | Closing Auction according to time priority |  |
+## Trading Period Overview for CLOB, QDM and PVM — Executions and Price Calculation
 
-Executions according to principle of highest
+valid as of 22 June 2020
 
-| Price Calculation | Theoretical | Opening Price | Reference Price | Closing Price | executable volume Closing Price | None | Theoretical Price for next |
+| | Pre-Opening | Opening | Continuous Trading | Without Closing Auction | With Closing Auction | Trading-At-Last | Post Trading |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Exceptional Order Book | Opening Price Delayed Opening | Delayed Opening | Stop Trading | None | Non Opening | Non Opening | business day Non Opening |
-| Situations | Non Opening | Non Opening | Non Opening Underlying Condition |  |  |  |  |
-| Off Order Book Reporting | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| **Executions** | None | Executions according to principle of highest executable volume | Continuous execution of orders and quotes | None | During Closing Auction: No continuous executions. At Run Auction and Close: Executions according to principle of highest executable volume. | Executions at the Closing Price determined during the Closing Auction according to time priority | None |
+| **Price Calculation** | Theoretical Opening Price | Opening Price | Reference Price | Closing Price | Closing Price | None | Theoretical Price for next business day |
+| **Exceptional Order Book Situations** | Delayed Opening, Non Opening | Delayed Opening, Non Opening | Stop Trading, Non Opening, Underlying Condition | None | Non Opening | Non Opening | Non Opening |
+| **Off Order Book Reporting** | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
 
 **11|40**
 
