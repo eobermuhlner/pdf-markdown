@@ -1,0 +1,61 @@
+# pdf-markdown configuration file
+# 
+# This file can be placed in:
+#   - Project directory (highest priority)
+#   - User home directory (~/.pdf-markdown.yaml)
+#
+# Values defined here override the defaults but can be overridden by CLI flags.
+
+# Conversion mode: readable (human-friendly) or rag (for RAG pipelines)
+# mode: readable
+
+# Rule tuning parameters - adjust these to optimize for specific document types
+ruleTuning:
+  # Heading detection
+  titleMinRatio: 1.10              # Min font size ratio vs body text for document title (H1)
+  headingMediumMinRatio: 1.05       # Min ratio for bold medium text to be a heading (H5)
+
+  # Paragraph detection
+  paragraphMaxYGapMultiplier: 2.0   # Max gap between paragraph lines (as multiple of line height)
+  paragraphMaxXDistance: 150        # Max horizontal distance before considering different layout zones
+
+  # Heading merge
+  headingMergeMaxYGapMultiplier: 3.0  # Max gap for merging multi-line headings
+  headingMergeMaxFontSizeDiff: 1       # Max font size diff for merging heading lines
+
+  # List detection
+  listMinIndent: 20              # Min x-indent for indented list items (relative to body margin)
+  listMaxIndent: 100             # Max x-indent for indented list items
+  listYGapMultiplier: 3.0        # Max gap between list items (as multiple of line height)
+  listXVariance: 5              # Max x-distance variation between list items
+  bulletListYGapMultiplier: 4.0  # Max gap between bullet/numbered list items
+  listContinuationYGapMultiplier: 2.0  # Max gap for list item continuation lines
+
+  # Epigraph detection
+  epigraphYGapMultiplier: 3.0           # Max gap between epigraph lines
+  epigraphAttributionYGapMultiplier: 4.0 # Max gap between epigraph and attribution
+  epigraphAttributionMaxLength: 70       # Max length of attribution line
+
+  # Table detection
+  tableMinColumnGap: 30          # Min gap between table columns
+  tableMinRows: 3                # Min number of rows for table detection
+  tableRowTolerance: 12           # Y-position tolerance for grouping into same row
+
+  # Column detection
+  columnDetectionMinElements: 6   # Min elements on page for column detection
+  columnHistogramBuckets: 50      # Number of histogram buckets for column detection
+  columnMarginFraction: 0.10      # Page margin fraction to exclude from column detection
+  columnMinGapBuckets: 3          # Min consecutive empty buckets for column gap
+  columnMinSizeFraction: 0.15     # Min column size as fraction of total elements
+  columnMinSizeAbsolute: 4        # Min column size (absolute)
+  columnCoherenceXDistance: 30    # Max x-distance from mode column x for coherence
+  columnCoherenceMinFraction: 0.50  # Min fraction of elements needed for coherence
+
+  # Drop-initial detection
+  dropInitialMinRows: 2           # Min rows a drop-initial must appear in
+  dropInitialMaxLength: 3          # Max character length of drop-initial
+  dropInitialYDistanceFraction: 0.5  # Max y-distance between drop-initial and companion
+  dropInitialXDistanceMultiplier: 3.0  # Max x-distance between drop-initial and companion
+
+  # Code block detection
+  codeYGapMultiplier: 2.0        # Max gap between consecutive code lines

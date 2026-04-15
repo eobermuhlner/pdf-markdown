@@ -20,6 +20,7 @@ repositories {
 dependencies {
     api("org.apache.pdfbox:pdfbox:3.0.3")
     implementation("com.github.ajalt.clikt:clikt:4.4.0")
+    implementation("org.yaml:snakeyaml:2.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 }

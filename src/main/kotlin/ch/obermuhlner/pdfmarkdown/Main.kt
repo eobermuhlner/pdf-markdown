@@ -9,6 +9,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.int
+import com.github.ajalt.clikt.parameters.types.double
 import java.io.File
 
 fun main(args: Array<String>) = PdfMarkdownCli()
@@ -33,6 +34,14 @@ Subcommands:
     Convert PDF pages to PNG images.
     Default output directory is the current working directory.
     Default DPI is 72. Images are named: {pdfname}_page_001.png
+
+Configuration:
+
+  Configuration is loaded from YAML files in the following order (highest first):
+    - Project level: .pdf-markdown.yaml in current or parent directory
+    - User level: ~/.pdf-markdown.yaml
+
+  See .pdf-markdown.yaml.example for configuration options.
 
 Options:
 
@@ -70,8 +79,48 @@ class MarkdownCommand : CliktCommand(
         help = "Output mode: 'readable' (default, human-friendly) or 'rag' (semantic, for RAG pipelines)"
     ).choice("readable", "rag").default("readable")
 
+    // Rule tuning options (as strings to allow optional empty values)
+    private val titleMinRatio: String? by option(
+        "--title-min-ratio",
+        help = "Minimum font size ratio vs. body text for document title (default: 1.10)"
+    )
+
+    private val headingMediumMinRatio: String? by option(
+        "--heading-medium-min-ratio",
+        help = "Minimum font size ratio for bold medium text to be a heading (default: 1.05)"
+    )
+
+    private val listMinIndent: String? by option(
+        "--list-min-indent",
+        help = "Minimum indent for list items (default: 20)"
+    )
+
+    private val listMaxIndent: String? by option(
+        "--list-max-indent",
+        help = "Maximum indent for list items (default: 100)"
+    )
+
+    private val tableMinRows: String? by option(
+        "--table-min-rows",
+        help = "Minimum rows for table detection (default: 3)"
+    )
+
+    private val tableMinColumnGap: String? by option(
+        "--table-min-column-gap",
+        help = "Minimum gap between table columns (default: 30)"
+    )
+
     override fun run() {
-        val options = if (mode == "rag") ConversionOptions.RAG else ConversionOptions.READABLE
+        val overrides = mutableMapOf<String, Any?>("mode" to mode)
+
+        titleMinRatio?.toDoubleOrNull()?.let { overrides["titleMinRatio"] = it }
+        headingMediumMinRatio?.toDoubleOrNull()?.let { overrides["headingMediumMinRatio"] = it }
+        listMinIndent?.toIntOrNull()?.let { overrides["listMinIndent"] = it }
+        listMaxIndent?.toIntOrNull()?.let { overrides["listMaxIndent"] = it }
+        tableMinRows?.toIntOrNull()?.let { overrides["tableMinRows"] = it }
+        tableMinColumnGap?.toIntOrNull()?.let { overrides["tableMinColumnGap"] = it }
+
+        val options = ConfigLoader.loadConfig(overrides = overrides)
         val markdown = PdfMarkdown.toMarkdown(inputFile, maxPages ?: Int.MAX_VALUE, options)
         write(markdown, outputFile)
     }

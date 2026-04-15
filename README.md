@@ -121,6 +121,108 @@ java -jar build/libs/pdf-markdown-0.1.0.jar xml document.pdf
 
 - `--max-pages <n>` - Limit the number of pages to process (both `markdown` and `xml` commands)
 - `--mode <readable|rag>` - Output mode for `markdown` command: `readable` (default, human-friendly) or `rag` (optimized for RAG pipelines)
+- `--title-min-ratio <ratio>` - Minimum font size ratio vs. body text for document title (default: 1.10)
+- `--heading-medium-min-ratio <ratio>` - Minimum font size ratio for bold medium text to be a heading (default: 1.05)
+- `--list-min-indent <n>` - Minimum indent for list items (default: 20)
+- `--list-max-indent <n>` - Maximum indent for list items (default: 100)
+- `--table-min-rows <n>` - Minimum rows for table detection (default: 3)
+- `--table-min-column-gap <n>` - Minimum gap between table columns (default: 30)
+
+## Configuration
+
+pdf-markdown supports configuration files for fine-tuning conversion rules without specifying CLI flags each time.
+
+### Configuration File
+
+Create a `.pdf-markdown.yaml` file in your project directory or home directory:
+
+```yaml
+# Conversion mode (optional)
+mode: readable  # or: rag
+
+# Rule tuning parameters
+ruleTuning:
+  # Heading detection
+  titleMinRatio: 1.10              # Min font size ratio for document title (H1)
+  headingMediumMinRatio: 1.05       # Min ratio for bold medium text to be heading (H5)
+
+  # Paragraph detection
+  paragraphMaxYGapMultiplier: 2.0   # Max gap between paragraph lines (as multiple of line height)
+  paragraphMaxXDistance: 150        # Max x-distance before considering different layout zones
+
+  # List detection
+  listMinIndent: 20                # Min x-indent for list items
+  listMaxIndent: 100               # Max x-indent for list items
+  listYGapMultiplier: 3.0          # Max gap between list items
+  listXVariance: 5                 # Max x-distance variation between list items
+
+  # Table detection
+  tableMinColumnGap: 30            # Min gap between table columns
+  tableMinRows: 3                  # Min rows for table detection
+  tableRowTolerance: 12             # Y-position tolerance for grouping rows
+
+  # Column detection
+  columnDetectionMinElements: 6     # Min elements on page for column detection
+  columnHistogramBuckets: 50        # Number of histogram buckets
+  columnMarginFraction: 0.10       # Page margin fraction to exclude
+  columnMinGapBuckets: 3           # Min empty buckets for column gap
+  columnMinSizeFraction: 0.15      # Min column size as fraction
+  columnMinSizeAbsolute: 4           # Min column size (absolute)
+  columnCoherenceXDistance: 30     # Max x-distance for column coherence
+  columnCoherenceMinFraction: 0.50  # Min fraction for coherence
+
+  # Drop-initial detection
+  dropInitialMinRows: 2             # Min rows for drop-initial
+  dropInitialMaxLength: 3           # Max character length of drop-initial
+  dropInitialYDistanceFraction: 0.5 # Max y-distance to companion
+  dropInitialXDistanceMultiplier: 3.0 # Max x-distance to companion
+
+  # Code block detection
+  codeYGapMultiplier: 2.0          # Max gap between code lines
+
+  # Epigraph detection
+  epigraphYGapMultiplier: 3.0      # Max gap between epigraph lines
+  epigraphAttributionYGapMultiplier: 4.0 # Max gap to attribution
+  epigraphAttributionMaxLength: 70  # Max attribution line length
+```
+
+### Configuration Precedence
+
+Configuration values are merged in the following order (highest wins):
+
+1. CLI flags (command-line arguments)
+2. Project-level config (`.pdf-markdown.yaml` in current or parent directory)
+3. User-level config (`~/.pdf-markdown.yaml`)
+4. Defaults (built-in sensible values)
+
+### Programmatic Configuration
+
+```kotlin
+import ch.obermuhlner.pdfmarkdown.{PdfMarkdown, ConversionOptions, RuleTuning}
+import java.io.File
+
+// Use default readable mode
+val markdown = PdfMarkdown.toMarkdown(File("document.pdf"))
+
+// Customize with rule tuning
+val options = ConversionOptions(
+    stripInlineFormatting = true,
+    includeToc = false,
+    ruleTuning = RuleTuning(
+        listMinIndent = 30,
+        tableMinRows = 4,
+        titleMinRatio = 1.15
+    )
+)
+val markdown = PdfMarkdown.toMarkdown(File("document.pdf"), options = options)
+
+// Use RAG preset with custom tuning
+val ragOptions = ConversionOptions.RAG.copy(
+    ruleTuning = ConversionOptions.RAG.ruleTuning.copy(
+        tableMinRows = 5
+    )
+)
+```
 
 ## Intermediate XML format
 

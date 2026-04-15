@@ -149,14 +149,15 @@ object DeterministicMarkdownConverter {
         if (visible.isEmpty()) return ""
 
         // On the first page the title candidate is the element with the largest font size
-        // (only if it exceeds the body-text size by at least 10%).
+        // (only if it exceeds the body-text size by the configured ratio).
+        val tuning = options.ruleTuning
         val titleCandidateFontSize: Int? = if (isFirstPage && !titleAlreadyUsed) {
             visible.maxByOrNull { it.fontSize }?.fontSize
-                ?.takeIf { it > modeFontSize * 1.10 }
+                ?.takeIf { it > modeFontSize * tuning.titleMinRatio }
         } else null
 
         val bodyMargin = computeBodyMargin(visible)
-        val colBounds  = detectColumnBoundaries(visible)
+        val colBounds  = detectColumnBoundaries(visible, tuning)
         val columns    = splitIntoColumns(visible, colBounds)
 
         data class Chunk(val y: Int, val text: String)
@@ -166,7 +167,7 @@ object DeterministicMarkdownConverter {
 
         for (col in columns) {
             val sorted      = col.sortedBy { it.y }
-            val withInitials = mergeDropInitials(sorted)
+            val withInitials = mergeDropInitials(sorted, tuning)
 
             val tableRegions = detectTableRegions(withInitials, options)
             val inTable      = withInitials.filter { el ->
@@ -217,8 +218,8 @@ object DeterministicMarkdownConverter {
      * Returns one [IntRange] per detected column (left-to-right).
      * Single-column pages return `listOf(0..Int.MAX_VALUE)`.
      */
-    private fun detectColumnBoundaries(elements: List<TextElement>): List<IntRange> {
-        if (elements.size < 6) return listOf(0..Int.MAX_VALUE)
+    private fun detectColumnBoundaries(elements: List<TextElement>, tuning: RuleTuning): List<IntRange> {
+        if (elements.size < tuning.columnDetectionMinElements) return listOf(0..Int.MAX_VALUE)
 
         val minX      = elements.minOf { it.x }
         val pageWidth = elements.maxOf { it.endX }
@@ -231,15 +232,15 @@ object DeterministicMarkdownConverter {
         // (rows where only a right-column element exists still produce an anchor).
         val anchorXStarts = elements.groupBy { it.y }.values.map { row -> row.minOf { it.x } }
 
-        // 50-bucket histogram of anchor x-start positions
-        val buckets = 50
+        // Histogram of anchor x-start positions
+        val buckets = tuning.columnHistogramBuckets
         val bw      = span.toDouble() / buckets
         val hist    = IntArray(buckets)
         for (x in anchorXStarts) hist[((x - minX) / bw).toInt().coerceIn(0, buckets - 1)]++
 
-        // Find contiguous empty bands (≥3 consecutive empty buckets) in middle 80% of page
-        val lo = (buckets * 0.10).toInt()
-        val hi = (buckets * 0.90).toInt()
+        // Find contiguous empty bands in middle portion of page
+        val lo = (buckets * tuning.columnMarginFraction).toInt()
+        val hi = (buckets * (1 - tuning.columnMarginFraction)).toInt()
 
         val splitPoints = mutableListOf<Int>()
         var gapStart    = -1
@@ -247,7 +248,7 @@ object DeterministicMarkdownConverter {
             if (hist[b] == 0) {
                 if (gapStart < 0) gapStart = b
             } else {
-                if (gapStart >= 0 && b - gapStart >= 3) {
+                if (gapStart >= 0 && b - gapStart >= tuning.columnMinGapBuckets) {
                     val midX = minX + ((gapStart + b - 1) / 2.0 * bw).toInt()
                     splitPoints.add(midX)
                 }
@@ -255,26 +256,23 @@ object DeterministicMarkdownConverter {
             }
         }
         // flush trailing gap
-        if (gapStart >= 0 && hi - gapStart >= 3) {
+        if (gapStart >= 0 && hi - gapStart >= tuning.columnMinGapBuckets) {
             val midX = minX + ((gapStart + hi) / 2.0 * bw).toInt()
             splitPoints.add(midX)
         }
 
         if (splitPoints.isEmpty()) return listOf(0..Int.MAX_VALUE)
 
-        // Require each column to have at least 4 elements (absolute minimum).
-        // A relative-only threshold (15 % of total) allowed splits with only 2–3
-        // elements on one side, which fires falsely on centred multi-line headings
-        // whose continuation lines happen to sit at a higher x than the body margin.
+        // Require each column to have enough elements (absolute + relative threshold).
         val total      = elements.size
-        val minColSize = maxOf(4, (total * 0.15).toInt())
+        val minColSize = maxOf(tuning.columnMinSizeAbsolute, (total * tuning.columnMinSizeFraction).toInt())
 
-        /** Returns true when ≥50% of [els] have x within 30 units of the mode x. */
+        /** Returns true when enough of [els] have x within distance of the mode x. */
         fun isCoherentColumn(els: List<TextElement>): Boolean {
             if (els.isEmpty()) return false
             val modeX    = els.groupingBy { it.x }.eachCount().maxByOrNull { it.value }?.key ?: return false
-            val nearCount = els.count { abs(it.x - modeX) <= 30 }
-            return nearCount >= els.size * 0.50
+            val nearCount = els.count { abs(it.x - modeX) <= tuning.columnCoherenceXDistance }
+            return nearCount >= els.size * tuning.columnCoherenceMinFraction
         }
 
         fun buildRanges(splits: List<Int>): List<IntRange> {
@@ -321,19 +319,19 @@ object DeterministicMarkdownConverter {
     // ─── Drop-initial merging ─────────────────────────────────────────────────
 
     /**
-     * Detects typographic drop initials — short (1–3-char) letter fragments at a
-     * narrow x across ≥2 consecutive y-rows — and prepends each to its companion
+     * Detects typographic drop initials — short letter fragments at a
+     * narrow x across multiple consecutive y-rows — and prepends each to its companion
      * element on the same row.
      */
-    private fun mergeDropInitials(elements: List<TextElement>): List<TextElement> {
+    private fun mergeDropInitials(elements: List<TextElement>, tuning: RuleTuning): List<TextElement> {
         if (elements.size < 2) return elements
 
         // Find x values that host only short letter fragments across multiple rows
         val dropXs = elements
             .groupBy { it.x }
             .filter { (_, els) ->
-                els.size >= 2 &&
-                els.all { it.text.trim().length in 1..3 && it.text.any(Char::isLetter) }
+                els.size >= tuning.dropInitialMinRows &&
+                els.all { it.text.trim().length in 1..tuning.dropInitialMaxLength && it.text.any(Char::isLetter) }
             }
             .keys.toSet()
 
@@ -349,9 +347,9 @@ object DeterministicMarkdownConverter {
                 val companion = elements.firstOrNull { other ->
                     other !in skipSet &&
                     other !== el &&
-                    abs(other.y - el.y) <= el.height / 2 &&
+                    abs(other.y - el.y) <= (el.height * tuning.dropInitialYDistanceFraction).toInt() &&
                     other.x > el.endX &&
-                    other.x - el.endX <= el.height * 3
+                    other.x - el.endX <= (el.height * tuning.dropInitialXDistanceMultiplier).toInt()
                 }
                 if (companion != null) {
                     skipSet.add(el)
@@ -379,6 +377,7 @@ object DeterministicMarkdownConverter {
         val blocks    = mutableListOf<Block>()
         var i         = 0
         var titleUsed = initialTitleUsed
+        val tuning    = options.ruleTuning
 
         while (i < elements.size) {
             val el   = elements[i]
@@ -392,7 +391,7 @@ object DeterministicMarkdownConverter {
                 while (j < elements.size) {
                     val next = elements[j]
                     val yGap = next.y - (codeLines.last().y + codeLines.last().height)
-                    if (next.font.endsWith("-mono") && yGap <= codeLines.last().height * 2) {
+                    if (next.font.endsWith("-mono") && yGap <= codeLines.last().height * tuning.codeYGapMultiplier) {
                         codeLines.add(next); j++
                     } else break
                 }
@@ -402,7 +401,7 @@ object DeterministicMarkdownConverter {
             }
 
             // ── Heading ─────────────────────────────────────────────────────
-            val headingLevel = detectHeadingLevel(el, modeFontSize, isFirstPage, titleUsed, titleCandidateFontSize)
+            val headingLevel = detectHeadingLevel(el, modeFontSize, isFirstPage, titleUsed, titleCandidateFontSize, tuning.headingMediumMinRatio)
             if (headingLevel > 0) {
                 // Merge consecutive lines that belong to the same heading
                 // (multi-line titles / wrapped section headers).
@@ -411,8 +410,8 @@ object DeterministicMarkdownConverter {
                 while (j < elements.size) {
                     val next     = elements[j]
                     val yGap     = next.y - (elements[j - 1].y + elements[j - 1].height)
-                    val sameFont = next.font == el.font && abs(next.fontSize - el.fontSize) <= 1
-                    if (sameFont && yGap <= el.height * 3) {
+                    val sameFont = next.font == el.font && abs(next.fontSize - el.fontSize) <= tuning.headingMergeMaxFontSizeDiff
+                    if (sameFont && yGap <= el.height * tuning.headingMergeMaxYGapMultiplier) {
                         headingParts.add(next.text.trim()); j++
                     } else break
                 }
@@ -443,16 +442,16 @@ object DeterministicMarkdownConverter {
             }
 
             // ── List items ──────────────────────────────────────────────────
-            // Only treat as indented if within 100 units of the body margin.
+            // Only treat as indented if within configurable range of the body margin.
             // A larger gap means the element is in a separate layout zone (e.g. a
             // different column or table cell), not a list item.
-            if (el.x >= bodyMargin + 20 && el.x <= bodyMargin + 100) {
+            if (el.x >= bodyMargin + tuning.listMinIndent && el.x <= bodyMargin + tuning.listMaxIndent) {
                 val items = mutableListOf(el)
                 var j = i + 1
                 while (j < elements.size) {
                     val next  = elements[j]
                     val yGap  = next.y - (elements[j - 1].y + elements[j - 1].height)
-                    if (abs(next.x - el.x) <= 5 && yGap <= elements[j - 1].height * 3) {
+                    if (abs(next.x - el.x) <= tuning.listXVariance && yGap <= elements[j - 1].height * tuning.listYGapMultiplier) {
                         items.add(next); j++
                     } else break
                 }
@@ -476,9 +475,9 @@ object DeterministicMarkdownConverter {
                     val isContinuation = !hasBulletOrNumberedPrefix(next.text.trim()) &&
                                          next.font == el.font &&
                                          next.x > el.x &&
-                                         yGap <= elements[j - 1].height * 2
+                                         yGap <= elements[j - 1].height * tuning.listContinuationYGapMultiplier
                     val isNextItem = hasBulletOrNumberedPrefix(next.text.trim()) &&
-                                     yGap <= elements[j - 1].height * 4
+                                     yGap <= elements[j - 1].height * tuning.bulletListYGapMultiplier
                     if (isNextItem || isContinuation) {
                         items.add(next); j++
                     } else break
@@ -507,10 +506,10 @@ object DeterministicMarkdownConverter {
                     val next = elements[j]
                     val sz   = fontSizeToCssKeyword(next.fontSize, modeFontSize)
                     val yGap = next.y - (epLines.last().y + epLines.last().height)
-                    // Allow up to 3× line height gap and accept both sizes (last line may differ slightly)
+                    // Allow configurable gap multiplier and accept both sizes (last line may differ slightly)
                     if ((next.font == "italic" || next.font == "bold-italic") &&
                         (isSmallSize(sz) || sz == "medium") &&
-                        yGap <= epLines.last().height * 3) {
+                        yGap <= epLines.last().height * tuning.epigraphYGapMultiplier) {
                         epLines.add(next); j++
                     } else break
                 }
@@ -523,8 +522,8 @@ object DeterministicMarkdownConverter {
                         val yGap = next.y - (epLines.last().y + epLines.last().height)
                         if ((next.font == "normal" || next.font == "italic") &&
                             (isSmallSize(sz) || sz == "medium") &&
-                            next.text.trim().length < 70 &&
-                            yGap <= epLines.last().height * 4) {
+                            next.text.trim().length < tuning.epigraphAttributionMaxLength &&
+                            yGap <= epLines.last().height * tuning.epigraphAttributionYGapMultiplier) {
                             attribution = next; j++
                         }
                     }
@@ -541,15 +540,15 @@ object DeterministicMarkdownConverter {
                 val next       = elements[j]
                 val prevEl     = paraLines.last()
                 val yGap       = next.y - (prevEl.y + prevEl.height)
-                val maxGap     = prevEl.height * 2
+                val maxGap     = prevEl.height * tuning.paragraphMaxYGapMultiplier
                 val nextMono   = next.font.endsWith("-mono")
-                val nextHead   = detectHeadingLevel(next, modeFontSize, false, titleUsed, null) > 0
+                val nextHead   = detectHeadingLevel(next, modeFontSize, false, titleUsed, null, tuning.headingMediumMinRatio) > 0
                 val nextAdv    = ADVISORY_REGEX.containsMatchIn(next.text.trim()) &&
                                  (next.font.contains("bold") || next.font.contains("italic"))
                 // Prevent merging elements from different layout zones (e.g. separate columns
                 // or a diagram's time column vs. its description column).  Genuine paragraph
                 // continuation lines wrap at (nearly) the same left margin as the first line.
-                val nextXFar   = abs(next.x - el.x) > 150
+                val nextXFar   = abs(next.x - el.x) > tuning.paragraphMaxXDistance
                 if (next.font == el.font && yGap <= maxGap &&
                     !nextMono && !nextHead && !nextAdv && !nextXFar) {
                     paraLines.add(next); j++
@@ -569,7 +568,8 @@ object DeterministicMarkdownConverter {
         modeFontSize: Int,
         isFirstPage: Boolean,
         titleUsed: Boolean,
-        titleCandidateFontSize: Int? = null
+        titleCandidateFontSize: Int? = null,
+        headingMediumMinRatio: Double = 1.05,
     ): Int {
         val text = el.text.trim()
         if (text.isBlank() || text.length > 200) return 0
@@ -607,8 +607,8 @@ object DeterministicMarkdownConverter {
         if (isBold && size == "large") return 4
 
         // (7) H5: Bold + "medium" when distinctly larger than body text
-        // Require ratio > 1.05 to avoid catching same-size bold emphasis
-        if (isBold && size == "medium" && el.fontSize > modeFontSize * 1.05) return 5
+        // Uses configurable ratio to avoid catching same-size bold emphasis
+        if (isBold && size == "medium" && el.fontSize > modeFontSize * headingMediumMinRatio) return 5
 
         return 0
     }
@@ -703,10 +703,11 @@ object DeterministicMarkdownConverter {
         elements: List<TextElement>,
         options: ConversionOptions = ConversionOptions.READABLE,
     ): List<TableRegion> {
-        if (elements.size < 6) return emptyList()
+        val tuning = options.ruleTuning
+        if (elements.size < tuning.columnDetectionMinElements) return emptyList()
 
-        val yRows = groupByYRows(elements, tolerance = 12)
-        if (yRows.size < 3) return emptyList()
+        val yRows = groupByYRows(elements, tolerance = tuning.tableRowTolerance)
+        if (yRows.size < tuning.tableMinRows) return emptyList()
 
         val result   = mutableListOf<TableRegion>()
         var runStart = -1
@@ -714,12 +715,12 @@ object DeterministicMarkdownConverter {
         fun flushRun(endExclusive: Int) {
             if (runStart < 0) return
             val runRows = yRows.subList(runStart, endExclusive)
-            if (runRows.size >= 3) buildTableRegion(runRows, options)?.let { result.add(it) }
+            if (runRows.size >= tuning.tableMinRows) buildTableRegion(runRows, options)?.let { result.add(it) }
             runStart = -1
         }
 
         for ((idx, row) in yRows.withIndex()) {
-            val cols       = countXClusters(row, minGap = 30)
+            val cols       = countXClusters(row, minGap = tuning.tableMinColumnGap)
             val shortCells = row.all { it.text.trim().length <= 80 }
             // A single bold/bold-italic element inside an active run is treated as a
             // section-header divider (e.g. "Bond Market" spanning a multi-section table).
@@ -772,13 +773,14 @@ object DeterministicMarkdownConverter {
         yRows: List<List<TextElement>>,
         options: ConversionOptions = ConversionOptions.READABLE,
     ): TableRegion? {
+        val tuning = options.ruleTuning
         val allElements = yRows.flatten()
 
         // Collect all distinct x-starts and cluster them into column start positions
         val xSorted = allElements.map { it.x }.distinct().sorted()
         val colStarts = mutableListOf(xSorted.first())
         for (k in 1 until xSorted.size) {
-            if (xSorted[k] - xSorted[k - 1] > 30) colStarts.add(xSorted[k])
+            if (xSorted[k] - xSorted[k - 1] > tuning.tableMinColumnGap) colStarts.add(xSorted[k])
         }
         val colCount = colStarts.size
         if (colCount < 2) return null
