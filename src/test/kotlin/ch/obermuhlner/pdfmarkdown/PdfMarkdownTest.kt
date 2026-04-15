@@ -1,8 +1,12 @@
 package ch.obermuhlner.pdfmarkdown
 
+import org.junit.jupiter.api.io.TempDir
+import java.io.File
+import java.nio.file.Path
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class PdfMarkdownTest {
 
@@ -81,5 +85,48 @@ class PdfMarkdownTest {
         val page2 = listOf(el, TextElement(x = 10, y = 100, endX = 200, height = 12, fontSize = 12, font = "normal", text = "Content 2"))
         val repeated = detectRepeatedElements(listOf(page1, page2), minPages = 2)
         assertEquals(setOf(Triple(10, 10, "Header")), repeated)
+    }
+
+    @Test
+    fun `toImages renders correct number of pages`(@TempDir tempDir: Path) {
+        val pdfFile = File("src/test/resources/trading-guide.pdf")
+        if (!pdfFile.exists()) return
+
+        val images = PdfMarkdown.toImages(pdfFile, maxPages = 3, dpi = 72)
+        assertEquals(3, images.size)
+        images.forEach { image ->
+            assertTrue(image.width > 0)
+            assertTrue(image.height > 0)
+        }
+    }
+
+    @Test
+    fun `toImageFiles creates PNG files`(@TempDir tempDir: Path) {
+        val pdfFile = File("src/test/resources/trading-guide.pdf")
+        if (!pdfFile.exists()) return
+
+        val outputDir = tempDir.toFile()
+        val files = PdfMarkdown.toImageFiles(pdfFile, maxPages = 2, outputDir = outputDir, dpi = 72)
+
+        assertEquals(2, files.size)
+        assertTrue(files[0].name.lowercase().endsWith(".png"))
+        assertTrue(files[1].name.lowercase().endsWith(".png"))
+        assertTrue(files[0].exists())
+        assertTrue(files[1].exists())
+        assertTrue(files[0].length() > 0)
+        assertTrue(files[1].length() > 0)
+    }
+
+    @Test
+    fun `toImageFiles names files with pdf filename prefix`(@TempDir tempDir: Path) {
+        val pdfFile = File("src/test/resources/trading-guide.pdf")
+        if (!pdfFile.exists()) return
+
+        val outputDir = tempDir.toFile()
+        val files = PdfMarkdown.toImageFiles(pdfFile, maxPages = 3, outputDir = outputDir, dpi = 72)
+
+        assertEquals("trading-guide_page_001", files[0].nameWithoutExtension)
+        assertEquals("trading-guide_page_002", files[1].nameWithoutExtension)
+        assertEquals("trading-guide_page_003", files[2].nameWithoutExtension)
     }
 }

@@ -12,13 +12,34 @@ import com.github.ajalt.clikt.parameters.types.int
 import java.io.File
 
 fun main(args: Array<String>) = PdfMarkdownCli()
-    .subcommands(XmlCommand(), MarkdownCommand())
+    .subcommands(XmlCommand(), MarkdownCommand(), ImagesCommand())
     .main(args)
 
 class PdfMarkdownCli : CliktCommand(
     name = "pdf-markdown",
     invokeWithoutSubcommand = false,
-    help = "Convert PDF files to Markdown or intermediate XML.",
+    help = """Convert PDF files to Markdown, XML, or images.
+
+Subcommands:
+
+  markdown <input.pdf> [output.md] [options]
+    Convert PDF to Markdown using deterministic rule-based conversion.
+    Default mode is 'readable' (human-friendly). Use 'rag' for RAG pipelines.
+
+  xml <input.pdf> [output.xml] [options]
+    Convert PDF to intermediate positional XML format for LLM processing.
+
+  images <input.pdf> [options]
+    Convert PDF pages to PNG images.
+    Default output directory is the current working directory.
+    Default DPI is 72. Images are named: {pdfname}_page_001.png
+
+Options:
+
+  --max-pages N  Limit number of pages to process (all pages by default)
+  --mode         For markdown: 'readable' (default) or 'rag'
+  --dpi N        For images: resolution in dots per inch (default: 72)
+""",
 ) {
     override fun run() = Unit
 }
@@ -53,6 +74,23 @@ class MarkdownCommand : CliktCommand(
         val options = if (mode == "rag") ConversionOptions.RAG else ConversionOptions.READABLE
         val markdown = PdfMarkdown.toMarkdown(inputFile, maxPages ?: Int.MAX_VALUE, options)
         write(markdown, outputFile)
+    }
+}
+
+class ImagesCommand : CliktCommand(
+    name = "images",
+    help = "Convert PDF pages to PNG images.",
+) {
+    private val inputFile: File by argument(help = "Input PDF file").file(mustExist = true, canBeDir = false)
+    private val outputDir: File? by option("--output-dir", help = "Output directory (default: current directory)").file(canBeDir = true)
+    private val maxPages: Int? by option("--max-pages", help = "Maximum number of pages to process").int()
+    private val dpi: Int by option("--dpi", help = "Resolution in dots per inch (default: 72)").int().default(72)
+
+    override fun run() {
+        val effectiveOutputDir = outputDir ?: File(".")
+        effectiveOutputDir.mkdirs()
+        val files = PdfMarkdown.toImageFiles(inputFile, maxPages ?: Int.MAX_VALUE, effectiveOutputDir, dpi)
+        echo("Created ${files.size} image(s) in ${effectiveOutputDir.absolutePath}")
     }
 }
 

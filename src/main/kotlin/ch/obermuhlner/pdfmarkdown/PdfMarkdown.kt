@@ -1,6 +1,7 @@
 package ch.obermuhlner.pdfmarkdown
 
 import org.apache.pdfbox.Loader
+import java.awt.image.BufferedImage
 import java.io.File
 
 /**
@@ -38,6 +39,29 @@ object PdfMarkdown {
      */
     fun toXml(file: File, maxPages: Int = Int.MAX_VALUE): String =
         convertPdfToXml(file, maxPages)
+
+    /**
+     * Renders each page of [file] as a [BufferedImage].
+     *
+     * @param file      Input PDF file.
+     * @param maxPages  Maximum number of pages to process (default: all pages).
+     * @param dpi       Resolution in dots per inch (default: 72).
+     * @return          List of images, one per page.
+     */
+    fun toImages(file: File, maxPages: Int = Int.MAX_VALUE, dpi: Int = 72): List<BufferedImage> =
+        PdfImageConverter.renderAllPages(file, maxPages, dpi)
+
+    /**
+     * Renders each page of [file] as a PNG image file.
+     *
+     * @param file       Input PDF file.
+     * @param maxPages   Maximum number of pages to process (default: all pages).
+     * @param outputDir  Directory to write image files.
+     * @param dpi        Resolution in dots per inch (default: 72).
+     * @return           List of created image files with names `page_001.png`, `page_002.png`, etc.
+     */
+    fun toImageFiles(file: File, maxPages: Int = Int.MAX_VALUE, outputDir: File, dpi: Int = 72): List<File> =
+        PdfImageConverter.writePageImages(file, outputDir, maxPages, dpi)
 }
 
 // ─── Internal helpers ─────────────────────────────────────────────────────────
