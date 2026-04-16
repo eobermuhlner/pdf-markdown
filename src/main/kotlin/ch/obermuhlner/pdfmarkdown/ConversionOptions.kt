@@ -294,6 +294,22 @@ data class RuleTuning(
      * Default: 2.0
      */
     val codeYGapMultiplier: Double = 2.0,
+
+    // ─── Pattern-based detection ───────────────────────────────────────────────
+
+    /**
+     * Characters that indicate bullet list items.
+     * Each character followed by optional whitespace forms a bullet prefix.
+     * Default: "•■*□·-" (bullet characters plus dash)
+     */
+    val bulletPrefixChars: String = "•■*□·-",
+
+    /**
+     * Labels that indicate advisory callouts.
+     * Each label followed by ": " forms an advisory prefix.
+     * Default: "Note|Warning|Tip|Important|Caution|Remark"
+     */
+    val advisoryLabels: String = "Note|Warning|Tip|Important|Caution|Remark",
 ) {
     /**
      * Creates a copy with overridden values from a map.
@@ -335,6 +351,8 @@ data class RuleTuning(
                     "dropInitialYDistanceFraction" -> result.copy(dropInitialYDistanceFraction = value.toString().toDoubleOrNull() ?: result.dropInitialYDistanceFraction)
                     "dropInitialXDistanceMultiplier" -> result.copy(dropInitialXDistanceMultiplier = value.toString().toDoubleOrNull() ?: result.dropInitialXDistanceMultiplier)
                     "codeYGapMultiplier" -> result.copy(codeYGapMultiplier = value.toString().toDoubleOrNull() ?: result.codeYGapMultiplier)
+                    "bulletPrefixChars" -> result.copy(bulletPrefixChars = value.toString())
+                    "advisoryLabels" -> result.copy(advisoryLabels = value.toString())
                     else -> result
                 }
             }

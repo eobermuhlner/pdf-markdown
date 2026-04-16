@@ -184,6 +184,10 @@ ruleTuning:
   epigraphYGapMultiplier: 3.0      # Max gap between epigraph lines
   epigraphAttributionYGapMultiplier: 4.0 # Max gap to attribution
   epigraphAttributionMaxLength: 70  # Max attribution line length
+
+  # Pattern-based detection
+  bulletPrefixChars: "•■*□·-"    # Characters that indicate bullet list items
+  advisoryLabels: "Note|Warning|Tip|Important|Caution|Remark"  # Labels for advisory callouts
 ```
 
 ### Configuration Precedence

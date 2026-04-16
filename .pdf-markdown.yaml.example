@@ -59,3 +59,7 @@ ruleTuning:
 
   # Code block detection
   codeYGapMultiplier: 2.0        # Max gap between consecutive code lines
+
+  # Pattern-based detection
+  bulletPrefixChars: "•■*□·-"    # Characters that indicate bullet list items
+  advisoryLabels: "Note|Warning|Tip|Important|Caution|Remark"  # Labels for advisory callouts

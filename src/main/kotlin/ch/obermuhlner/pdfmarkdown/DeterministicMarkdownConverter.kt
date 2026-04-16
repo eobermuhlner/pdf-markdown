@@ -26,7 +26,36 @@ import kotlin.math.abs
  */
 object DeterministicMarkdownConverter {
 
-    // ─── Regex constants ──────────────────────────────────────────────────────
+    // ─── Compiled patterns (created from RuleTuning) ───────────────────────────
+
+    /**
+     * Compiled patterns derived from RuleTuning.
+     * Created once per conversion run.
+     */
+    data class CompiledPatterns(
+        val bulletPrefixRegex: Regex,
+        val advisoryRegex: Regex,
+    )
+
+    /**
+     * Creates CompiledPatterns from RuleTuning values.
+     */
+    private fun compilePatterns(tuning: RuleTuning): CompiledPatterns {
+        val bulletChars = tuning.bulletPrefixChars.map { 
+            if (it == '-') "-"
+            else Regex.escape(it.toString()) 
+        }.joinToString("")
+        val bulletRegex = Regex("""^[$bulletChars]\s""")
+
+        val advisoryRegex = Regex(
+            """^(${tuning.advisoryLabels}):\s*""",
+            RegexOption.IGNORE_CASE
+        )
+
+        return CompiledPatterns(bulletRegex, advisoryRegex)
+    }
+
+    // ─── Regex constants (defaults) ──────────────────────────────────────────────
 
     /** Isolated page-number strings with no body content. */
     private val PAGE_NUMBER_REGEX = Regex(
@@ -40,12 +69,12 @@ object DeterministicMarkdownConverter {
     )
 
     /** Bullet-marker prefix: •, ■, -, *, □, · followed by a space. */
-    private val BULLET_PREFIX_REGEX   = Regex("""^[•■\*□·]\s|^-\s""")
+    private val DEFAULT_BULLET_PREFIX_REGEX = Regex("""^[•■\*□·]\s|^-\s""")
 
     /** Numbered/lettered item prefix: "1. ", "2) ", "a. " etc. */
     private val NUMBERED_PREFIX_REGEX = Regex("""^\d+[.)]\s|^[a-z][.)]\s""")
 
-    private val ADVISORY_REGEX = Regex(
+    private val DEFAULT_ADVISORY_REGEX = Regex(
         """^(Note|Warning|Tip|Important|Caution|Remark):\s*""",
         RegexOption.IGNORE_CASE
     )
@@ -151,6 +180,7 @@ object DeterministicMarkdownConverter {
         // On the first page the title candidate is the element with the largest font size
         // (only if it exceeds the body-text size by the configured ratio).
         val tuning = options.ruleTuning
+        val patterns = compilePatterns(tuning)
         val titleCandidateFontSize: Int? = if (isFirstPage && !titleAlreadyUsed) {
             visible.maxByOrNull { it.fontSize }?.fontSize
                 ?.takeIf { it > modeFontSize * tuning.titleMinRatio }
@@ -175,11 +205,11 @@ object DeterministicMarkdownConverter {
             }.toSet()
             val prose = withInitials.filter { it !in inTable }
 
-            val blocks = buildBlocks(prose, bodyMargin, modeFontSize, isFirstPage, titleUsed, titleCandidateFontSize, options)
+            val blocks = buildBlocks(prose, bodyMargin, modeFontSize, isFirstPage, titleUsed, titleCandidateFontSize, options, patterns)
 
             for (block in blocks) {
                 if (block is Block.Heading && block.level == 1) titleUsed = true
-                val rendered = renderBlock(block, options)
+                val rendered = renderBlock(block, options, patterns)
                 if (rendered.isNotEmpty()) chunks.add(Chunk(block.minY, rendered))
             }
             for (tr in tableRegions) {
@@ -373,11 +403,14 @@ object DeterministicMarkdownConverter {
         initialTitleUsed: Boolean,
         titleCandidateFontSize: Int? = null,
         options: ConversionOptions = ConversionOptions.READABLE,
+        patterns: CompiledPatterns,
     ): List<Block> {
         val blocks    = mutableListOf<Block>()
         var i         = 0
         var titleUsed = initialTitleUsed
         val tuning    = options.ruleTuning
+        val bulletRegex = patterns.bulletPrefixRegex
+        val advisoryRegex = patterns.advisoryRegex
 
         while (i < elements.size) {
             val el   = elements[i]
@@ -432,7 +465,7 @@ object DeterministicMarkdownConverter {
             }
 
             // ── Advisory callout ────────────────────────────────────────────
-            val advMatch = ADVISORY_REGEX.find(text)
+            val advMatch = advisoryRegex.find(text)
             if (advMatch != null && (el.font.contains("bold") || el.font.contains("italic"))) {
                 val label = advMatch.groupValues[1].replaceFirstChar { it.uppercase() }
                 val rest  = text.removePrefix(advMatch.value)
@@ -464,7 +497,7 @@ object DeterministicMarkdownConverter {
             }
 
             // ── Bullet / numbered list items (by text-content marker) ────────
-            if (hasBulletOrNumberedPrefix(text)) {
+            if (hasBulletOrNumberedPrefix(text, bulletRegex)) {
                 val items = mutableListOf(el)
                 var j = i + 1
                 while (j < elements.size) {
@@ -472,11 +505,11 @@ object DeterministicMarkdownConverter {
                     val yGap = next.y - (elements[j - 1].y + elements[j - 1].height)
                     // Continue list if next line also has a bullet/number prefix OR
                     // it continues the current item at a deeper x-indent with the same font
-                    val isContinuation = !hasBulletOrNumberedPrefix(next.text.trim()) &&
+                    val isContinuation = !hasBulletOrNumberedPrefix(next.text.trim(), bulletRegex) &&
                                          next.font == el.font &&
                                          next.x > el.x &&
                                          yGap <= elements[j - 1].height * tuning.listContinuationYGapMultiplier
-                    val isNextItem = hasBulletOrNumberedPrefix(next.text.trim()) &&
+                    val isNextItem = hasBulletOrNumberedPrefix(next.text.trim(), bulletRegex) &&
                                      yGap <= elements[j - 1].height * tuning.bulletListYGapMultiplier
                     if (isNextItem || isContinuation) {
                         items.add(next); j++
@@ -543,7 +576,7 @@ object DeterministicMarkdownConverter {
                 val maxGap     = prevEl.height * tuning.paragraphMaxYGapMultiplier
                 val nextMono   = next.font.endsWith("-mono")
                 val nextHead   = detectHeadingLevel(next, modeFontSize, false, titleUsed, null, tuning.headingMediumMinRatio) > 0
-                val nextAdv    = ADVISORY_REGEX.containsMatchIn(next.text.trim()) &&
+                val nextAdv    = advisoryRegex.containsMatchIn(next.text.trim()) &&
                                  (next.font.contains("bold") || next.font.contains("italic"))
                 // Prevent merging elements from different layout zones (e.g. separate columns
                 // or a diagram's time column vs. its description column).  Genuine paragraph
@@ -615,26 +648,26 @@ object DeterministicMarkdownConverter {
 
     private fun isSmallSize(size: String) = size in setOf("x-small", "small")
 
-    private fun hasBulletOrNumberedPrefix(text: String): Boolean =
-        BULLET_PREFIX_REGEX.containsMatchIn(text) || NUMBERED_PREFIX_REGEX.containsMatchIn(text)
+    private fun hasBulletOrNumberedPrefix(text: String, bulletRegex: Regex = DEFAULT_BULLET_PREFIX_REGEX): Boolean =
+        bulletRegex.containsMatchIn(text) || NUMBERED_PREFIX_REGEX.containsMatchIn(text)
 
     /**
      * Removes a leading bullet character from [text], if present.
      * Numbered prefixes (1., 2), a.) are left intact — the number carries meaning.
      */
-    private fun stripBulletPrefix(text: String): String {
-        val m = BULLET_PREFIX_REGEX.find(text) ?: return text
+    private fun stripBulletPrefix(text: String, bulletRegex: Regex = DEFAULT_BULLET_PREFIX_REGEX): String {
+        val m = bulletRegex.find(text) ?: return text
         return text.removePrefix(m.value).trimStart()
     }
 
     // ─── Block rendering ──────────────────────────────────────────────────────
 
-    private fun renderBlock(block: Block, options: ConversionOptions = ConversionOptions.READABLE): String = when (block) {
+    private fun renderBlock(block: Block, options: ConversionOptions = ConversionOptions.READABLE, patterns: CompiledPatterns? = null): String = when (block) {
         is Block.Heading -> "#".repeat(block.level) + " " + block.text
 
         is Block.Paragraph -> renderParagraph(block.lines, options)
 
-        is Block.ListItems -> block.items.joinToString("\n") { "- " + stripBulletPrefix(it.text.trim()) }
+        is Block.ListItems -> block.items.joinToString("\n") { "- " + stripBulletPrefix(it.text.trim(), patterns?.bulletPrefixRegex ?: DEFAULT_BULLET_PREFIX_REGEX) }
 
         is Block.CodeBlock -> buildString {
             appendLine("```")

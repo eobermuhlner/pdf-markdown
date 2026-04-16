@@ -69,6 +69,30 @@ class RuleTuningTest {
         assertEquals(25, modified.listMinIndent)
         assertEquals(6, modified.columnMinSizeAbsolute)
     }
+
+    @Test fun `default bullet prefix chars include common bullet characters`() {
+        val tuning = RuleTuning()
+        assertEquals("•■*□·-", tuning.bulletPrefixChars)
+    }
+
+    @Test fun `default advisory labels include common callout types`() {
+        val tuning = RuleTuning()
+        assertEquals("Note|Warning|Tip|Important|Caution|Remark", tuning.advisoryLabels)
+    }
+
+    @Test fun `withOverrides applies custom bullet prefix chars`() {
+        val tuning = RuleTuning()
+        val modified = tuning.withOverrides(mapOf("bulletPrefixChars" to "►▶➤"))
+
+        assertEquals("►▶➤", modified.bulletPrefixChars)
+    }
+
+    @Test fun `withOverrides applies custom advisory labels`() {
+        val tuning = RuleTuning()
+        val modified = tuning.withOverrides(mapOf("advisoryLabels" to "Info|Error|Debug"))
+
+        assertEquals("Info|Error|Debug", modified.advisoryLabels)
+    }
 }
 
 class ConversionOptionsTest {
