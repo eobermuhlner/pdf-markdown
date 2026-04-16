@@ -250,480 +250,242 @@ valid as of 22 June 2020
 
 **11|40**
 
-| Product Guide Equity Market Clearing & Off Order | 09:00 - 17:30 CET Trading Interruptions |  | Mid-/Small-Cap Shares 09:00 - 17:30 CET Trading Hours Trading Hours |  | Blue Chip Shares | Sparks Shares 09:00 - 17:30 CET |  | valid as of 01 July 2024 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Settlem ent C&S Segment Code Book Trade Reporting | Yes BCCS - Shares Blue Chips (cleared by all CCPs) |  | Yes MSCS - Mid-/Small-Cap Shares (cleared by all CCPs) |  |  | Yes SMCS - Sparks Shares (cleared by all CCPs) |  |  |
-| Regulatory Standard | International Reporting Standard |  | International Reporting Standard, Swiss Reporting Standard, Standard for Investment Companies, Standard for Real Estate Companies, |  |  | Standard Sparks |  |  |
-| Market Model | Central Limit Order Book (CLOB) |  | Standard for Depository Receipts, Standard for SPACs Central Limit Order Book (CLOB) |  |  | Central Limit Order Book (CLOB) |  |  |
-| Order Types Self-Match Prevention | Normal, Iceberg , Block, Retail and AVD Orders Yes |  | Normal, Iceberg, Block, Retail and AVD Orders Yes |  |  | Normal, Iceberg, Block, Retail and AVD Orders Yes |  |  |
-| Sponsored Access | Yes |  | Yes |  |  | Yes |  |  |
-| Continuous Trading Closing Auction | 09:00 - 17:20 CET 17:20 - 17:30 CET |  | 09:00 - 17:20 CET 17:20 - 17:30 CET |  |  | 09:00 - 17:20 CET 17:20 - 17:30 CET |  |  |
-| Randomized Opening 2 minutes Randomized Closing | 2 minutes | 09:00 - 09:02 CET 17:30 - 17:32 CET | 2 minutes 2 minutes | 09:00 - 09:02 CET 17:30 - 17:32 CET |  | 2 minutes 2 minutes | 09:00 – 09.02 CET 17:30 - 17:32 CET |  |
-| Price Collar Trading-At-Last | Start: 17:30 - 17:32 CET End: 17:40 CET |  | Start: 17:30 - 17:32 CET | End: 17:40 CET |  | Start: 17:30 - 17:32 CET | End: 17:40 CET |  |
+## Product Guide Equity Market
 
-**Maximum Order Value CHF 100'000'000 or the equivalent amount in foreign trading ccy CHF 50'000'000 or the equivalent amount in foreign trading ccy**
+valid as of 01 July 2024
 
-**CHF 10'000'000 or the equivalent amount in foreign trading ccy**
-
-**Minimum Iceberg Order Value CHF 10'000 or the equivalent amount in foreign trading currency CHF 10'000 or the equivalent amount in foreign trading currency**
-
-**CHF 10'000 or the equivalent amount in foreign trading currency**
-
-| Price Steps | Please refer to Tick Size MiFIDII Tick Size Table in the Tick Size page of this Trading Guide | Please refer to Tick Size MiFIDII Tick Size Table in the Tick Size page of this Trading Guide | Please refer to Tick Size MiFIDII Tick Size Table in the Tick Size page of this Trading Guide |
+| | Blue Chip Shares | Mid-/Small-Cap Shares | Sparks Shares |
 | --- | --- | --- | --- |
-| Delayed Opening | Interruption of 5 minutes, if if the calculated auction price deviates by 5.00% or more from the reference price or if not all | Interruption of the below mentioned stop trading duration, if the calculated auction price deviates by the below mentioned stop | Interruption of 15 minutes, if the calculated auction price deviates by 5.00% or more from the reference price or if not all unlimited orders |
-|  | unlimited orders can be executed. | trading range or more from the reference price or if not all unlimited orders can be executed. | can be executed. |
-| Stop Trading Continuous Trading | Interruption of 5 minutes, if potential follow up price deviates by 1.50% or more from the reference price. | Interruption of 15 minutes, if potential follow up price deviates by 2.00% or more from the reference price. | Interruption of 15 minutes, if potential follow up price deviates by 5.00% or more from the reference price. |
+| **Regulatory Standard** | International Reporting Standard | International Reporting Standard, Swiss Reporting Standard, Standard for Investment Companies, Standard for Real Estate Companies, Standard for Depository Receipts, Standard for SPACs | Standard Sparks |
+| **Market Model** | Central Limit Order Book (CLOB) | Central Limit Order Book (CLOB) | Central Limit Order Book (CLOB) |
+| **Order Types** | Normal, Iceberg, Block, Retail and AVD Orders | Normal, Iceberg, Block, Retail and AVD Orders | Normal, Iceberg, Block, Retail and AVD Orders |
+| **Self-Match Prevention** | Yes | Yes | Yes |
+| **Sponsored Access** | Yes | Yes | Yes |
+| **Trading Hours** | 09:00 – 17:30 CET | 09:00 – 17:30 CET | 09:00 – 17:30 CET |
+| **Continuous Trading** | 09:00 – 17:20 CET | 09:00 – 17:20 CET | 09:00 – 17:20 CET |
+| **Closing Auction** | 17:20 – 17:30 CET | 17:20 – 17:30 CET | 17:20 – 17:30 CET |
+| **Randomized Opening** | 2 minutes (09:00 – 09:02 CET) | 2 minutes (09:00 – 09:02 CET) | 2 minutes (09:00 – 09:02 CET) |
+| **Randomized Closing** | 2 minutes (17:30 – 17:32 CET) | 2 minutes (17:30 – 17:32 CET) | 2 minutes (17:30 – 17:32 CET) |
+| **Price Collar** | Start: 17:30 – 17:32 CET | Start: 17:30 – 17:32 CET | Start: 17:30 – 17:32 CET |
+| **Trading-At-Last** | End: 17:40 CET | End: 17:40 CET | End: 17:40 CET |
+| **Maximum Order Value** | CHF 100'000'000 or the equivalent amount in foreign trading ccy | CHF 50'000'000 or the equivalent amount in foreign trading ccy | CHF 10'000'000 or the equivalent amount in foreign trading ccy |
+| **Minimum Iceberg Order Value** | CHF 10'000 or the equivalent amount in foreign trading currency | CHF 10'000 or the equivalent amount in foreign trading currency | CHF 10'000 or the equivalent amount in foreign trading currency |
+| **Price Steps** | Please refer to Tick Size MiFIDII Tick Size Table in the Tick Size page of this Trading Guide | Please refer to Tick Size MiFIDII Tick Size Table in the Tick Size page of this Trading Guide | Please refer to Tick Size MiFIDII Tick Size Table in the Tick Size page of this Trading Guide |
+| **Delayed Opening** | Interruption of 5 minutes, if the calculated auction price deviates by 5.00% or more from the reference price or if not all unlimited orders can be executed. | Interruption of the below mentioned stop trading duration, if the calculated auction price deviates by the below mentioned stop trading range or more from the reference price or if not all unlimited orders can be executed. | Interruption of 15 minutes, if the calculated auction price deviates by 5.00% or more from the reference price or if not all unlimited orders can be executed. |
+| **Stop Trading Continuous Trading** | Interruption of 5 minutes, if potential follow-up price deviates by 1.50% or more from the reference price. | Interruption of 15 minutes, if potential follow-up price deviates by 2.00% or more from the reference price. SMIM Securities: Interruption of 5 minutes, if potential follow-up price deviates by 2.00% or more from the reference price. Volatile Securities: Interruption of 5 minutes, if potential follow-up price deviates by 10% or more from the reference price. | Interruption of 15 minutes, if potential follow-up price deviates by 5.00% or more from the reference price. |
+| **Avalanche Stop Trading** | Interruption if potential follow-up price deviates by more than the Stop Trading Range from the reference price within a 10 second period. Benchmark for Avalanche equal to Stop Trading Continuous Trading. | Interruption if potential follow-up price deviates by more than the Stop Trading Range from the reference price within a 10 second period. Benchmark for Avalanche equal to Stop Trading Continuous Trading. | Interruption if potential follow-up price deviates by more than the Stop Trading Range from the reference price within a 10 second period. Benchmark for Avalanche equal to Stop Trading Continuous Trading. |
+| **Delayed Closing** | Interruption of 2 minutes, if the closing price deviates by 5.00% or more from the reference price or if not all unlimited orders can be executed. | Interruption of 2 minutes, if the closing price deviates by the above mentioned stop trading range or more from the reference price or if not all unlimited orders can be executed. | Interruption of 2 minutes, if the closing price deviates by 5.00% or more from the reference price or if not all unlimited orders can be executed. |
+| **Randomized End of Trading Interruption** | 30 seconds | 30 seconds | 30 seconds |
+| **Non Opening** | Yes | Yes | Yes |
+| **Underlying Condition** | No (CLOB) | No (CLOB) | No (CLOB) |
+| **Trade Reporting** | Yes | Yes | Yes |
+| **Reporting Time** | 1 minute | 1 minute | 1 minute |
+| **Publication** | Deferred publication on request for trade reporting based on ADT | Deferred publication on request for trade reporting based on ADT | Deferred publication on request for trade reporting based on ADT |
+| **C&S Segment Code** | BCCS – Shares Blue Chips (cleared by all CCPs) | MSCS – Mid-/Small-Cap Shares (cleared by all CCPs) | SMCS – Sparks Shares (cleared by all CCPs) |
+| **Settlement Cycle** | T+2 | T+2 | T+2 |
+| **Settlement Eligible** | Yes | Yes | Yes |
+| **Clearing Eligible** | Yes | Yes | Yes |
+| **Counterparty Disclosure** | No | No | No |
 
-*SMIM Securities: Interruption of 5 minutes, if potential follow up price*
-
-deviates by 2.00 % or more from the reference price.
-
-*Volatile Securities*: Interruption of 5 minutes, if potential follow up*
-
-price deviates by 10% or more from the reference price.
-
-| Avalanche Stop Trading | Interruption if potential follow-up price deviates by more than the Stop Trading Range from the reference price within a 10 second | Interruption if potential follow-up price deviates by more than the Stop Trading Range from the reference price within a 10 second period. | Interruption if potential follow-up price deviates by more than the Stop Trading Range from the reference price within a 10 second |
-| --- | --- | --- | --- |
-|  | period. Benchmark for Avalanche equal to Stop Trading Continuous Trading. | Benchmark for Avalanche equal to Stop Trading Continuous Trading. | period. Benchmark for Avalanche equal to Stop Trading Continuous Trading. |
-| Delayed Closing | Interruption of 2 minutes, if the closing price deviates by 5.00% or more from the reference price or if not all unlimited orders can | Interruption of 2 minutes, if the closing price deviates by the above mentioned stop trading range or more from the reference price or if | Interruption of 2 minutes, if the closing price deviates by 5.00% or more from the reference price or if not all unlimited orders can be |
-| Randomized End of | be executed. 30 seconds | not all unlimited orders can be executed. 30 seconds | executed. 30 seconds |
-| Trading Interruption Non Opening | Yes | Yes | Yes |
-| Underlying Condition No (CLOB) |  | No (CLOB) | No (CLOB) |
-
-**Reporting Time 1 minute**
-
-**1 minute**
-
-**1 minute**
-
-**Publication Deferred publication on request for trade reporting based on ADT Deferred publication on request for trade reporting based on ADT**
-
-**Deferred publication on request for trade reporting based on ADT**
-
-**Settlement Cycle T+2**
-
-**T+2**
-
-**T+2**
-
-**Settlement Eligible Yes**
-
-**Yes**
-
-**Yes**
-
-**Clearing Eligible Yes**
-
-**Yes**
-
-**Yes**
-
-**Counterparty Disclosure No**
-
-**No**
-
-**No**
-
-- Substantial price movements in a security will possibly cause a change in the stop trading category. This applies for securities with a reference price smaller than CHF 10.
+\* Substantial price movements in a security will possibly cause a change in the stop trading category. This applies for securities with a reference price smaller than CHF 10.
 
 **12|40**
 
-| Product Guide Equity Market | Clearing & Off O 15:00 - 17:30 CET rd er | Trading Interruptions | 09:00 - 17:30 CET | Trading Hours Trading Hours |  | 09:00 - 17:30 CET | valid as of 15 May 2023 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-|  | Settlem ent C&S Segment Code Bo Yes MSCS - Mid-/Small-Cap Shares (cleared by all CCPs) ok Trade Reporting Global Depository Receipts |  | Yes SHNC - Shares and Funds (not cleared) Secondary Listing Shares |  |  | Yes SSNC - Sponsored Foreign Shares (not cleared) Sponsored Foreign Shares |  |
-| Regulatory Standard Market Model | Standard for Depository Receipts Central Limit Order Book (CLOB) |  | International Reporting Standard Central Limit Order Book (CLOB) |  |  | SIX Swiss Exchange Sponsored Segment Quote Driven Market (QDM) |  |
-| Order Types Self-Match Prevention | Normal, Iceberg , Block, Retail and AVD Orders Yes |  | Normal, Iceberg , Retail and AVD Orders No |  |  | Normal, Iceberg, Retail Orders and Quotes Yes |  |
-| Sponsored Access | Yes |  | Yes |  |  | No |  |
-| Continuous Trading Closing Auction | 15:00 - 17:20 CET 17:20 - 17:30 CET |  | 09:00 - 17:20 CET 17:20 - 17:30 CET |  |  | 09:00 - 17:20 CET 17:20 - 17:30 CET |  |
-| Randomized Opening 2 minutes Randomized Closing | 2 minutes | 15:00 - 15:02 CET 17:30 - 17:32 CET | 2 minutes 2 minutes |  | 09:00 - 09:02 CET 17:30 - 17:32 CET | 2 minutes 2 minutes | 09:00 - 09:02 CET 17:30 - 17:32 CET |
-| Price Collar Trading-At-Last | Start: 17:30 - 17:32 CET | End: 17:40 CET | None |  |  | None |  |
+## Product Guide Equity Market
 
-**Maximum Order Value CHF 50'000'000 or the equivalent amount in foreign trading**
+valid as of 15 May 2023
 
-CHF 10'000'000 or the equivalent amount in foreign trading currency CHF 10'000'000 or the equivalent amount in foreign trading currency
-
-currency
-
-**Minimum Iceberg Order Value CHF 10'000 or the equivalent amount in foreign trading currency CHF 10'000 or the equivalent amount in foreign trading currency**
-
-**CHF 10'000 or the equivalent amount in foreign trading currency**
-
-**Price Steps Please refer to the Tick Size page of this Trading Guide**
-
-**Please refer to the Tick Size page of this Trading Guide**
-
-**Please refer to the Tick Size page of this Trading Guide**
-
-| Delayed Opening | Interruption of 15 minutes, if the calculated auction price deviates by 2.00% or more from the reference price or if not all | Interruption of 5 minutes, if the calculated auction price deviates by the below mentioned stop trading range or more from the | Interruption of 5 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be |
+| | Global Depository Receipts | Secondary Listing Shares | Sponsored Foreign Shares |
 | --- | --- | --- | --- |
-| Stop Trading | unlimited orders can be executed. Interruption of 15 minutes, if potential follow up price deviates by | reference price or if not all unlimited orders can be executed. Interruption of 5 minutes, if potential follow up price deviates by | executed. Interruption for a 5 minutes period if a trade between orders can be |
-| Continuous Trading | 2.00% or more from the reference price. | 2.00% or more from the reference price.* Volatile Securities*: Interruption of 5 minutes, if potential follow up | executed but no quote is in the order book. The stop trading duration can be interrupted as soon as quotes are |
-| Avalanche | Interruption if potential follow-up price deviates by more than the | price deviates by 10% or more from the reference price. Interruption if potential follow-up price deviates by more than the Stop | posted. No Stop Trading |
-| Stop Trading | Stop Trading Range from the reference price within a 10 second period | Trading Range from the reference price within a 10 second period Benchmark for Avalanche equal to Stop Trading Continuous Trading |  |
+| **Regulatory Standard** | Standard for Depository Receipts | International Reporting Standard | SIX Swiss Exchange Sponsored Segment |
+| **Market Model** | Central Limit Order Book (CLOB) | Central Limit Order Book (CLOB) | Quote Driven Market (QDM) |
+| **Order Types** | Normal, Iceberg, Block, Retail and AVD Orders | Normal, Iceberg, Retail and AVD Orders | Normal, Iceberg, Retail Orders and Quotes |
+| **Self-Match Prevention** | Yes | No | Yes |
+| **Sponsored Access** | Yes | Yes | No |
+| **Trading Hours** | 15:00 – 17:30 CET | 09:00 – 17:30 CET | 09:00 – 17:30 CET |
+| **Continuous Trading** | 15:00 – 17:20 CET | 09:00 – 17:20 CET | 09:00 – 17:20 CET |
+| **Closing Auction** | 17:20 – 17:30 CET | 17:20 – 17:30 CET | 17:20 – 17:30 CET |
+| **Randomized Opening** | 2 minutes (15:00 – 15:02 CET) | 2 minutes (09:00 – 09:02 CET) | 2 minutes (09:00 – 09:02 CET) |
+| **Randomized Closing** | 2 minutes (17:30 – 17:32 CET) | 2 minutes (17:30 – 17:32 CET) | 2 minutes (17:30 – 17:32 CET) |
+| **Price Collar** | Start: 17:30 – 17:32 CET | None | None |
+| **Trading-At-Last** | End: 17:40 CET | | |
+| **Maximum Order Value** | CHF 50'000'000 or the equivalent amount in foreign trading currency | CHF 10'000'000 or the equivalent amount in foreign trading currency | CHF 10'000'000 or the equivalent amount in foreign trading currency |
+| **Minimum Iceberg Order Value** | CHF 10'000 or the equivalent amount in foreign trading currency | CHF 10'000 or the equivalent amount in foreign trading currency | CHF 10'000 or the equivalent amount in foreign trading currency |
+| **Price Steps** | Please refer to the Tick Size page of this Trading Guide | Please refer to the Tick Size page of this Trading Guide | Please refer to the Tick Size page of this Trading Guide |
+| **Delayed Opening** | Interruption of 15 minutes, if the calculated auction price deviates by 2.00% or more from the reference price or if not all unlimited orders can be executed. | Interruption of 5 minutes, if the calculated auction price deviates by the below mentioned stop trading range or more from the reference price or if not all unlimited orders can be executed. | Interruption of 5 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed. |
+| **Stop Trading Continuous Trading** | Interruption of 15 minutes, if potential follow-up price deviates by 2.00% or more from the reference price. | Interruption of 5 minutes, if potential follow-up price deviates by 2.00% or more from the reference price. Volatile Securities: Interruption of 5 minutes, if potential follow-up price deviates by 10% or more from the reference price. | Interruption for a 5 minutes period if a trade between orders can be executed but no quote is in the order book. The stop trading duration can be interrupted as soon as quotes are posted. |
+| **Avalanche Stop Trading** | Interruption if potential follow-up price deviates by more than the Stop Trading Range from the reference price within a 10 second period. Benchmark for Avalanche equal to Stop Trading Continuous Trading. | Interruption if potential follow-up price deviates by more than the Stop Trading Range from the reference price within a 10 second period. Benchmark for Avalanche equal to Stop Trading Continuous Trading. | No Stop Trading |
+| **Delayed Closing** | Interruption of 2 minutes, if the closing price deviates by 2.00% or more from the reference price or if not all unlimited orders can be executed. | Interruption of 2 minutes, if the closing price deviates by above mentioned stop trading range or more from the reference price or if not all unlimited orders can be executed. | Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed. |
+| **Randomized End of Trading Interruption** | 30 seconds | 30 seconds | 30 seconds |
+| **Non Opening** | Yes | Yes | Yes |
+| **Underlying Condition** | No (CLOB) | No | No |
+| **Trade Reporting** | Yes | Yes | Yes |
+| **Reporting Time** | 1 minute | 1 minute | 1 minute |
+| **Publication** | Deferred publication on request for trade reporting based on ADT | Deferred publication on request for trade reporting based on ADT | Deferred publication on request for trade reporting based on ADT |
+| **C&S Segment Code** | MSCS – Mid-/Small-Cap Shares (cleared by all CCPs) | SHNC – Shares and Funds (not cleared) | SSNC – Sponsored Foreign Shares (not cleared) |
+| **Settlement Cycle** | T+2 | T+2 | T+2 |
+| **Settlement Eligible** | Yes | Yes | Yes |
+| **Clearing Eligible** | Yes | No | No |
+| **Counterparty Disclosure** | No | Yes | Yes |
 
-Benchmark for Avalanche equal to Stop Trading Continuous Trading
-
-| Delayed Closing | Interruption of 2 minutes, if the closing price deviates by 2.00% or more from the reference price or if not all unlimited orders can | Interruption of 2 minutes, if the closing price deviates by above mentioned stop trading range or more from the reference price or if | Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be |
-| --- | --- | --- | --- |
-| Randomized End of | be executed. 30 seconds | not all unlimited orders can be executed. 30 seconds | executed. 30 seconds |
-| Trading Interruption Non Opening | Yes | Yes | Yes |
-| Underlying Condition No (CLOB) |  | No | No |
-
-**Reporting Time 1 minute**
-
-**1 minute**
-
-**1 minute**
-
-**Publication Deferred publication on request for trade reporting based on ADT Deferred publication on request for trade reporting based on ADT**
-
-**Deferred publication on request for trade reporting based on ADT**
-
-**Settlement Cycle T+2**
-
-**T+2**
-
-**T+2**
-
-**Settlement Eligible Yes**
-
-**Yes**
-
-**Yes**
-
-**Clearing Eligible Yes**
-
-**No**
-
-**No**
-
-**Counterparty Disclosure No**
-
-**Yes**
-
-**Yes**
-
-- Substantial price movements in a security will possibly cause a change in the stop trading category. This applies for securities with a reference price smaller than CHF 10.
+\* Substantial price movements in a security will possibly cause a change in the stop trading category. This applies for securities with a reference price smaller than CHF 10.
 
 **13|40**
 
-| Product Guide Equity Market | Clearing & 09:00 - 17:30 CET O ff O rder Book | Trading Interruptions | 09:15 - 17:15 CET Trading Hours Trading Hours |  | valid as of 15 May 2023 |
-| --- | --- | --- | --- | --- | --- |
-|  | Settlem ent Separate Trading Lines |  | Rights and Options |  |  |
-| Regulatory Standard | International Reporting Standard, Swiss Reporting Standard, Standard for Investment Companies |  | Standard for Derivatives |  |  |
-| Market Model Order Types | Central Limit Order Book (CLOB) Normal* and Retail* Orders |  | Central Limit Order Book (CLOB) Normal and Retail Orders |  |  |
-| Self-Match Prevention Sponsored Access | No No |  | No No |  |  |
-| Continuous Trading Closing Auction | 09:00 - 17:20 CET 17:20 - 17:30 CET |  | 09:15 - 17:15 CET None |  |  |
-| Randomized Opening 2 minutes Randomized Closing | 2 minutes | 09:00 - 09:02 CET 17:30 - 17:32 CET | 2 minutes None | 09:15 - 09:17 CET |  |
-| Price Collar Trading-At-Last | None |  | None |  |  |
-| Maximum Order Value | CHF 10'000'000 or the equivalent amount in foreign trading currency |  | CHF 10'000'000 or the equivalent amount in foreign trading currency |  |  |
-| Minimum Iceberg Order Value - Price Steps | The price steps of the primary share line are applied. |  | - Securities are allocated to price steps on the basis of the price steps |  |  |
-| Delayed Opening | No Stop Trading |  | for the corresponding underlying security. No Stop Trading |  |  |
+## Product Guide Equity Market
 
-- Stop Trading
-- Continuous Trading
+valid as of 15 May 2023 (continued)
 
-- Avalanche
-- Stop Trading
-
-| Delayed Closing Randomized End of | No | No |
+| | Separate Trading Lines | Rights and Options |
 | --- | --- | --- |
-| Trading Interruption Non Opening | Yes | Yes |
-| Underlying Condition Yes Trade Reporting | Public tender offer: Yes | Yes Yes |
-| Reporting Time | Share buyback: Off order book is not allowed Public tender offer: 1 minute | 1 minute |
-| Publication | Public tender offer: Deferred publication on request for trade reporting based on ADT | Immediate Publication |
-| C&S Segment Code | SHMA - Shares and Funds (manual) SHNC - Shares and Funds (not cleared) | RONC - Rights and Options (not cleared) |
-| Settlement Cycle Settlement Eligible | T+2 SHMA: No SHNC: Yes | 1st Trading Day: T+2, as of 2nd Trading Day: T+1 Yes |
-| Counterparty Disclosure Clearing Eligible | No Yes | No Yes |
+| **Regulatory Standard** | International Reporting Standard, Swiss Reporting Standard, Standard for Investment Companies | Standard for Derivatives |
+| **Market Model** | Central Limit Order Book (CLOB) | Central Limit Order Book (CLOB) |
+| **Order Types** | Normal\* and Retail\* Orders | Normal and Retail Orders |
+| **Self-Match Prevention** | No | No |
+| **Sponsored Access** | No | No |
+| **Trading Hours** | 09:00 – 17:30 CET | 09:15 – 17:15 CET |
+| **Continuous Trading** | 09:00 – 17:20 CET | 09:15 – 17:15 CET |
+| **Closing Auction** | 17:20 – 17:30 CET | None |
+| **Randomized Opening** | 2 minutes (09:00 – 09:02 CET) | 2 minutes (09:15 – 09:17 CET) |
+| **Randomized Closing** | 2 minutes (17:30 – 17:32 CET) | None |
+| **Price Collar** | None | None |
+| **Maximum Order Value** | CHF 10'000'000 or the equivalent amount in foreign trading currency | CHF 10'000'000 or the equivalent amount in foreign trading currency |
+| **Price Steps** | The price steps of the primary share line are applied. | Securities are allocated to price steps on the basis of the price steps for the corresponding underlying security. |
+| **Delayed Opening** | No Stop Trading | No Stop Trading |
+| **Stop Trading Continuous Trading** | No Stop Trading | No Stop Trading |
+| **Avalanche Stop Trading** | No Stop Trading | No Stop Trading |
+| **Delayed Closing** | No | No |
+| **Non Opening** | Yes | Yes |
+| **Underlying Condition** | Public tender offer: Yes | Yes |
+| **Trade Reporting** | Yes | Yes |
+| **Reporting Time** | Share buyback: Off order book is not allowed. Public tender offer: 1 minute | 1 minute |
+| **Publication** | Public tender offer: Deferred publication on request for trade reporting based on ADT | Immediate Publication |
+| **C&S Segment Code** | SHMA – Shares and Funds (manual); SHNC – Shares and Funds (not cleared) | RONC – Rights and Options (not cleared) |
+| **Settlement Cycle** | T+2 | 1st Trading Day: T+2, as of 2nd Trading Day: T+1 |
+| **Settlement Eligible** | SHMA: No; SHNC: Yes | Yes |
+| **Clearing Eligible** | Yes | Yes |
+| **Counterparty Disclosure** | No | No |
 
-- Please note that the participant responsible for the buyback of a separate trading line (type share buyback) can only submit buy orders via Ouch Trading Interface (OTI)
+\* Please note that the participant responsible for the buyback of a separate trading line (type share buyback) can only submit buy orders via Ouch Trading Interface (OTI)
 
 **14|40**
 
 ## Product Guide Bond Market
 
-|  |  | Trading Hours |  |  | valid as of 15 May 2023 |
-| --- | --- | --- | --- | --- | --- |
-|  | Bonds – CHF Swiss Pfandbriefe Standard for Bonds |  |  | Bonds – CHF Standard for Bonds, | Delisted Bonds: admitted to trading |
-|  | Central Limit Order Book (CLOB) Normal and Iceberg Orders and Quotes |  |  | Central Limit Order Book (CLOB) Normal and Iceberg Orders and Quotes |  |
-|  | No No |  |  | No No |  |
-|  | 08:30 - 17:00 CET 08:30 - 17:00 CET |  |  | 09:30 - 17:00 CET 09:30 - 17:00 CET |  |
-| 08:30 - 08:32 CET | None 2 minutes |  | 08:30 - 08:32 CET | None 2 minutes | 09:30 - 09:32 CET |
-|  | None None |  |  | None None |  |
-|  | CHF 50’000’000 CHF 10'000 |  |  | CHF 50’000’000 or the equivalent amount in foreign trading currency CHF 10'000 or the equivalent amount in foreign trading currency |  |
-|  | 0.01% independent of order price |  |  | Maturity >= 18 month 0.05% independent of order price** Maturity < 18 month | 0.01% independent of order price |
-
-**Clearing & Off Order**
-
-**Trading Interrup tio ns**
-
-**Settlem ent Book Bonds – CHF Swiss Confederation**
-
-| Regulatory Standard Market Model | Standard for Bonds Central Limit Order Book (CLOB) |
-| --- | --- |
-| Order Types Self-Match Prevention | Normal and Iceberg Orders and Quotes No |
-| Sponsored Access Trading Hours | No 08:30 - 17:00 CET |
-| Continuous Trading Closing Auction | 08:30 - 17:00 CET None |
-
-**Randomized Opening 2 minutes**
-
-**Randomized Closing None**
-
-**Trading-At-Last None**
-
-**Price Collar**
-
-**Maximum Order Value CHF 50’000’000**
-
-**Minimum Iceberg Order Value CHF 10'000**
-
-**Price Steps 0.01% independent of order price**
-
-**Delayed Opening Interruption of 15 minutes, if the calculated auction price deviates by the below mentioned stop trading range or more from the reference price**
-
-Interruption of 15 minutes, if the calculated auction price deviates by the
-
-Interruption of the below mentioned stop trading duration, if the
-
-**below mentioned stop trading range or more from the reference price or**
-
-calculated auction price deviates by the below mentioned stop trading
-
-or if not all unlimited orders can be executed.
-
-| if not all unlimited orders can be executed. | range or more from the reference price or if not all unlimited orders can be executed. |
-| --- | --- |
-| Interruption of 15 minutes, if potential follow up price deviates by 1.00% or more from the reference price.* | Interruption of 15 minutes, if potential follow up price deviates by 2.00% or more from the reference price.* |
-| Bonds with Maturity > 15 years: Interruption of 15minutes, if potential follow up price deviates by 3.00% or more from the reference price. | Bonds with Maturity > 15 years: Interruption of 15 minutes, if potential follow up price deviates by 3.00% or more from the reference price. |
-
-**Stop Trading**
-
-Interruption of 15 minutes, if potential follow up price deviates by 1.00%
-
-**Continuous Trading**
-
-or more from the reference price.*
-
-*Bond with Maturity > 15 years: Interruption of 15minutes, if potential*
-
-follow up price deviates by 3.00% or more from the reference price.
-
-*Volatile Securities and Delisted Bonds*: Interruption of 5 minutes, if potential*
-
-follow up price deviates by 10% or more from the reference price.
-
-*Convertible and Warrant Bonds: No Stop Trading*
-
-**Avalanche**
-
-Interruption if potential follow up price deviates by more than the Stop
-
-Interruption if potential follow up price deviates by more than the Stop
-
-Interruption if potential follow up price deviates by more than the Stop
-
-**Stop Trading**
-
-Trading Range from the reference price within a 10 second period. Benchmark for Avalanche equal to Stop Trading Continuous Trading.
-
-Trading Range from the reference price within a 10 second period.
-
-Trading Range from the reference price within a 10 second period.
-
-Benchmark for Avalanche equal to Stop Trading Continuous Trading.
-
-Benchmark for Avalanche equal to Stop Trading Continuous Trading.
-
-*Convertible and Warrant Bonds: No Stop Trading*
-
-**Delayed Closing No**
-
-**No**
-
-**No**
-
-**Randomized End of**
-
-30 seconds
-
-30 seconds
-
-30 seconds
-
-- Trading Interruption
-- Non Opening
-
-**Yes**
-
-**Yes**
-
-**Yes**
-
-**Underlying Condition No**
-
-**No**
-
-**No.**
-
-*Convertible and Warrant Bonds: Interruption if underlying security is in stop*
-
-trading
-
-**Trade Reporting Yes**
-
-| Yes 15 minutes | Yes 15 minutes |
-| --- | --- |
-| Deferral to T+1, 07:00 CET is possible by request if bond is illiquid or trade qualifies for Large in Scale or SSTI post-trade transparency waivers | Deferral to T+1, 07:00 CET is possible by request if bond is illiquid or trade qualifies for Large in Scale or SSTI post-trade transparency waivers |
-| BOCS - Bonds CHF (cleared by one CCP) | BOCS - Bonds CHF (cleared by one CCP) BONC - Bonds CHF (not cleared) |
-| T+2 Yes | T+2 Yes |
-| Yes Yes | Partially Yes |
-
-**Reporting Time 15 minutes**
-
-**Publication Deferral to T+1, 07:00 CET is possible by request if bond is illiquid or**
-
-trade qualifies for Large in Scale or SSTI post-trade transparency waivers
-
-**C&S Segment Code BOCS - Bonds CHF (cleared by one CCP)**
-
-**Settlement Cycle T+2**
-
-**Settlement Eligible Yes**
-
-**Clearing Eligible Yes**
-
-**Counterparty Disclosure Yes**
-
-- Substantial price movements in a security will possibly cause a change in the stop trading category. This applies for securities with a reference price smaller than 10% and Delisted Bonds.
-
-** Not applicable to Floaters and Delisted Bonds
+valid as of 15 May 2023
+
+| | Bonds – CHF Swiss Confederation | Bonds – CHF Swiss Pfandbriefe | Bonds – CHF |
+| --- | --- | --- | --- |
+| **Regulatory Standard** | Standard for Bonds | Standard for Bonds | Standard for Bonds; Delisted Bonds: admitted to trading |
+| **Market Model** | Central Limit Order Book (CLOB) | Central Limit Order Book (CLOB) | Central Limit Order Book (CLOB) |
+| **Order Types** | Normal and Iceberg Orders and Quotes | Normal and Iceberg Orders and Quotes | Normal and Iceberg Orders and Quotes |
+| **Self-Match Prevention** | No | No | No |
+| **Sponsored Access** | No | No | No |
+| **Trading Hours** | 08:30 – 17:00 CET | 08:30 – 17:00 CET | 09:30 – 17:00 CET |
+| **Continuous Trading** | 08:30 – 17:00 CET | 08:30 – 17:00 CET | 09:30 – 17:00 CET |
+| **Closing Auction** | None | None | None |
+| **Randomized Opening** | 2 minutes (08:30 – 08:32 CET) | 2 minutes (08:30 – 08:32 CET) | 2 minutes (09:30 – 09:32 CET) |
+| **Randomized Closing** | None | None | None |
+| **Price Collar** | None | None | None |
+| **Trading-At-Last** | None | None | None |
+| **Maximum Order Value** | CHF 50’000’000 | CHF 50’000’000 | CHF 50’000’000 or the equivalent amount in foreign trading currency |
+| **Minimum Iceberg Order Value** | CHF 10’000 | CHF 10’000 | CHF 10’000 or the equivalent amount in foreign trading currency |
+| **Price Steps** | 0.01% independent of order price | 0.01% independent of order price | Maturity >= 18 month: 0.05% independent of order price\*\*; Maturity < 18 month: 0.01% independent of order price |
+| **Delayed Opening** | Interruption of 15 minutes, if the calculated auction price deviates by the below mentioned stop trading range or more from the reference price or if not all unlimited orders can be executed. | Interruption of 15 minutes, if the calculated auction price deviates by the below mentioned stop trading range or more from the reference price or if not all unlimited orders can be executed. | Interruption of the below mentioned stop trading duration, if the calculated auction price deviates by the below mentioned stop trading range or more from the reference price or if not all unlimited orders can be executed. |
+| **Stop Trading Continuous Trading** | Interruption of 15 minutes, if potential follow-up price deviates by 1.00% or more from the reference price.\* Bonds with Maturity > 15 years: 3.00%. Volatile Securities and Delisted Bonds: 5 minutes if 10%. Convertible and Warrant Bonds: No Stop Trading. | Interruption of 15 minutes, if potential follow-up price deviates by 1.00% or more from the reference price.\* Bonds with Maturity > 15 years: 3.00%. | Interruption of 15 minutes, if potential follow-up price deviates by 2.00% or more from the reference price.\* Bonds with Maturity > 15 years: 3.00%. Volatile Securities and Delisted Bonds: 5 minutes if 10%. Convertible and Warrant Bonds: No Stop Trading. |
+| **Avalanche Stop Trading** | Interruption if potential follow-up price deviates by more than the Stop Trading Range from the reference price within a 10 second period. Benchmark for Avalanche equal to Stop Trading Continuous Trading. Convertible and Warrant Bonds: No Stop Trading. | Interruption if potential follow-up price deviates by more than the Stop Trading Range from the reference price within a 10 second period. Benchmark for Avalanche equal to Stop Trading Continuous Trading. | Interruption if potential follow-up price deviates by more than the Stop Trading Range from the reference price within a 10 second period. Benchmark for Avalanche equal to Stop Trading Continuous Trading. Convertible and Warrant Bonds: No Stop Trading. |
+| **Delayed Closing** | No | No | No |
+| **Randomized End of Trading Interruption** | 30 seconds | 30 seconds | 30 seconds |
+| **Non Opening** | Yes | Yes | Yes |
+| **Underlying Condition** | No | No | No. Convertible and Warrant Bonds: Interruption if underlying security is in stop trading. |
+| **Trade Reporting** | Yes | Yes | Yes |
+| **Reporting Time** | 15 minutes | 15 minutes | 15 minutes |
+| **Publication** | Deferral to T+1, 07:00 CET is possible by request if bond is illiquid or trade qualifies for Large in Scale or SSTI post-trade transparency waivers | Deferral to T+1, 07:00 CET is possible by request if bond is illiquid or trade qualifies for Large in Scale or SSTI post-trade transparency waivers | Deferral to T+1, 07:00 CET is possible by request if bond is illiquid or trade qualifies for Large in Scale or SSTI post-trade transparency waivers |
+| **C&S Segment Code** | BOCS – Bonds CHF (cleared by one CCP) | BOCS – Bonds CHF (cleared by one CCP) | BOCS – Bonds CHF (cleared by one CCP); BONC – Bonds CHF (not cleared) |
+| **Settlement Cycle** | T+2 | T+2 | T+2 |
+| **Settlement Eligible** | Yes | Yes | Yes |
+| **Clearing Eligible** | Yes | Yes | Partially |
+| **Counterparty Disclosure** | Yes | Yes | Yes |
+
+\* Substantial price movements in a security will possibly cause a change in the stop trading category. This applies for securities with a reference price smaller than 10% and Delisted Bonds.
+
+\*\* Not applicable to Floaters and Delisted Bonds
 
 **15|40**
 
 ## Product Guide Bond Market valid as of 10 June 2024
 
-**Clearing & 08:30 - 17:00 CET No Off OrderBook Reporting duty**
-
-**Trading Interruptions**
-
-**Trading Hours Trading Hours**
-
-**Settlem ent Bonds – Non CHF**
-
-| Regulatory Standard Market Model | Admitted to trading Quote Driven Market (QDM) | Standard for Bonds |
-| --- | --- | --- |
-| Order Types Self-Match Prevention | Normal Orders and Quotes No |  |
-| Sponsored Access | No |  |
-| Continuous Trading Closing Auction | 08:30 - 17:00 CET None |  |
-| Randomized Opening Randomized Closing | 2 minutes None | 08:30 - 08:32 CET |
-| Price Collar Trading-At-Last | None |  |
-| Maximum Order Value Min. Iceberg Order Value | CHF 50'000'000 in the equivalent amount of the foreign trading currency - |  |
-| Price Steps Delayed Opening | 0.01% independent of order price Interruption of 5 minutes, if a trade between orders can be executed but |  |
-
-no quote is in the order book or if not all unlimited orders can be executed.
-
-**Stop Trading**
-
-Interruption for a 5 minute period if a trade between orders can be
-
-**Continuous Trading**
-
-executed but no quote is in the order book. The stop trading duration can be interrupted as soon as quotes are posted.
-
-**Avalanche**
-
-No
-
-- Stop Trading
-- Delayed Closing
-
-**No**
-
-**Randomized End of**
-
-30 seconds
-
-| Trading Interruption Non Opening | Yes |  |
-| --- | --- | --- |
-| Underlying Condition | No | Yes |
-| Reporting Time | Bonds with a Swiss angle: Yes None | 15 minutes |
-| Publication | Bonds with a Swiss angle: 15 minutes Deferral to T+2, 7pm is possible on request if bond is illiquid or trade |  |
-
-qualifies for Large in Scale or SSTI post-trade transparency waivers
-
-**C&S Segment Code IBMA - Bonds Non CHF (manual)**
-
-| Settlement Cycle | IBNC - Bonds Non CHF (not cleared) T+2 |
+| | Bonds – Non CHF |
 | --- | --- |
-| Settlement Eligible Clearing Eligible | IBMA: No IBNC: Yes No |
-| Counterparty Disclosure | Yes |
+| **Regulatory Standard** | Standard for Bonds |
+| **Market Model** | Quote Driven Market (QDM) |
+| **Order Types** | Normal Orders and Quotes |
+| **Self-Match Prevention** | No |
+| **Sponsored Access** | No |
+| **Trading Hours** | 08:30 – 17:00 CET |
+| **Continuous Trading** | 08:30 – 17:00 CET |
+| **Closing Auction** | None |
+| **Randomized Opening** | 2 minutes (08:30 – 08:32 CET) |
+| **Randomized Closing** | None |
+| **Price Collar** | None |
+| **Trading-At-Last** | None |
+| **Maximum Order Value** | CHF 50'000'000 or the equivalent amount in foreign trading currency |
+| **Minimum Iceberg Order Value** | – |
+| **Price Steps** | 0.01% independent of order price |
+| **Delayed Opening** | Interruption of 5 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed. |
+| **Stop Trading Continuous Trading** | Interruption for a 5 minute period if a trade between orders can be executed but no quote is in the order book. The stop trading duration can be interrupted as soon as quotes are posted. |
+| **Avalanche Stop Trading** | No |
+| **Delayed Closing** | No |
+| **Randomized End of Trading Interruption** | 30 seconds |
+| **Non Opening** | Yes |
+| **Underlying Condition** | No |
+| **Trade Reporting** | Bonds with a Swiss angle: Yes |
+| **Reporting Time** | Bonds with a Swiss angle: 15 minutes |
+| **Publication** | Deferral to T+2, 7pm is possible on request if bond is illiquid or trade qualifies for Large in Scale or SSTI post-trade transparency waivers |
+| **C&S Segment Code** | IBMA – Bonds Non CHF (manual); IBNC – Bonds Non CHF (not cleared) |
+| **Settlement Cycle** | T+2 |
+| **Settlement Eligible** | IBMA: No; IBNC: Yes |
+| **Clearing Eligible** | No |
+| **Counterparty Disclosure** | Yes |
 
 **16|40**
 
-| Product Guide - Fund Market and Other Financial Products Clearing & Off Order | 09:00 - 17:30 CET Trading Interruptions |  | 09:15 - 17:35 CET Trading Hours Trading Hours |  | 09:00 - 17:35 CET | valid as of 01 January 2025 |
-| --- | --- | --- | --- | --- | --- | --- |
-| Settlem ent Book Trade Reporting | Yes Investment Funds |  | Yes Sponsored Funds |  | Yes Exchange Traded Funds (ETF) |  |
-| Regulatory Standard Market Model | Standard for Collective Investment Schemes Central Limit Order Book (CLOB) |  | SIX Swiss Exchange Sponsored Investment Funds Quote Driven Market (QDM) |  | Standard for Collective Investment Schemes Quote Driven Market (QDM) |  |
-| Order Types Self-Match Prevention | Normal, Iceberg, Block, Retail and AVD Orders Yes |  | Normal, Iceberg, Retail Ordersand Quotes Yes |  | Normal, Iceberg, Retail Orders and Quotes Yes |  |
-| Sponsored Access | Yes |  | No |  | No |  |
-| Continuous Trading Closing Auction | 09:00 - 17:20 CET 17:20 - 17:30 CET |  | 09:15 - 17:30 CET 17:30 - 17:35 CET |  | 09:00 - 17:30 CET 17:30 - 17:35 CET |  |
-| Randomized Opening Randomized Closing | 2 minutes 2 minutes | 09:00 - 09:02 CET 17:30 - 17:32 CET | 2 minutes 2 minutes | 09:15 - 09:17 CET 17:35 – 17:37 CET | 2 minutes 2 minutes | 09:00 - 09:02 CET 17:35 – 17:37 CET |
-| Price Collar Trading-At-Last | Start: 17:30 - 17:32 CET | End: 17:40 CET | None |  | None |  |
+## Product Guide - Fund Market and Other Financial Products
 
-**Maximum Order Value CHF 50'000'000 or the equivalent amount in foreign trading ccy**
+valid as of 01 January 2025
 
-**CHF 10'000'000 or the equivalent amount in foreign trading ccy**
-
-**CHF 10'000'000 or the equivalent amount in foreign trading ccy**
-
-**Minimum Iceberg Order Value CHF 10'000 or the equivalent amount in foreign trading currency**
-
-**CHF 10'000 or the equivalent amount in foreign trading currency**
-
-**CHF 10'000 or the equivalent amount in foreign trading currency**
-
-**Price Increments**
-
-The price steps laid down in Liquidity Band Cof Annex Dof the
-
-The price steps laid down in Liquidity Band Fof Annex Dof the
-
-The price steps laid down in Liquidity Band Fof Annex Dof the “Trading” Directive apply in principle. For securities with underlying asset classes
-
-**Price Steps**
-
-“Trading” Directive apply.
-
-“Trading” Directive apply in principle. The valid price steps for
-
-“money market” and “fixed income” the price steps of the price step group
-
-securities with a reference price of 100’000 or above in the relevant
-
-code EH as described in the Price Step Overview (Tick Sizes) table of this
-
-trading currency shall be 10 regardless of the order price and asset
-
-| Delayed Opening | Interruption of 2 minutes, if the calculated auction price deviates | Interruption of 2 minutes, if a trade between orders can be executed | regardless of the order price and underlying asset class. Interruption of 2 minutes, if a trade between orders can be executed |
+| | Investment Funds | Sponsored Funds | Exchange Traded Funds (ETF) |
 | --- | --- | --- | --- |
-|  |  | class. | trading guide apply. The valid price steps for securities with a reference price of 100’000 or above in the relevant trading currency shall be 10 |
-|  | by the below mentioned stop trading range or more from the reference price or if not all unlimited orders can be executed. | but no quote is in the order book or if not all unlimited orders can be executed. | but no quote is in the order book or if not all unlimited orders can be executed. |
-| Stop Trading Continuous Trading | Interruption of 15 minutes, if potential follow up price deviates by 2.00% or more from the reference price. | Interruption for a 5 minute period if a trade between orders can be executed but no quote is in the order book. | Interruption for a 5 minute period if a trade between orders can be executed but no quote is in the order book. |
-|  | Volatile Securities *: Interruption of 5 minutes, if potential follow up price deviates by 10% or more from the reference price. | The stop trading duration can be interrupted as soon as quotes are posted. | The stop trading duration can be interrupted as soon as quotes are posted. |
-| Avalanche Stop Trading | Interruption if potential follow up price deviates by more than the Stop Trading Range from the reference price within a 10 second | None | None |
-
-period. Benchmark for Avalanche equal to Stop Trading Continuous Trading
-
-| Delayed Closing | Interruption of 2 minutes, if the closing price deviates by above mentioned stop trading range or more from the reference price | Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be | Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be |
-| --- | --- | --- | --- |
-| Randomized End of | or if not all unlimited orders can be executed. 30 seconds | executed. 30 seconds | executed. 30 seconds |
-| Trading Interruption Non Opening | Yes | Yes | Yes |
-| Underlying Condition | No | No | No |
-| Reporting Time Publication | 3 minutes Immediate Publication | 3 minutes Immediate Publication | 3 minutes Immediate Publication |
-| C&S Segment Code | SHNC - Shares and Funds (not cleared) | SFCH - Sponsored Funds - CH (not cleared) SFLU - Sponsored Funds - LU (not cleared) | ETCS - Exchange Traded Prod (cleared by all CCPs) |
-| Settlement Cycle Settlement Eligible | T+2 Yes | T+2 Yes | T+2 Yes |
-| Counterparty Disclosure Clearing Eligible | No Yes | No Yes | Yes Yes |
+| **Regulatory Standard** | Standard for Collective Investment Schemes | SIX Swiss Exchange Sponsored Investment Funds | Standard for Collective Investment Schemes |
+| **Market Model** | Central Limit Order Book (CLOB) | Quote Driven Market (QDM) | Quote Driven Market (QDM) |
+| **Order Types** | Normal, Iceberg, Block, Retail and AVD Orders | Normal, Iceberg, Retail Orders and Quotes | Normal, Iceberg, Retail Orders and Quotes |
+| **Self-Match Prevention** | Yes | Yes | Yes |
+| **Sponsored Access** | Yes | No | No |
+| **Trading Hours** | 09:00 – 17:30 CET | 09:15 – 17:35 CET | 09:00 – 17:35 CET |
+| **Continuous Trading** | 09:00 – 17:20 CET | 09:15 – 17:30 CET | 09:00 – 17:30 CET |
+| **Closing Auction** | 17:20 – 17:30 CET | 17:30 – 17:35 CET | 17:30 – 17:35 CET |
+| **Randomized Opening** | 2 minutes (09:00 – 09:02 CET) | 2 minutes (09:15 – 09:17 CET) | 2 minutes (09:00 – 09:02 CET) |
+| **Randomized Closing** | 2 minutes (17:30 – 17:32 CET) | 2 minutes (17:35 – 17:37 CET) | 2 minutes (17:35 – 17:37 CET) |
+| **Price Collar** | Start: 17:30 – 17:32 CET | None | None |
+| **Trading-At-Last** | End: 17:40 CET | | |
+| **Maximum Order Value** | CHF 50’000’000 or the equivalent amount in foreign trading ccy | CHF 10’000’000 or the equivalent amount in foreign trading ccy | CHF 10’000’000 or the equivalent amount in foreign trading ccy |
+| **Minimum Iceberg Order Value** | CHF 10’000 or the equivalent amount in foreign trading currency | CHF 10’000 or the equivalent amount in foreign trading currency | CHF 10’000 or the equivalent amount in foreign trading currency |
+| **Price Increments** | The price steps laid down in Liquidity Band C of Annex D of the “Trading” Directive apply. | The price steps laid down in Liquidity Band F of Annex D of the “Trading” Directive apply in principle. The valid price steps for securities with a reference price of 100’000 or above in the relevant trading currency shall be 10 regardless of the order price and asset class. | The price steps laid down in Liquidity Band F of Annex D of the “Trading” Directive apply in principle. For securities with underlying asset classes “money market” and “fixed income” the price steps of the price step group code EH as described in the Price Step Overview (Tick Sizes) table of this trading guide apply. The valid price steps for securities with a reference price of 100’000 or above in the relevant trading currency shall be 10 regardless of the order price and underlying asset class. |
+| **Delayed Opening** | Interruption of 2 minutes, if the calculated auction price deviates by the below mentioned stop trading range or more from the reference price or if not all unlimited orders can be executed. | Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed. | Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed. |
+| **Stop Trading Continuous Trading** | Interruption of 15 minutes, if potential follow-up price deviates by 2.00% or more from the reference price. Volatile Securities: Interruption of 5 minutes, if potential follow-up price deviates by 10% or more from the reference price. | Interruption for a 5 minute period if a trade between orders can be executed but no quote is in the order book. The stop trading duration can be interrupted as soon as quotes are posted. | Interruption for a 5 minute period if a trade between orders can be executed but no quote is in the order book. The stop trading duration can be interrupted as soon as quotes are posted. |
+| **Avalanche Stop Trading** | Interruption if potential follow-up price deviates by more than the Stop Trading Range from the reference price within a 10 second period. Benchmark for Avalanche equal to Stop Trading Continuous Trading. | None | None |
+| **Delayed Closing** | Interruption of 2 minutes, if the closing price deviates by above mentioned stop trading range or more from the reference price or if not all unlimited orders can be executed. | Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed. | Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed. |
+| **Randomized End of Trading Interruption** | 30 seconds | 30 seconds | 30 seconds |
+| **Non Opening** | Yes | Yes | Yes |
+| **Underlying Condition** | No | No | No |
+| **Trade Reporting** | Yes | Yes | Yes |
+| **Reporting Time** | 3 minutes | 3 minutes | 3 minutes |
+| **Publication** | Immediate Publication | Immediate Publication | Immediate Publication |
+| **C&S Segment Code** | SHNC – Shares and Funds (not cleared) | SFCH – Sponsored Funds – CH (not cleared); SFLU – Sponsored Funds – LU (not cleared) | ETCS – Exchange Traded Products (cleared by all CCPs) |
+| **Settlement Cycle** | T+2 | T+2 | T+2 |
+| **Settlement Eligible** | Yes | Yes | Yes |
+| **Clearing Eligible** | Yes | Yes | Yes |
+| **Counterparty Disclosure** | No | No | Yes |
 
 **17|40**
 
@@ -731,133 +493,37 @@ period. Benchmark for Avalanche equal to Stop Trading Continuous Trading
 
 ## valid as of 04 December 2023
 
-**Clearing & Off Order 09:00 - 17:00 CET Trading Interruptions Settlem ent Book Trade Reporting Yes Exchange Traded Funds (ETF) on Bonds of the Swiss Confederation Exchange Traded Products (ETP)**
-
-**09:00 - 17:35 CET Trading Hours Trading Hours Yes**
-
-| Regulatory Standard Market Model | Standard for Collective Investment Schemes Quote Driven Market (QDM) |  |
+| | ETF on Bonds of the Swiss Confederation | Exchange Traded Products (ETP) |
 | --- | --- | --- |
-| Order Types Self-Match Prevention | Normal, Iceberg, Retail Orders and Quotes Yes |  |
-| Sponsored Access | No |  |
-| Continuous Trading Closing Auction | 09:00 - 17:00 CET None |  |
-| Randomized Opening Randomized Closing | 2 minutes None | 09:00 - 09:02 CET |
-| Price Collar Trading-At-Last | None |  |
-
-**Standard for Exchange Traded Products**
-
-**Quote Driven Market (QDM)**
-
-**Normal, Iceberg, Retail Orders and Quotes**
-
-**Yes**
-
-**No**
-
-**09:00 - 17:30 CET**
-
-**2 minutes 09:00 - 09:02 CET**
-
-**2 minutes 17:35 – 17:37 CET**
-
-**None**
-
-**Maximum Order Value CHF 10'000'000 or the equivalent amount in foreign trading ccy**
-
-**CHF 10'000'000 or the equivalent amount in foreign trading ccy**
-
-**Minimum Iceberg Order Value CHF 10'000 or the equivalent amount in foreign trading currency**
-
-**CHF 10'000 or the equivalent amount in foreign trading currency**
-
-**Price Increments**
-
-For securities with underlying asset class “fixed income” the price
-
-The price steps laid down in Liquidity Band Fof Annex Dof the “Trading” Directive apply in principle.
-
-**Price Steps**
-
-steps of the price step group code EH as described in the Price Step Overview (Tick Sizes) table of this trading guide apply.
-
-For securities with underlying asset classes “money market” and “fixed income” the price steps of the price step group code EH as described in the Price Step Overview (Tick Sizes) table of this trading guide apply.
-
-The valid price steps for securities with a reference price of 100’000 or above in the relevant trading currency shall be 10 regardless of the order price and underlying asset class.
-
-The valid price steps for securities with a reference price of 100’000 or above in the relevant trading currency shall be 10 regardless of the order price and underlying asset class.
-
-**Delayed Opening Interruption of 2 minutes, if a trade between orders can be executed**
-
-Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed.
-
-but no quote is in the order book or if not all unlimited orders can be executed.
-
-**Stop Trading**
-
-Interruption for a 5 minute period if a trade between orders can be
-
-Interruption for a 5 minute period if a trade between orders can be executed but no quote is in the order book. The stop trading duration can be interrupted as soon as quotes are posted.
-
-**Continuous Trading**
-
-executed but no quote is in the order book. The stop trading duration can be interrupted as soon as quotes are posted.
-
-- Avalanche Stop Trading None
-- Delayed Closing
-
-**None**
-
-**Interruption of 2 minutes, if a trade between orders can be executed**
-
-Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed.
-
-but no quote is in the order book or if not all unlimited orders can be executed.
-
-**Randomized End of**
-
-30 seconds
-
-30 seconds
-
-- Trading Interruption
-- Non Opening
-
-**Yes**
-
-**Yes**
-
-**Underlying Condition No**
-
-**No**
-
-**Reporting Time 3 minutes**
-
-**3 minutes**
-
-**Publication Immediate Publication**
-
-**Immediate Publication**
-
-**C&S Segment Code ETCS - Exchange Traded Prod (cleared by all CCPs)**
-
-**ETCS - Exchange Traded Prod (cleared by all CCPs)**
-
-ETNC - Exchange Traded Prod (not cleared)
-
-**Settlement Cycle T+2**
-
-**T+2**
-
-**Settlement Eligible Yes**
-
-**Yes**
-
-**Clearing Eligible Yes**
-
-**Partially**
-
-**Counterparty Disclosure Yes**
-
-**Yes**
+| **Regulatory Standard** | Standard for Collective Investment Schemes | Standard for Exchange Traded Products |
+| **Market Model** | Quote Driven Market (QDM) | Quote Driven Market (QDM) |
+| **Order Types** | Normal, Iceberg, Retail Orders and Quotes | Normal, Iceberg, Retail Orders and Quotes |
+| **Self-Match Prevention** | Yes | Yes |
+| **Sponsored Access** | No | No |
+| **Trading Hours** | 09:00 – 17:00 CET | 09:00 – 17:35 CET |
+| **Continuous Trading** | 09:00 – 17:00 CET | 09:00 – 17:30 CET |
+| **Closing Auction** | None | 17:30 – 17:35 CET |
+| **Randomized Opening** | 2 minutes (09:00 – 09:02 CET) | 2 minutes (09:00 – 09:02 CET) |
+| **Randomized Closing** | None | 2 minutes (17:35 – 17:37 CET) |
+| **Price Collar** | None | None |
+| **Maximum Order Value** | CHF 10’000’000 or the equivalent amount in foreign trading ccy | CHF 10’000’000 or the equivalent amount in foreign trading ccy |
+| **Minimum Iceberg Order Value** | CHF 10’000 or the equivalent amount in foreign trading currency | CHF 10’000 or the equivalent amount in foreign trading currency |
+| **Price Increments** | For securities with underlying asset class “fixed income” the price steps of the price step group code EH as described in the Price Step Overview (Tick Sizes) table of this trading guide apply. | The price steps laid down in Liquidity Band F of Annex D of the “Trading” Directive apply in principle. For securities with underlying asset classes “money market” and “fixed income” the price steps of the price step group code EH as described in the Price Step Overview (Tick Sizes) table of this trading guide apply. The valid price steps for securities with a reference price of 100’000 or above in the relevant trading currency shall be 10 regardless of the order price and underlying asset class. |
+| **Delayed Opening** | Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed. | Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed. |
+| **Stop Trading Continuous Trading** | Interruption for a 5 minute period if a trade between orders can be executed but no quote is in the order book. The stop trading duration can be interrupted as soon as quotes are posted. | Interruption for a 5 minute period if a trade between orders can be executed but no quote is in the order book. The stop trading duration can be interrupted as soon as quotes are posted. |
+| **Avalanche Stop Trading** | None | None |
+| **Delayed Closing** | Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed. | Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed. |
+| **Randomized End of Trading Interruption** | 30 seconds | 30 seconds |
+| **Non Opening** | Yes | Yes |
+| **Underlying Condition** | No | No |
+| **Trade Reporting** | Yes | Yes |
+| **Reporting Time** | 3 minutes | 3 minutes |
+| **Publication** | Immediate Publication | Immediate Publication |
+| **C&S Segment Code** | ETCS – Exchange Traded Products (cleared by all CCPs) | ETCS – Exchange Traded Products (cleared by all CCPs); ETNC – Exchange Traded Products (not cleared) |
+| **Settlement Cycle** | T+2 | T+2 |
+| **Settlement Eligible** | Yes | Yes |
+| **Clearing Eligible** | Yes | Partially |
+| **Counterparty Disclosure** | Yes | Yes |
 
 **18|40**
 
@@ -865,119 +531,37 @@ ETNC - Exchange Traded Prod (not cleared)
 
 ## valid as of 15 May 2023
 
-**Clearing & O Settlem ent C&S Segment Code Book Trade Reporting**
-
-**ff Order 09:15 - 17:15 CET Trading Interruptions**
-
-**Trading Hours Trading Hours**
-
-**Yes DENC - Structured Products (not cleared) Structured Products**
-
-**Regulatory Standard**
-
-**Standard for Derivatives**
-
-**Market Model**
-
-**Price Validation Market (PVM)**
-
-**Order Types**
-
-**Normal, Retail Orders and Quotes**
-
-**Self-Match Prevention**
-
-**No**
-
-**Sponsored Access**
-
-**No**
-
-- Continuous Trading
-- Closing Auction
-- Randomized Opening
-- Randomized Closing
-- Trading-At-Last
-
-**09:15 - 17:15 CET**
-
-**None**
-
-**2 minutes 09:15 - 09:17 CET**
-
-**None**
-
-**None**
-
-**Price Collar**
-
-**Maximum Order Value**
-
-**CHF 10'000'000 or the equivalent amount in foreign trading currency**
-
-**Price Increments Price Steps**
-
-**Warrants:**
-
-0.001 of the relevant trading currency; 1.00 of the relevant trading currencies for instruments with a reference price of CHF 10'000 or above
-
-**Bonds:**
-
-0.01% independent of order price;
-
-**Delayed Opening**
-
-**Interruption of 2 minutes, if a trade between orders can be executed**
-
-but no quote is in the order book or if not all unlimited orders can be executed.
-
-- Stop Trading
-- Continuous Trading
-
-Interruption for a 30 seconds period if a trade between orders can be executed but no quote is in the order book. The stop trading duration can be interrupted as soon as quotes are posted
-
-- Price Validation
-- Interruption
-- Continuous Trading
-- Avalanche
-- Stop Trading
-- Randomized End of
-- Trading Interruption
-- Non Opening
-- Underlying Condition
-
-Interruption for a 1 second period if a trade between order and quote can be executed. No pre-trade transparency during the interruption. A new quote immediately ends stop trading
-
-None
-
-5 seconds
-
-**Yes**
-
-**Interruption if underlying security is in stop trading (only primary**
-
-listed underlyings)
-
-- Reporting Time
-- Publication
-
-**3 minutes**
-
-**Immediate Publication**
-
-- Settlement Cycle
-- Settlement Eligible
-- Clearing Eligible
-
-**T+2**
-
-**Yes**
-
-**No**
-
-**Counterparty Disclosure**
-
-**Yes**
+| | Structured Products |
+| --- | --- |
+| **Regulatory Standard** | Standard for Derivatives |
+| **Market Model** | Price Validation Market (PVM) |
+| **Order Types** | Normal, Retail Orders and Quotes |
+| **Self-Match Prevention** | No |
+| **Sponsored Access** | No |
+| **Trading Hours** | 09:15 – 17:15 CET |
+| **Continuous Trading** | 09:15 – 17:15 CET |
+| **Closing Auction** | None |
+| **Randomized Opening** | 2 minutes (09:15 – 09:17 CET) |
+| **Randomized Closing** | None |
+| **Trading-At-Last** | None |
+| **Price Collar** | None |
+| **Maximum Order Value** | CHF 10'000'000 or the equivalent amount in foreign trading currency |
+| **Price Increments** | Warrants: 0.001 of the relevant trading currency; 1.00 of the relevant trading currencies for instruments with a reference price of CHF 10'000 or above. Bonds: 0.01% independent of order price. |
+| **Delayed Opening** | Interruption of 2 minutes, if a trade between orders can be executed but no quote is in the order book or if not all unlimited orders can be executed. |
+| **Stop Trading Continuous Trading** | Interruption for a 30 seconds period if a trade between orders can be executed but no quote is in the order book. The stop trading duration can be interrupted as soon as quotes are posted. |
+| **Price Validation Interruption** | Interruption for a 1 second period if a trade between order and quote can be executed. No pre-trade transparency during the interruption. A new quote immediately ends stop trading. |
+| **Avalanche Stop Trading** | None |
+| **Randomized End of Trading Interruption** | 5 seconds |
+| **Non Opening** | Yes |
+| **Underlying Condition** | Interruption if underlying security is in stop trading (only primary listed underlyings) |
+| **Trade Reporting** | Yes |
+| **Reporting Time** | 3 minutes |
+| **Publication** | Immediate Publication |
+| **C&S Segment Code** | DENC – Structured Products (not cleared) |
+| **Settlement Cycle** | T+2 |
+| **Settlement Eligible** | Yes |
+| **Clearing Eligible** | No |
+| **Counterparty Disclosure** | Yes |
 
 **19|40**
 
@@ -985,121 +569,39 @@ listed underlyings)
 
 ## valid as of 12 May 2025
 
-- Clearing &
-- Settlem
-
-**Off O rd er Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Investment Funds: 09:00 - 17:20 CET Block Order**
-
-**Trading Hours Trading Hours Global Depository Receipts: 15:00 - 17:20 CET**
-
-**ent Trading Service**
-
-**Book Trade Reporting Yes SwissAtMid**
-
-**Trading Segments Market Code Regulatory Standard**
-
-**Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds XSWM Blue Chip Shares: International Reporting Standard**
-
-*Mid-/Small-Cap Shares: International Reporting Standard, Swiss Reporting Standard, Standard*
-
-for Investment Companies, Standard for Real Estate Companies, Standard for Depository
-
-*Sparks Shares: Standard Sparks*
-
-Receipts, Standard for SPACs
-
-*Investment Funds: Standard for Collective Investment Schemes*
-
-Global Depository Receipts: Standard for Depository Receipts
-
-**Market Model**
-
-**Mid-Point Order Book (MPOB)**
-
-**Order Types Routing Instructions Self-Match Prevention**
-
-**Normal , Iceberg (SWMB only), Block (SWML only) and Retail (SWMX and SWMB only) Orders**
-
-## SWM, SWMB, SWMX, SWML, SEB Yes
-
-- Continuous Trading
-- Closing Auction
-- Randomized Opening
-- Randomized Closing
-- Trading-At-Last
-
-**Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Investment Funds: 09:00 - 17:20 CET**
-
-**Global Depository Receipts: 15:00 - 17:20 CET**
-
-**None None None None**
-
-**Price Collar Maximum Order Value**
-
-**Blue Chip Shares, Mid-/Small-Cap Shares, Global Depository Receipts: 250'000'000 CHF or the**
-
-*Sparks Shares: 10’000’000 or the equivalent amount in foreign trading currency*
-
-equivalent amount in foreign trading currency
-
-*Investment Funds: 50'000'000 CHF or the equivalent amount in foreign trading currency*
-
-- Trading Segments
-- Randomized Block Order
-- Interval
-- Automated Firm Up
-- Interval
-- Manual Firm Up Interval 30 seconds
-- Participant Order Score
-- Threshold / Participant
-- ISIN Score Threshold
-
-**Blue Chip Shares, Mid-/Small-Cap Shares, Global Depository Receipts**
-
-10 milliseconds
-
-450 milliseconds
-
-**Price Steps**
-
-**0.0001 independent of order price**
-
-**Trading Interruptions**
-
-**No execution if no mid-point price is available on reference market in the CLOB. Primary condition: No execution if security is not trading on the reference market in the CLOB.**
-
-*MPOB Stop Trading: No execution if the price of the next execution at the Mid-Point Price compared to the reference price on the reference market in the CLOB is outside the Stop Trading range of*
-
-the security. MPOB Avalanche Stop Trading: No execution if the price of the next execution at the Mid-Point Price compared to the reference price on the reference market in the CLOB is outside the Stop Trading range of the security within a certain time period (avalanche time).
-
-- Reporting Time
-- Publication
-- C&S Segment Code
-
-**Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, , Global Depository Receipts: 1 minute**
-
-**Investment Funds: 3 minutes**
-
-**Deferred publication on request for trade reporting based on ADT Delay Blue Chip Shares: BCCS - Shares Blue Chips (cleared by all CCPs);**
-
-*Sparks Shares: SMCS - Sparks Shares (cleared by all CCPs)*
-
-*Mid-/Small-Cap Shares, Global Depository Receipts: MSCS - Mid-/Small Cap Shares (cleared by all*
-
-*Investment Funds: SHNC - Shares and Funds (not cleared)*
-
-CCPs)
-
-- Settlement Cycle
-- Settlement Eligible
-- Clearing Eligible
-- Automatic C&S
-
-**T+2 Yes Yes (not for Investment Funds) Mandatory (not for Investment Funds) Blue Chip Shares, Mid-/Small Cap Shares, Sparks Shares, Global Depository Receipts: No**
-
-**Counterparty Disclosure**
-
-**Investment Funds: Yes**
+| | SwissAtMid |
+| --- | --- |
+| **Trading Service** | SwissAtMid |
+| **Trading Segments** | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Investment Funds |
+| **Market Code** | XSWM |
+| **Regulatory Standard** | Blue Chip Shares: International Reporting Standard; Mid-/Small-Cap Shares: International Reporting Standard, Swiss Reporting Standard, Standard for Investment Companies, Standard for Real Estate Companies, Standard for Depository Receipts, Standard for SPACs; Sparks Shares: Standard Sparks; Investment Funds: Standard for Collective Investment Schemes; Global Depository Receipts: Standard for Depository Receipts |
+| **Market Model** | Mid-Point Order Book (MPOB) |
+| **Order Types** | Normal, Iceberg (SWMB only), Block (SWML only) and Retail (SWMX and SWMB only) Orders |
+| **Routing Instructions** | SWM, SWMB, SWMX, SWML, SEB |
+| **Self-Match Prevention** | Yes |
+| **Trading Hours / Continuous Trading** | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Investment Funds: 09:00 – 17:20 CET; Global Depository Receipts: 15:00 – 17:20 CET |
+| **Closing Auction** | None |
+| **Randomized Opening** | None |
+| **Randomized Closing** | None |
+| **Trading-At-Last** | None |
+| **Price Collar** | None |
+| **Maximum Order Value** | Blue Chip Shares, Mid-/Small-Cap Shares, Global Depository Receipts: 250’000’000 CHF or the equivalent amount in foreign trading currency; Sparks Shares: 10’000’000 CHF or the equivalent amount in foreign trading currency; Investment Funds: 50’000’000 CHF or the equivalent amount in foreign trading currency |
+| **Block Order – Trading Segments** | Blue Chip Shares, Mid-/Small-Cap Shares, Global Depository Receipts |
+| **Randomized Block Order Interval** | 10 milliseconds |
+| **Automated Firm Up Interval** | 450 milliseconds |
+| **Manual Firm Up Interval** | 30 seconds |
+| **Participant Order Score Threshold / Participant** | 85 |
+| **Price Steps** | 0.0001 independent of order price |
+| **Trading Interruptions** | No execution if no mid-point price is available on reference market in the CLOB. Primary condition: No execution if security is not trading on the reference market in the CLOB. MPOB Stop Trading: No execution if the price of the next execution at the Mid-Point Price compared to the reference price on the reference market in the CLOB is outside the Stop Trading range of the security. MPOB Avalanche Stop Trading: No execution if the price of the next execution at the Mid-Point Price compared to the reference price on the reference market in the CLOB is outside the Stop Trading range of the security within a certain time period (avalanche time). |
+| **Trade Reporting** | Yes |
+| **Reporting Time** | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts: 1 minute; Investment Funds: 3 minutes |
+| **Publication** | Deferred publication on request for trade reporting based on ADT Delay |
+| **C&S Segment Code** | Blue Chip Shares: BCCS – Shares Blue Chips (cleared by all CCPs); Mid-/Small-Cap Shares, Global Depository Receipts: MSCS – Mid-/Small-Cap Shares (cleared by all CCPs); Sparks Shares: SMCS – Sparks Shares (cleared by all CCPs); Investment Funds: SHNC – Shares and Funds (not cleared) |
+| **Settlement Cycle** | T+2 |
+| **Settlement Eligible** | Yes |
+| **Clearing Eligible** | Yes (not for Investment Funds) |
+| **Automatic C&S** | Mandatory (not for Investment Funds) |
+| **Counterparty Disclosure** | Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts: No; Investment Funds: Yes |
 
 **20|40**
 
@@ -1107,70 +609,34 @@ CCPs)
 
 ## valid as of 15 May 2023
 
-**09:00 – 17:20 CET Clearing & Off O rder**
-
-**Trading Hours Trading Hours**
-
-**Yes Settlem ent Book Trade Reporting Swiss EBBO**
-
-**Service**
-
-**Trading Segments**
-
-**Blue Chip Shares, Mid-/Small-Cap Shares**
-
-**Market Code**
-
-**XSEB**
-
-**Regulatory Standard Market Model Order Types Routing Instructions Self-Match Prevention**
-
-**International Reporting Standard; Swiss Reporting Standard Swiss EBBO Order Book (EBBO) Normal and Retail Orders SEB No**
-
-- Continuous Trading
-- Closing Auction
-- Randomized Opening
-- Randomized Closing
-- Trading-At-Last
-
-**09:00 – 17:20 CET None**
-
-**None None None**
-
-**Price Collar Maximum Order Value**
-
-**Blue Chip Shares: 100’000’000 CHF or the equivalent amount in foreign trading currency**
-
-*Mid-/Small-Cap Shares: 50’000’000 CHF or the equivalent amount in foreign trading currency*
-
-**Price Steps**
-
-**Please refer to the MiFIDII Tick Size Table in the Tick Size page of this Trading Guide**
-
-**Trading Interruptions**
-
-**Primary condition: No execution if security is not trading on the reference market.**
-
-*EBBO Avalanche Stop Trading: Deviation between EBBO price and Reference Price in the CLOB by more than the Stop Trading Range of the CLOB within a certain time (avalanche time). EBBO*
-
-orders will be routed to the CLOB.
-
-- Reporting Time
-- Publication
-- C&S Segment Code
-
-**1 minute Deferred publication on request for trade reporting based on ADT Delay BCCS - Shares Blue Chips (cleared by all CCPs)**
-
-MSCS - Mid-/Small Caps (cleared by all CCPs)
-
-- Settlement Cycle
-- Settlement Eligible
-- Clearing Eligible
-- Automatic C&S
-
-**T+2 Yes Yes Mandatory No**
-
-**Counterparty Disclosure**
+| | Swiss EBBO |
+| --- | --- |
+| **Service** | Swiss EBBO |
+| **Trading Segments** | Blue Chip Shares, Mid-/Small-Cap Shares |
+| **Market Code** | XSEB |
+| **Regulatory Standard** | International Reporting Standard; Swiss Reporting Standard |
+| **Market Model** | Swiss EBBO Order Book (EBBO) |
+| **Order Types** | Normal and Retail Orders |
+| **Routing Instructions** | SEB |
+| **Self-Match Prevention** | No |
+| **Trading Hours / Continuous Trading** | 09:00 – 17:20 CET |
+| **Closing Auction** | None |
+| **Randomized Opening** | None |
+| **Randomized Closing** | None |
+| **Trading-At-Last** | None |
+| **Price Collar** | None |
+| **Maximum Order Value** | Blue Chip Shares: 100’000’000 CHF or the equivalent amount in foreign trading currency; Mid-/Small-Cap Shares: 50’000’000 CHF or the equivalent amount in foreign trading currency |
+| **Price Steps** | Please refer to the MiFIDII Tick Size Table in the Tick Size page of this Trading Guide |
+| **Trading Interruptions** | Primary condition: No execution if security is not trading on the reference market. EBBO Avalanche Stop Trading: Deviation between EBBO price and Reference Price in the CLOB by more than the Stop Trading Range of the CLOB within a certain time (avalanche time). EBBO orders will be routed to the CLOB. |
+| **Trade Reporting** | Yes |
+| **Reporting Time** | 1 minute |
+| **Publication** | Deferred publication on request for trade reporting based on ADT Delay |
+| **C&S Segment Code** | BCCS – Shares Blue Chips (cleared by all CCPs); MSCS – Mid-/Small Caps (cleared by all CCPs) |
+| **Settlement Cycle** | T+2 |
+| **Settlement Eligible** | Yes |
+| **Clearing Eligible** | Yes |
+| **Automatic C&S** | Mandatory |
+| **Counterparty Disclosure** | No |
 
 **21|40**
 
@@ -1178,96 +644,39 @@ MSCS - Mid-/Small Caps (cleared by all CCPs)
 
 ## valid as of 10 June 2024
 
-- Clearing &
-- Settlem
-
-**O ff O rder ETF and ETP: 09:00 - 17:30 CET**
-
-**Trading Hours Trading Hours ETF on Bonds of the Swiss Confederation: 09:00 – 17:00 CET**
-
-**ent Service**
-
-**Book Trade Reporting Yes Quote on Demand**
-
-**Trading Segments**
-
-**ETF, ETF on bonds of the Swiss Confederation and ETP**
-
-**Market Code**
-
-**XQOD**
-
-**Regulatory Standard**
-
-**ETF: Standard for Collective Investment Schemes, ETF on Bonds of the Swiss Confederation: Standard for Collective Investment Schemes**
-
-*ETP: Standard for Exchange Traded Products*
-
-**Market Model Order Types Routing Instructions Self-Match Prevention**
-
-**Quote on Demand (QOD) QOD Requests, QOD Quotes**
-
-## QODN, QODS QOD Request: No
-
-*QOD Quotes against each other in QOD: Yes*
-
-- Continuous Trading
-- Closing Auction
-- Randomized Opening
-- Randomized Closing
-- Trading-At-Last
-
-**ETF and ETP: 09:00 - 17:30 CET**
-
-**ETF on Bonds of the Swiss Confederation: 09:00 – 17:00 CET**
-
-**None None None None**
-
-**Price Collar Maximum Order Value Order Deviation Limit Pre-Trade Name & Side Disclosure Disclosure of participant identification (Party ID): Yes Automated QOD Auction Duration 990 milliseconds (possibility to override with configurable custom value per Party ID) Random QOD Auction Duration Extended QOD Auction Duration Default Min QOD Responders Trading Modes**
-
-**250'000'000 CHF or the equivalent amount in foreign trading currency 10%**
-
-**Disclosure of the designation of the transaction type (buy/sell): No**
-
-**10 milliseconds (only applicable to Automated QOD Auction Duration) 5 minutes (possibility to override with configurable custom value per Party ID)**
-
-**Discretionary only: No auto-execution, participant has full control over if and when executions occur. Maximum duration is 5 minutes.**
-
-*Auto-execute or Cancel: Fully automated execution if the execution conditions are met. Duration is 1 second with random execution. Auto-execute and Optional Discretion: Mix of auto-execute and discretion only. Duration is 1 second maximum with random execution. If the conditions for execution are met and if no execution*
-
-occurs there is an additional 5 minutes maximum extension.
-
-**Price Steps**
-
-**0.0001 independent of order price**
-
-Securities in JPY: 1 independent of order price
-
-**Trading Interruptions**
-
-**If the respective security is not in the trading period “Continuous Trading” in the Quote Driven Market or trading is interrupted for the respective security in the QDM, then the Quote on Demand**
-
-book is in Primary Condition
-
-**Publication**
-
-**Quote on Demand trades which are large-volume transactions (LIS) are published with a delay (see table under Deferred Publication Thresholds and Delays)**
-
-- Reporting Time
-- Publication
-- C&S Segment Code
-
-**3 minutes Immediate Publication ETF, ETF on Bonds of the Swiss Confederation: ETCS - Exchange Traded Prod (cleared by all CCPs)**
-
-*ETP: ETCS - Exchange Traded Prod (cleared by all CCPs), ETNC - Exchange Traded Prod (not cleared)*
-
-- Settlement Cycle
-- Settlement Eligible
-- Clearing Eligible
-
-**T+2 Yes ETF and ETF on Bonds of the Swiss Confederation: Yes, ETP: Partially Yes**
-
-**Counterparty Disclosure**
+| | Quote on Demand |
+| --- | --- |
+| **Service** | Quote on Demand |
+| **Trading Segments** | ETF, ETF on Bonds of the Swiss Confederation and ETP |
+| **Market Code** | XQOD |
+| **Regulatory Standard** | ETF: Standard for Collective Investment Schemes; ETF on Bonds of the Swiss Confederation: Standard for Collective Investment Schemes; ETP: Standard for Exchange Traded Products |
+| **Market Model** | Quote on Demand (QOD) |
+| **Order Types** | QOD Requests, QOD Quotes |
+| **Routing Instructions** | QODN, QODS |
+| **Self-Match Prevention** | QOD Request: No; QOD Quotes against each other in QOD: Yes |
+| **Trading Hours / Continuous Trading** | ETF and ETP: 09:00 – 17:30 CET; ETF on Bonds of the Swiss Confederation: 09:00 – 17:00 CET |
+| **Closing Auction** | None |
+| **Randomized Opening** | None |
+| **Randomized Closing** | None |
+| **Trading-At-Last** | None |
+| **Price Collar** | None |
+| **Maximum Order Value** | 250'000'000 CHF or the equivalent amount in foreign trading currency |
+| **Order Deviation Limit** | 10% |
+| **Pre-Trade Name & Side Disclosure** | Disclosure of participant identification (Party ID): Yes; Disclosure of the designation of the transaction type (buy/sell): No |
+| **Automated QOD Auction Duration** | 990 milliseconds (possibility to override with configurable custom value per Party ID) |
+| **Random QOD Auction Duration** | 10 milliseconds (only applicable to Automated QOD Auction Duration) |
+| **Extended QOD Auction Duration** | 5 minutes (possibility to override with configurable custom value per Party ID) |
+| **Trading Modes** | Discretionary only: No auto-execution, participant has full control over if and when executions occur. Maximum duration is 5 minutes. Auto-execute or Cancel: Fully automated execution if the execution conditions are met. Duration is 1 second with random execution. Auto-execute and Optional Discretion: Mix of auto-execute and discretion only. Duration is 1 second maximum with random execution. If the conditions for execution are met and if no execution occurs there is an additional 5 minutes maximum extension. |
+| **Price Steps** | 0.0001 independent of order price; Securities in JPY: 1 independent of order price |
+| **Trading Interruptions** | If the respective security is not in the trading period “Continuous Trading” in the Quote Driven Market or trading is interrupted for the respective security in the QDM, then the Quote on Demand book is in Primary Condition. Quote on Demand trades which are large-volume transactions (LIS) are published with a delay (see table under Deferred Publication Thresholds and Delays). |
+| **Trade Reporting** | Yes |
+| **Reporting Time** | 3 minutes |
+| **Publication** | Immediate Publication |
+| **C&S Segment Code** | ETF, ETF on Bonds of the Swiss Confederation: ETCS – Exchange Traded Products (cleared by all CCPs); ETP: ETCS – Exchange Traded Products (cleared by all CCPs); ETNC – Exchange Traded Products (not cleared) |
+| **Settlement Cycle** | T+2 |
+| **Settlement Eligible** | Yes |
+| **Clearing Eligible** | ETF and ETF on Bonds of the Swiss Confederation: Yes; ETP: Partially |
+| **Counterparty Disclosure** | Yes |
 
 **22|40**
 
@@ -1282,77 +691,39 @@ book is in Primary Condition
 
 **Trading Hours Trading Hours**
 
-**ent Service**
-
-**Book Trade Reporting Yes Trading with Quote Requests in ETF/ETP QOD Europe**
-
-**Trading Segments**
-
-**ETF/ETP QOD Europe**
-
-**Market Code**
-
-**XQOD**
-
-**Regulatory Standard Market Model Order Types Routing Instructions Self-Match Prevention**
-
-**ETF: Standard for Collective Investment Schemes, ETP: Standard for Exchange Traded Products Quote on Demand (QOD) QOD Requests, QOD Quotes QODN QOD Request: No**
-
-*QOD Quotes against each other in QOD: Yes*
-
-- Continuous Trading
-- Closing Auction
-- Randomized Opening
-- Randomized Closing
-- Trading-At-Last
-
-**09:00 - 17:30 CET None**
-
-**None None None**
-
-**Price Collar Maximum Order Value Order Deviation Limit Pre-Trade Name & Side Disclosure Disclosure of participant identification (Party ID): Yes Automated QOD Auction Duration 990 milliseconds (possibility to override with configurable custom value per Party ID) Random QOD Auction Duration Extended QOD Auction Duration Default Min QOD Responders Trading Modes**
-
-**250'000'000 CHF or the equivalent amount in foreign trading currency 10%**
-
-**Disclosure of the designation of the transaction type (buy/sell): No**
-
-**10 milliseconds (only applicable to Automated QOD Auction Duration) 5 minutes (possibility to override with configurable custom value per Party ID)**
-
-**Discretionary only: No auto-execution, participant has full control over if and when executions occur. Maximum duration is 5 minutes.**
-
-*Auto-execute or Cancel: Fully automated execution if the execution conditions are met. Duration is 1 second with random execution. Auto-execute and Optional Discretion: Mix of auto-execute and discretion only. Duration is 1 second maximum with random execution. If the conditions for execution are met and if no execution*
-
-occurs there is an additional 5 minutes maximum extension.
-
-**Price Steps**
-
-**0.0001 independent of order price**
-
-Securities in JPY: 1 independent of order price
-
-**Trading Interruptions**
-
-**None**
-
-**Publication**
-
-**Quote on Demand trades which are large-volume transactions (LIS) are published with a delay (see table under Deferred Publication Thresholds and Delays)**
-
-- Reporting Time
-- Publication
-- C&S Segment Code
-
-**3 minutes Immediate Publication ETF/ETP QOD EU (cleared all CCPs): ETFP(Borsa Italiana), MTAA(Borsa Italiana), XAMS (Euronext Amsterdam), XBRU (Euronext Brussels), XETR (XETRA), XLON (London Stock Exchange), XMIL**
-
-(Borsa Italiana), XPAR (Euronext Paris), XSTO (Nasdaq Nordic), XWBO (Wiener Börse AG)
-
-- Settlement Cycle
-- Settlement Eligible
-- Clearing Eligible
-
-**T+2 No Yes Yes**
-
-**Counterparty Disclosure**
+| | Trading with Quote Requests in ETF/ETP QOD Europe |
+| --- | --- |
+| **Service** | Trading with Quote Requests in ETF/ETP QOD Europe |
+| **Trading Segments** | ETF/ETP QOD Europe |
+| **Market Code** | XQOD |
+| **Regulatory Standard** | ETF: Standard for Collective Investment Schemes; ETP: Standard for Exchange Traded Products |
+| **Market Model** | Quote on Demand (QOD) |
+| **Order Types** | QOD Requests, QOD Quotes |
+| **Routing Instructions** | QODN |
+| **Self-Match Prevention** | QOD Request: No; QOD Quotes against each other in QOD: Yes |
+| **Trading Hours / Continuous Trading** | 09:00 – 17:30 CET |
+| **Closing Auction** | None |
+| **Randomized Opening** | None |
+| **Randomized Closing** | None |
+| **Trading-At-Last** | None |
+| **Price Collar** | None |
+| **Maximum Order Value** | 250'000'000 CHF or the equivalent amount in foreign trading currency |
+| **Order Deviation Limit** | 10% |
+| **Pre-Trade Name & Side Disclosure** | Disclosure of participant identification (Party ID): Yes; Disclosure of the designation of the transaction type (buy/sell): No |
+| **Automated QOD Auction Duration** | 990 milliseconds (possibility to override with configurable custom value per Party ID) |
+| **Random QOD Auction Duration** | 10 milliseconds (only applicable to Automated QOD Auction Duration) |
+| **Extended QOD Auction Duration** | 5 minutes (possibility to override with configurable custom value per Party ID) |
+| **Trading Modes** | Discretionary only: No auto-execution, participant has full control over if and when executions occur. Maximum duration is 5 minutes. Auto-execute or Cancel: Fully automated execution if the execution conditions are met. Duration is 1 second with random execution. Auto-execute and Optional Discretion: Mix of auto-execute and discretion only. Duration is 1 second maximum with random execution. If the conditions for execution are met and if no execution occurs there is an additional 5 minutes maximum extension. |
+| **Price Steps** | 0.0001 independent of order price; Securities in JPY: 1 independent of order price |
+| **Trading Interruptions** | None |
+| **Trade Reporting** | Yes |
+| **Reporting Time** | 3 minutes |
+| **Publication** | Immediate Publication. Quote on Demand trades which are large-volume transactions (LIS) are published with a delay (see table under Deferred Publication Thresholds and Delays). |
+| **C&S Segment Code** | ETF/ETP QOD EU (cleared all CCPs): ETFP (Borsa Italiana), MTAA (Borsa Italiana), XAMS (Euronext Amsterdam), XBRU (Euronext Brussels), XETR (XETRA), XLON (London Stock Exchange), XMIL (Borsa Italiana), XPAR (Euronext Paris), XSTO (Nasdaq Nordic), XWBO (Wiener Börse AG) |
+| **Settlement Cycle** | T+2 |
+| **Settlement Eligible** | No |
+| **Clearing Eligible** | Yes |
+| **Counterparty Disclosure** | Yes |
 
 **23|40**
 
