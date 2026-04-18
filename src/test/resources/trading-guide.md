@@ -731,90 +731,39 @@ valid as of 01 January 2025
 
 ## valid as of 10 June 2024
 
-- Clearing &
-- Settlem
-
-**O ff O Bonds – CHF: 09:30 - 17:00 CET rd er**
-
-**Trading Hours Trading Hours Bonds – CHF Swiss Confederation and Bonds – CHF Swiss Pfandbriefe : 08:30 - 17:00 CET**
-
-**ent Bo oYes k Trade Reporting Trading with Quote Requests in CHF-Bonds**
-
-**Service**
-
-**Trading Segments**
-
-**Bonds – CHF, Bonds – CHF Swiss Confederation and Bonds – CHF Swiss Pfandbriefe**
-
-**Market Code**
-
-**XQOD**
-
-**Regulatory Standard Market Model Order Types Routing Instructions Self-Match Prevention**
-
-**Standard for Bonds**
-
-**Delisted Bonds: admitted to trading**
-
-**Quote on Demand (QOD) QOD Requests, QOD Quotes QODN QOD Requests: No**
-
-*QOD Quotes against each other in QOD: Yes*
-
-- Continuous Trading
-- Closing Auction
-- Randomized Opening
-- Randomized Closing
-- Trading-At-Last
-
-**Bonds – CHF: 09:30 - 17:00 CET**
-
-**Bonds – CHF Swiss Confederation and Bonds – CHF Swiss Pfandbriefe : 08:30 - 17:00 CET**
-
-**None**
-
-**None None None**
-
-**Price Collar Maximum Order Value Order Deviation Limit Pre-Trade Name & Side Disclosure Disclosure of participant identification (Party ID): Yes Automated QOD Auction Duration 60 seconds (possibility to override with configurable custom value per Party ID) Random QOD Auction Duration Extended QOD Auction Duration Default Min QOD Responders Trading Modes**
-
-**250'000'000 CHF or the equivalent amount in foreign trading currency 10%**
-
-**Disclosure of the designation of the transaction type (buy/sell): Yes**
-
-**1 second (only applicable to Automated QOD Auction Duration) 5 minutes (possibility to override with configurable custom value per Party ID)**
-
-**Discretionary only: No auto-execution, participant has full control over if and when executions occur. Maximum duration is 5 minutes.**
-
-*Auto-execute or Cancel: Fully automated execution if the execution conditions are met. Duration is 60 seconds with random execution. Auto-execute and Optional Discretion: Mix of auto-execute and discretion only. Duration is 60 seconds maximum with random execution. If the conditions for execution are met and if no execution*
-
-occurs there is an additional 5 minutes maximum extension.
-
-**Price Steps**
-
-**0.01 independent of order price**
-
-**Trading Interruptions**
-
-**None**
-
-**Publication**
-
-**Quote on Demand trades which are in illiquid securities and in large-volume transactions (LIS) may be published with a delay (see table under Deferred Publication Thresholds and Delays)**
-
-- Reporting Time
-- Publication
-- C&S Segment Code
-
-**15 minutes Deferral to T+1, 07:00 CET is possible by request if bond is illiquid or trade qualifies for Large in Scale or SSTI post-trade transparency waivers BOCS - Bonds CHF (cleared by one CCP)**
-
-BONC - Bonds CHF (not cleared)
-
-- Settlement Cycle
-- Settlement Eligible
-- Clearing Eligible
-
-**T+2 Yes Partially Yes**
-
-**Counterparty Disclosure**
+| | Trading with Quote Requests in CHF-Bonds |
+| --- | --- |
+| **Service** | Trading with Quote Requests in CHF-Bonds |
+| **Trading Segments** | Bonds – CHF, Bonds – CHF Swiss Confederation and Bonds – CHF Swiss Pfandbriefe |
+| **Market Code** | XQOD |
+| **Regulatory Standard** | Standard for Bonds; Delisted Bonds: admitted to trading |
+| **Market Model** | Quote on Demand (QOD) |
+| **Order Types** | QOD Requests, QOD Quotes |
+| **Routing Instructions** | QODN |
+| **Self-Match Prevention** | QOD Requests: No; QOD Quotes against each other in QOD: Yes |
+| **Trading Hours / Continuous Trading** | Bonds – CHF: 09:30 – 17:00 CET; Bonds – CHF Swiss Confederation and Bonds – CHF Swiss Pfandbriefe: 08:30 – 17:00 CET |
+| **Closing Auction** | None |
+| **Randomized Opening** | None |
+| **Randomized Closing** | None |
+| **Trading-At-Last** | None |
+| **Price Collar** | None |
+| **Maximum Order Value** | 250'000'000 CHF or the equivalent amount in foreign trading currency |
+| **Order Deviation Limit** | 10% |
+| **Pre-Trade Name & Side Disclosure** | Disclosure of participant identification (Party ID): Yes; Disclosure of the designation of the transaction type (buy/sell): Yes |
+| **Automated QOD Auction Duration** | 60 seconds (possibility to override with configurable custom value per Party ID) |
+| **Random QOD Auction Duration** | 1 second (only applicable to Automated QOD Auction Duration) |
+| **Extended QOD Auction Duration** | 5 minutes (possibility to override with configurable custom value per Party ID) |
+| **Trading Modes** | Discretionary only: No auto-execution, participant has full control over if and when executions occur. Maximum duration is 5 minutes. Auto-execute or Cancel: Fully automated execution if the execution conditions are met. Duration is 60 seconds with random execution. Auto-execute and Optional Discretion: Mix of auto-execute and discretion only. Duration is 60 seconds maximum with random execution. If the conditions for execution are met and if no execution occurs there is an additional 5 minutes maximum extension. |
+| **Price Steps** | 0.01 independent of order price |
+| **Trading Interruptions** | None |
+| **Trade Reporting** | Yes |
+| **Reporting Time** | 15 minutes |
+| **Publication** | Deferral to T+1, 07:00 CET is possible by request if bond is illiquid or trade qualifies for Large in Scale or SSTI post-trade transparency waivers. Quote on Demand trades which are in illiquid securities and in large-volume transactions (LIS) may be published with a delay (see table under Deferred Publication Thresholds and Delays). |
+| **C&S Segment Code** | BOCS – Bonds CHF (cleared by one CCP); BONC – Bonds CHF (not cleared) |
+| **Settlement Cycle** | T+2 |
+| **Settlement Eligible** | Yes |
+| **Clearing Eligible** | Partially |
+| **Counterparty Disclosure** | Yes |
 
 **24|40**
 
