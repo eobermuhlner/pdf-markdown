@@ -91,6 +91,9 @@ object DeterministicMarkdownConverter {
     /** Trailing spaces/dots/underscores + page number at end of a ToC line. */
     private val TOC_PAGE_NUMBER = Regex("""[\s._]+\d+\s*$""")
 
+    /** "valid as of DD Month YYYY" — standalone date line that should not merge with others. */
+    private val VALID_AS_OF_REGEX = Regex("""^valid as of\s+\d+\s+\w+\s+\d{4}""", RegexOption.IGNORE_CASE)
+
     // ─── Internal block types ─────────────────────────────────────────────────
 
     sealed class Block {
@@ -567,9 +570,11 @@ object DeterministicMarkdownConverter {
             }
 
             // ── Regular paragraph ────────────────────────────────────────────
+            // "valid as of" dates are standalone and should not merge with other text
+            val isValidAsOf = VALID_AS_OF_REGEX.containsMatchIn(text)
             val paraLines = mutableListOf(el)
             var j = i + 1
-            while (j < elements.size) {
+            while (j < elements.size && !isValidAsOf) {
                 val next       = elements[j]
                 val prevEl     = paraLines.last()
                 val yGap       = next.y - (prevEl.y + prevEl.height)
@@ -578,12 +583,17 @@ object DeterministicMarkdownConverter {
                 val nextHead   = detectHeadingLevel(next, modeFontSize, false, titleUsed, null, tuning.headingMediumMinRatio) > 0
                 val nextAdv    = advisoryRegex.containsMatchIn(next.text.trim()) &&
                                  (next.font.contains("bold") || next.font.contains("italic"))
+                // "valid as of" dates are standalone — don't merge into a paragraph
+                val nextValidAsOf = VALID_AS_OF_REGEX.containsMatchIn(next.text.trim())
                 // Prevent merging elements from different layout zones (e.g. separate columns
                 // or a diagram's time column vs. its description column).  Genuine paragraph
                 // continuation lines wrap at (nearly) the same left margin as the first line.
                 val nextXFar   = abs(next.x - el.x) > tuning.paragraphMaxXDistance
+                // A line that starts a new bullet/numbered item must not be absorbed into
+                // the preceding paragraph even when it is vertically close.
+                val nextBullet = hasBulletOrNumberedPrefix(next.text.trim(), bulletRegex)
                 if (next.font == el.font && yGap <= maxGap &&
-                    !nextMono && !nextHead && !nextAdv && !nextXFar) {
+                    !nextMono && !nextHead && !nextAdv && !nextValidAsOf && !nextXFar && !nextBullet) {
                     paraLines.add(next); j++
                 } else break
             }
@@ -755,6 +765,9 @@ object DeterministicMarkdownConverter {
         for ((idx, row) in yRows.withIndex()) {
             val cols       = countXClusters(row, minGap = tuning.tableMinColumnGap)
             val shortCells = row.all { it.text.trim().length <= 80 }
+            // Skip rows with many x-clusters (>15) at the start of a run - these are
+            // sub-header rows that would mess up column detection for the actual data rows
+            val isSubHeaderRow = cols > 15
             // A single bold/bold-italic element inside an active run is treated as a
             // section-header divider (e.g. "Bond Market" spanning a multi-section table).
             // We keep it in the run so the rows below still share the full column layout
@@ -762,7 +775,7 @@ object DeterministicMarkdownConverter {
             val isSingleBoldDivider = runStart >= 0
                 && row.size == 1
                 && (row[0].font == "bold" || row[0].font == "bold-italic")
-            if ((cols >= 2 && shortCells) || isSingleBoldDivider) {
+            if ((cols >= 2 && shortCells && !isSubHeaderRow) || isSingleBoldDivider) {
                 if (runStart < 0) runStart = idx
             } else {
                 flushRun(idx)
@@ -791,13 +804,19 @@ object DeterministicMarkdownConverter {
         return rows
     }
 
-    /** Count how many distinct x-clusters exist in a row. */
+    /** Count how many distinct x-clusters exist in a row.
+     *
+     * Uses x-to-x distance (start positions) rather than endX-to-x so that long
+     * cells whose text nearly reaches the next column's start position are not
+     * erroneously merged into a single cluster.  This matches the approach used in
+     * [buildTableRegion] which clusters column starts by x position.
+     */
     private fun countXClusters(row: List<TextElement>, minGap: Int): Int {
         if (row.isEmpty()) return 0
         val sorted = row.sortedBy { it.x }
         var count  = 1
         for (k in 1 until sorted.size) {
-            if (sorted[k].x - sorted[k - 1].endX > minGap) count++
+            if (sorted[k].x - sorted[k - 1].x > minGap) count++
         }
         return count
     }

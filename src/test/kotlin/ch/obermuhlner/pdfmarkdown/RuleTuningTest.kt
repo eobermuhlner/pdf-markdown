@@ -15,8 +15,8 @@ class RuleTuningTest {
         assertEquals(150, tuning.paragraphMaxXDistance)
         assertEquals(20, tuning.listMinIndent)
         assertEquals(100, tuning.listMaxIndent)
-        assertEquals(30, tuning.tableMinColumnGap)
-        assertEquals(3, tuning.tableMinRows)
+        assertEquals(25, tuning.tableMinColumnGap)
+        assertEquals(2, tuning.tableMinRows)
     }
 
     @Test fun `withOverrides applies single override`() {
@@ -72,7 +72,7 @@ class RuleTuningTest {
 
     @Test fun `default bullet prefix chars include common bullet characters`() {
         val tuning = RuleTuning()
-        assertEquals("•■*□·-", tuning.bulletPrefixChars)
+        assertEquals("•■*□·-→", tuning.bulletPrefixChars)
     }
 
     @Test fun `default advisory labels include common callout types`() {

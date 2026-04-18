@@ -195,15 +195,16 @@ data class RuleTuning(
     /**
      * Minimum horizontal gap between x-clusters for them to be considered
      * separate columns in a table.
-     * Default: 30
+     * Default: 25 (lower to better detect dense tables like Business Day Overview)
      */
-    val tableMinColumnGap: Int = 30,
+    val tableMinColumnGap: Int = 25,
 
     /**
      * Minimum number of rows for a region to be considered a table.
-     * Default: 3
+     * Default: 2 — allows detection of short tables and tables split across pages where
+     * each page only carries a subset of the rows.
      */
-    val tableMinRows: Int = 3,
+    val tableMinRows: Int = 2,
 
     /**
      * Y-position tolerance for grouping elements into the same row.
@@ -231,9 +232,9 @@ data class RuleTuning(
 
     /**
      * Minimum consecutive empty histogram buckets to consider as a column gap.
-     * Default: 3
+     * Default: 5 (higher than before to avoid splitting tables with sub-headers)
      */
-    val columnMinGapBuckets: Int = 3,
+    val columnMinGapBuckets: Int = 5,
 
     /**
      * Minimum column size as a fraction of total page elements.
@@ -300,9 +301,9 @@ data class RuleTuning(
     /**
      * Characters that indicate bullet list items.
      * Each character followed by optional whitespace forms a bullet prefix.
-     * Default: "•■*□·-" (bullet characters plus dash)
+     * Default: "•■*□·-→" (bullet characters plus dash and right-arrow)
      */
-    val bulletPrefixChars: String = "•■*□·-",
+    val bulletPrefixChars: String = "•■*□·-→",
 
     /**
      * Labels that indicate advisory callouts.
