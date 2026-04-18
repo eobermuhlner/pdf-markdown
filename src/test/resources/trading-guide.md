@@ -413,7 +413,9 @@ valid as of 15 May 2023
 
 **15|40**
 
-## Product Guide Bond Market valid as of 10 June 2024
+## Product Guide Bond Market
+
+valid as of 10 June 2024
 
 | | Bonds – Non CHF |
 | --- | --- |
@@ -491,7 +493,7 @@ valid as of 01 January 2025
 
 ## Product Guide - Fund Market and Other Financial Products
 
-## valid as of 04 December 2023
+valid as of 04 December 2023
 
 | | ETF on Bonds of the Swiss Confederation | Exchange Traded Products (ETP) |
 | --- | --- | --- |
@@ -529,7 +531,7 @@ valid as of 01 January 2025
 
 ## Product Guide - Structured Products Market
 
-## valid as of 15 May 2023
+valid as of 15 May 2023
 
 | | Structured Products |
 | --- | --- |
@@ -567,7 +569,7 @@ valid as of 01 January 2025
 
 ## Product Guide - Trading Without Pre-Trade Transparency in SwissAtMid
 
-## valid as of 12 May 2025
+valid as of 12 May 2025
 
 | | SwissAtMid |
 | --- | --- |
@@ -607,7 +609,7 @@ valid as of 01 January 2025
 
 ## Product Guide - Hybrid Trading in Swiss EBBO
 
-## valid as of 15 May 2023
+valid as of 15 May 2023
 
 | | Swiss EBBO |
 | --- | --- |
@@ -642,7 +644,7 @@ valid as of 01 January 2025
 
 ## Product Guide - Trading with Quote Requests in ETF, ETF on Bonds of the Swiss Confederation and ETP
 
-## valid as of 10 June 2024
+valid as of 10 June 2024
 
 | | Quote on Demand |
 | --- | --- |
@@ -682,14 +684,7 @@ valid as of 01 January 2025
 
 ## Product Guide - Trading with Quote Requests in ETF/ETP QOD Europe
 
-## valid as of 10 June 2024
-
-- Clearing &
-- Settlem
-
-**O ff O rd 09:00 - 17:30 CET er**
-
-**Trading Hours Trading Hours**
+valid as of 10 June 2024
 
 | | Trading with Quote Requests in ETF/ETP QOD Europe |
 | --- | --- |
@@ -729,7 +724,7 @@ valid as of 01 January 2025
 
 ## Product Guide - Trading with Quote Requests in CHF-Bonds
 
-## valid as of 10 June 2024
+valid as of 10 June 2024
 
 | | Trading with Quote Requests in CHF-Bonds |
 | --- | --- |
@@ -767,7 +762,9 @@ valid as of 01 January 2025
 
 **24|40**
 
-## Price Step Overview (Tick Sizes) - Equity Market valid as of 15 May 2023
+## Price Step Overview (Tick Sizes) - Equity Market
+
+valid as of 15 May 2023
 
 **Blue Chip Shares, Mid-/Small-Cap Shares, Sparks Shares, Global Depository Receipts, Secondary Listing Shares*, Sponsored Foreign Shares with primary market of the security in the EU**
 
@@ -801,7 +798,9 @@ valid as of 01 January 2025
 
 **25|40**
 
-## Price Step Overview (Tick Sizes) - Fund, Bond, Structured Products and Other Financial Products Market valid as of 01 January 2025
+## Price Step Overview (Tick Sizes) - Fund, Bond, Structured Products and Other Financial Products Market
+
+valid as of 01 January 2025
 
 | Sponsored Funds, Exchange Traded Funds (ETF), Exchange Traded Products (ETP) Reference Price | Reference price < 100’000 |  |  | Reference price ≥ 100’000 | Investment Funds Price Step Group Code |  | LC |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -843,7 +842,9 @@ or the equivalent amount in foreign trading currency
 
 **26|40**
 
-## Trade Types and Flags valid as of 04 December 2023
+## Trade Types and Flags
+
+valid as of 04 December 2023
 
 **Trade Flags**
 
@@ -1005,7 +1006,9 @@ Off Order Book trades only allowed for capacity corrections, any value provided 
 
 **27|40**
 
-## Deferred Publication Thresholds and Delays valid as of 10 June 2024
+## Deferred Publication Thresholds and Delays
+
+valid as of 10 June 2024
 
 **Class of equities in terms of average daily turnover (ADT)**
 
@@ -1074,7 +1077,7 @@ Between 15 million and 50 million Delayed Publication – 60 Minutes after the t
 
 ## Deferred Publication Thresholds and Delays
 
-## valid as of 10 June 2024
+valid as of 10 June 2024
 
 **Quote on Demand (QOD) – CHF-Bonds**
 
@@ -1092,7 +1095,7 @@ Permitted Publication Delay
 
 ## SWXess - On Order Book Functionality
 
-## valid as of 04 December 2023
+valid as of 04 December 2023
 
 | Type | Standard Trading Interface (STI) Order |
 | --- | --- |
@@ -1242,7 +1245,7 @@ SWML - SwissAtMid Block Order
 
 ## SWXess - On Order Book Functionality
 
-## valid as of 04 December 2023
+valid as of 04 December 2023
 
 **Time in Force Day: Order expires after End of Trading. Orders that are still open after Validity**
 
@@ -1308,7 +1311,7 @@ Attribute of quote (Principal Id)
 
 ## SWXess - Off Order Book Functionality
 
-## valid as of 28 October 2019
+valid as of 28 October 2019
 
 **Two-sided trade report**
 
@@ -1414,7 +1417,7 @@ to which the commission is to be paid.
 
 ## SWXess - Off Order Book Functionality
 
-## valid as of 06 December 2021
+valid as of 06 December 2021
 
 **Capacity Correction**
 
@@ -1491,7 +1494,9 @@ One-sided Cancellation = respective side CancBuy/CancSell
 
 **33|40**
 
-## SWXess - Off Order Book Functionality valid as of 15 October 2018
+## SWXess - Off Order Book Functionality
+
+valid as of 15 October 2018
 
 **Cancellation Request**
 
@@ -1538,7 +1543,9 @@ Deferred Publication
 
 **34|40**
 
-## Emergency Deletions valid as of 23 May 2022
+## Emergency Deletions
+
+valid as of 23 May 2022
 
 **Summary**
 
@@ -1574,7 +1581,7 @@ Force Logoff is not applicable to STI User. Only applicable if flag "order persi
 
 ## Emergency Deletions
 
-## valid as of 23 May 2022
+valid as of 23 May 2022
 
 Conditions under which emergency deletions can be made:
 
@@ -1671,7 +1678,7 @@ QTI
 
 **March**
 
-## MOTUWETHFRSASU MOTUWETHFRSASU MOTUWETHFRSASU
+MO TU WE TH FR SA SU  MO TU WE TH FR SA SU  MO TU WE TH FR SA SU
 
 12345 6789101112 3456789 3456789
 
@@ -1687,7 +1694,7 @@ QTI
 
 **June**
 
-## MOTUWETHFRSASU MOTUWETHFRSASU MOTUWETHFRSASU
+MO TU WE TH FR SA SU  MO TU WE TH FR SA SU  MO TU WE TH FR SA SU
 
 123456
 
@@ -1705,7 +1712,7 @@ QTI
 
 **September**
 
-## MOTUWETHFRSASU MOTUWETHFRSASU MOTUWETHFRSASU
+MO TU WE TH FR SA SU  MO TU WE TH FR SA SU  MO TU WE TH FR SA SU
 
 123456
 
@@ -1723,7 +1730,7 @@ QTI
 
 **December**
 
-## MOTUWETHFRSASU MOTUWETHFRSASU MOTUWETHFRSASU
+MO TU WE TH FR SA SU  MO TU WE TH FR SA SU  MO TU WE TH FR SA SU
 
 12345
 
@@ -1756,7 +1763,7 @@ Market Holiday Market Closed
 
 **March**
 
-## MOTUWETHFRSASU MOTUWETHFRSASU MOTUWETHFRSASU
+MO TU WE TH FR SA SU  MO TU WE TH FR SA SU  MO TU WE TH FR SA SU
 
 567891011 2345678 2345678
 
@@ -1772,7 +1779,7 @@ Market Holiday Market Closed
 
 **June**
 
-## MOTUWETHFRSASU MOTUWETHFRSASU MOTUWETHFRSASU
+MO TU WE TH FR SA SU  MO TU WE TH FR SA SU  MO TU WE TH FR SA SU
 
 12345
 
@@ -1792,7 +1799,7 @@ Market Holiday Market Closed
 
 **September**
 
-## MOTUWETHFRSASU MOTUWETHFRSASU MOTUWETHFRSASU
+MO TU WE TH FR SA SU  MO TU WE TH FR SA SU  MO TU WE TH FR SA SU
 
 12345
 
@@ -1810,7 +1817,7 @@ Market Holiday Market Closed
 
 **December**
 
-## MOTUWETHFRSASU MOTUWETHFRSASU MOTUWETHFRSASU
+MO TU WE TH FR SA SU  MO TU WE TH FR SA SU  MO TU WE TH FR SA SU
 
 123456
 
