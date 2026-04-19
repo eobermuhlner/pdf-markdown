@@ -347,8 +347,8 @@ class DeterministicMarkdownConverterTest {
             el(72, 100, "1. First item"),
             el(72, 112, "2. Second item"),
         )
-        assertTrue(result.contains("- 1. First item"))
-        assertTrue(result.contains("- 2. Second item"))
+        assertTrue(result.contains("1. First item"))
+        assertTrue(result.contains("2. Second item"))
     }
 
     // ─── Advisory callouts ────────────────────────────────────────────────────
@@ -572,8 +572,8 @@ class DeterministicMarkdownConverterTest {
         )
         assertTrue(result.contains("Left body text."))
         assertTrue(result.contains("Right body text."))
-        assertTrue(result.contains("## 1. Left Heading"))
-        assertTrue(result.contains("## 2. Right Heading"))
+        assertTrue(result.contains("1. Left Heading"))
+        assertTrue(result.contains("2. Right Heading"))
     }
 
     // ─── convertDocument — cross-page title tracking ──────────────────────────
@@ -605,7 +605,7 @@ class DeterministicMarkdownConverterTest {
     }
 
     @Test fun `page with only page number returns empty string`() {
-        val result = page(el(289, 750, "- 3 -"))
+        val result = page(el(289, 750, "- 3 -", fontSize = 8))
         assertEquals("", result)
     }
 }

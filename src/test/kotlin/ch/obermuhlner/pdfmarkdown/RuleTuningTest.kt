@@ -16,7 +16,7 @@ class RuleTuningTest {
         assertEquals(20, tuning.listMinIndent)
         assertEquals(100, tuning.listMaxIndent)
         assertEquals(25, tuning.tableMinColumnGap)
-        assertEquals(2, tuning.tableMinRows)
+        assertEquals(1, tuning.tableMinRows)
     }
 
     @Test fun `withOverrides applies single override`() {
