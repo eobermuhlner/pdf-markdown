@@ -41,7 +41,7 @@ class DeterministicMarkdownConverterEvalTest {
         private const val MIN_AVERAGE_STRUCTURAL  = 0.98
 
         /** Number of files evaluated in normal (non-full) mode. */
-        private const val DEFAULT_SAMPLE_SIZE   = 15
+        private const val DEFAULT_SAMPLE_SIZE   = Int.MAX_VALUE
 
         /** Committed test fixtures — always available, no download needed. */
         private val RESOURCES_EVAL_DIR: File by lazy {
@@ -86,7 +86,9 @@ class DeterministicMarkdownConverterEvalTest {
 
         val pairs = dataDir
             .takeIf { it.isDirectory }
-            ?.listFiles { f -> f.extension == "pdf" }
+            ?.walkTopDown()
+            ?.filter { it.extension == "pdf" }
+            ?.toList()
             ?.sortedBy { it.name }
             ?.take(maxFiles)
             ?.mapNotNull { pdf ->
@@ -125,14 +127,14 @@ class DeterministicMarkdownConverterEvalTest {
         val avgStructural = results.map { it.structural.overall }.average()  // overall already excludes -1 sentinels
         println()
         println("=== DeterministicMarkdownConverter eval (${results.size} files) ===")
-        println("%-12s  %8s  %10s  %8s  %8s  %8s  %8s".format(
+        println("%-20s  %8s  %10s  %8s  %8s  %8s  %8s".format(
             "File", "Coverage", "Structural", "Headings", "Tables", "Lists", "Code"))
-        println("-".repeat(76))
+        println("-".repeat(84))
         fun fmt(v: Double) = if (v < 0.0) "%8s".format("n/a") else "%7.1f%%".format(v * 100)
         results.sortedBy { it.name }.forEach { r ->
             val wMark = if (r.coverage < MIN_PER_FILE_COVERAGE) "!" else " "
             val sMark = if (r.structural.overall < MIN_PER_FILE_STRUCTURAL) "!" else " "
-            println("%-12s  %7.1f%% %s %8.1f%% %s %s  %s  %s  %s".format(
+            println("%-20s  %7.1f%% %s %8.1f%% %s %s  %s  %s  %s".format(
                 r.name,
                 r.coverage * 100, wMark,
                 r.structural.overall * 100, sMark,
@@ -142,14 +144,14 @@ class DeterministicMarkdownConverterEvalTest {
                 fmt(r.structural.code),
             ))
         }
-        println("-".repeat(76))
+        println("-".repeat(84))
         val wAvgMark = if (avg < MIN_AVERAGE_COVERAGE) "!" else " "
         val sAvgMark = if (avgStructural < MIN_AVERAGE_STRUCTURAL) "!" else " "
         fun avgFmt(values: List<Double>): String {
             val valid = values.filter { it >= 0.0 }
             return if (valid.isEmpty()) "%8s".format("n/a") else "%7.1f%%".format(valid.average() * 100)
         }
-        println("%-12s  %7.1f%% %s %8.1f%% %s %s  %s  %s  %s".format(
+        println("%-20s  %7.1f%% %s %8.1f%% %s %s  %s  %s  %s".format(
             "Average",
             avg * 100, wAvgMark,
             avgStructural * 100, sAvgMark,
