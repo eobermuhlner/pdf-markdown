@@ -201,10 +201,10 @@ data class RuleTuning(
 
     /**
      * Minimum number of rows for a region to be considered a table.
-     * Default: 2 — allows detection of short tables and tables split across pages where
-     * each page only carries a subset of the rows.
+     * Default: 1 — allows detection of single-row tables and cross-page table continuations
+     * where only one row appears on a given page.
      */
-    val tableMinRows: Int = 2,
+    val tableMinRows: Int = 1,
 
     /**
      * Y-position tolerance for grouping elements into the same row.
@@ -296,6 +296,15 @@ data class RuleTuning(
      */
     val codeYGapMultiplier: Double = 2.0,
 
+    /**
+     * Maximum vertical gap (as a multiple of previous row height) for a single bold element
+     * to be treated as a section-header divider inside an active table run.
+     * Gaps larger than this threshold indicate the bold element is a heading after the
+     * table ends, not a divider within it.
+     * Default: 3.0
+     */
+    val tableDividerMaxYGapMultiplier: Double = 3.0,
+
     // ─── Pattern-based detection ───────────────────────────────────────────────
 
     /**
@@ -352,6 +361,7 @@ data class RuleTuning(
                     "dropInitialYDistanceFraction" -> result.copy(dropInitialYDistanceFraction = value.toString().toDoubleOrNull() ?: result.dropInitialYDistanceFraction)
                     "dropInitialXDistanceMultiplier" -> result.copy(dropInitialXDistanceMultiplier = value.toString().toDoubleOrNull() ?: result.dropInitialXDistanceMultiplier)
                     "codeYGapMultiplier" -> result.copy(codeYGapMultiplier = value.toString().toDoubleOrNull() ?: result.codeYGapMultiplier)
+                    "tableDividerMaxYGapMultiplier" -> result.copy(tableDividerMaxYGapMultiplier = value.toString().toDoubleOrNull() ?: result.tableDividerMaxYGapMultiplier)
                     "bulletPrefixChars" -> result.copy(bulletPrefixChars = value.toString())
                     "advisoryLabels" -> result.copy(advisoryLabels = value.toString())
                     else -> result

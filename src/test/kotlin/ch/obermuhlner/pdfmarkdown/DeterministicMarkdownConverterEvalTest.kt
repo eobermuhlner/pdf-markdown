@@ -35,10 +35,10 @@ class DeterministicMarkdownConverterEvalTest {
         private const val MIN_AVERAGE_COVERAGE  = 0.99
 
         /** Per-file structural score threshold (average of per-type element-count ratios). */
-        private const val MIN_PER_FILE_STRUCTURAL = 0.80
+        private const val MIN_PER_FILE_STRUCTURAL = 0.98
 
         /** Average structural score threshold across all evaluated files. */
-        private const val MIN_AVERAGE_STRUCTURAL  = 0.88
+        private const val MIN_AVERAGE_STRUCTURAL  = 0.98
 
         /** Number of files evaluated in normal (non-full) mode. */
         private const val DEFAULT_SAMPLE_SIZE   = 15

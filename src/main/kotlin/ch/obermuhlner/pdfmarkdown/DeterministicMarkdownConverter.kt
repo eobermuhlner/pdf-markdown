@@ -177,7 +177,14 @@ object DeterministicMarkdownConverter {
     ): String {
         if (elements.isEmpty()) return ""
 
-        val visible = elements.filter { !isPageNumber(it.text) }
+        // Filter page numbers, but guard against false positives: bare 1–4-digit numbers
+        // (e.g. "120") match the page-number pattern but may be valid table cell values.
+        // Only treat them as page numbers when they appear in a small font (xx-small, x-small,
+        // or small relative to the boconsiderdy size), which is typical for footer page numbers.
+        val visible = elements.filter { el ->
+            !isPageNumber(el.text) ||
+            fontSizeToCssKeyword(el.fontSize, modeFontSize) !in setOf("xx-small", "x-small", "small")
+        }
         if (visible.isEmpty()) return ""
 
         // On the first page the title candidate is the element with the largest font size
@@ -196,12 +203,19 @@ object DeterministicMarkdownConverter {
         data class Chunk(val y: Int, val text: String)
 
         val chunks    = mutableListOf<Chunk>()
-        var titleUsed = titleAlreadyUsed
+        val titleUsed = titleAlreadyUsed
 
-        for (col in columns) {
-            val sorted      = col.sortedBy { it.y }
-            val withInitials = mergeDropInitials(sorted, tuning)
-
+        // Per-column table detection and block building.
+        // colProcessed: pre-computed per-column elements (mergeDropInitials applied ONCE per column).
+        // Reusing these objects ensures identity-set comparisons work correctly in cross-column merging.
+        data class ColResult(
+            val col: Int,
+            val tableRegions: List<TableRegion>,
+            val blocks: List<Block>,
+            val processed: List<TextElement>,
+        )
+        val colProcessed = columns.map { col -> mergeDropInitials(col.sortedBy { it.y }, tuning) }
+        val colResults = colProcessed.mapIndexed { colIdx, withInitials ->
             val tableRegions = detectTableRegions(withInitials, options)
             val inTable      = withInitials.filter { el ->
                 tableRegions.any { tr -> tr.allElements.any { it === el } }
@@ -209,15 +223,140 @@ object DeterministicMarkdownConverter {
             val prose = withInitials.filter { it !in inTable }
 
             val blocks = buildBlocks(prose, bodyMargin, modeFontSize, isFirstPage, titleUsed, titleCandidateFontSize, options, patterns)
+            ColResult(colIdx, tableRegions, blocks, withInitials)
+        }
 
-            for (block in blocks) {
-                if (block is Block.Heading && block.level == 1) titleUsed = true
+        // ── Cross-column table handling ───────────────────────────────────────
+        // Two mechanisms handle tables split across layout columns:
+        //
+        // (A) Left-column extension: a table detected in column C has its leftmost
+        //     column in column C-1 (companion matching ≥50% of y-rows → prepend).
+        //
+        // (B) Pair-wise detection: adjacent columns that have NO independent tables
+        //     are merged and subjected to table detection, catching tables whose
+        //     columns straddle the boundary (e.g. Cash Position).
+        //
+        // Suppressed elements (those consumed by a cross-column table) are tracked
+        // by (x, y, trimmedText) triples — more robust than identity comparison.
+        data class ElemKey(val x: Int, val y: Int, val text: String)
+        fun TextElement.key() = ElemKey(x, y, this.text.trim())
+
+        val crossColumnTables = mutableListOf<TableRegion>()      // new tables from pair-wise detection
+        val extendedTableRegions = mutableListOf<Pair<Int, TableRegion>>() // (tr.minY, extended)
+        val suppressedKeys = mutableSetOf<ElemKey>()
+
+        if (colBounds.size > 1) {
+            // ── (A) Left-column extension ─────────────────────────────────────
+            for (colIdx in colResults.indices) {
+                for (tr in colResults[colIdx].tableRegions) {
+                    val leftColIdx = colIdx - 1
+                    if (leftColIdx < 0) continue
+                    val adjElements = colResults[leftColIdx].processed
+
+                    val trYRows = groupByYRows(tr.allElements, tuning.tableRowTolerance)
+                    val trYPositions = trYRows.map { row -> row.minOf { it.y } }
+
+                    val adjGrouped = groupByYRows(adjElements, tuning.tableRowTolerance)
+                    val companions = adjGrouped.filter { adjRow ->
+                        val adjY = adjRow.minOf { it.y }
+                        trYPositions.any { ty -> abs(adjY - ty) <= tuning.tableRowTolerance * 2 }
+                    }
+
+                    val adjTableKeys = colResults[leftColIdx].tableRegions
+                        .flatMap { it.allElements }.map { it.key() }.toSet()
+                    val validCompanions = companions.filter { adjRow ->
+                        adjRow.all { it.text.trim().length <= 80 } &&
+                        adjRow.none { it.key() in adjTableKeys } &&
+                        adjRow.none { it.key() in suppressedKeys }
+                    }
+                    if (validCompanions.size.toDouble() / trYRows.size < 0.5) continue
+
+                    val mergedYRows = trYPositions.map { ty ->
+                        val orig = trYRows.firstOrNull { row -> row.minOf { it.y } == ty } ?: emptyList()
+                        val comp = validCompanions.firstOrNull { adjRow ->
+                            abs(adjRow.minOf { it.y } - ty) <= tuning.tableRowTolerance * 2
+                        } ?: emptyList()
+                        comp + orig
+                    }
+                    val merged = buildTableRegion(mergedYRows, options) ?: continue
+                    extendedTableRegions.add(tr.minY to merged)
+                    validCompanions.flatten().forEach { suppressedKeys.add(it.key()) }
+                }
+            }
+
+            // ── (B) Pair-wise cross-column detection ──────────────────────────
+            // Only runs when adjacent columns have NO independent tables — avoids
+            // conflicting with per-column tables that are already correctly detected.
+            for (leftIdx in 0 until colResults.size - 1) {
+                val rightIdx = leftIdx + 1
+                if (colResults[leftIdx].tableRegions.isNotEmpty() ||
+                    colResults[rightIdx].tableRegions.isNotEmpty()) continue  // any column has tables
+
+                val leftEls  = colResults[leftIdx].processed
+                val rightEls = colResults[rightIdx].processed
+                val leftKeys = leftEls.map { it.key() }.toSet()
+
+                val mergedEls = (leftEls + rightEls).sortedBy { it.y }
+                val crossTables = detectTableRegions(mergedEls, options)
+                for (ct in crossTables) {
+                    val hasLeft  = ct.allElements.any { it.key() in leftKeys }
+                    val hasRight = ct.allElements.any { it.key() !in leftKeys }
+                    if (!hasLeft || !hasRight) continue   // must span both columns
+                    // Skip if already covered by an extended table at same position
+                    if (extendedTableRegions.any { (_, ext) ->
+                            abs(ext.minY - ct.minY) <= tuning.tableRowTolerance }) continue
+                    // Require at least 3 data rows (4 total with header) for cross-column tables
+                    // to avoid spurious tables from two-column layout prose content that
+                    // coincidentally shares y-positions (e.g. title words aligning with list items)
+                    if (ct.dataRows.size < 3) continue
+                    // Reject cross-column tables containing monospace (code) elements —
+                    // no legitimate table cell should be in a code/monospace font
+                    if (ct.allElements.any { it.font.endsWith("-mono") }) continue
+                    // Reject cross-column tables where any element starts with a bullet prefix —
+                    // such elements are list items, not table cells (e.g. □ reference bullets in sidebars)
+                    val bulletPrefixRegex = Regex("^[${Regex.escape(tuning.bulletPrefixChars)}]\\s")
+                    if (ct.allElements.any { bulletPrefixRegex.containsMatchIn(it.text) }) continue
+                    crossColumnTables.add(ct)
+                    ct.allElements.forEach { suppressedKeys.add(it.key()) }
+                }
+            }
+        }
+
+        // ── Helper: all TextElement sources for a block (for suppression check) ──
+        fun blockElements(block: Block): List<TextElement> = when (block) {
+            is Block.Heading   -> listOf(block.source)
+            is Block.Paragraph -> block.lines
+            is Block.ListItems -> block.items
+            is Block.CodeBlock -> block.lines
+            is Block.Advisory  -> listOf(block.source)
+            is Block.Epigraph  -> block.lines + listOfNotNull(block.attribution)
+        }
+
+        // Render all column results
+        for (result in colResults) {
+            for (block in result.blocks) {
+                // Skip blocks whose elements were consumed by a cross-column table
+                if (blockElements(block).any { it.key() in suppressedKeys }) continue
                 val rendered = renderBlock(block, options, patterns)
                 if (rendered.isNotEmpty()) chunks.add(Chunk(block.minY, rendered))
             }
-            for (tr in tableRegions) {
-                chunks.add(Chunk(tr.minY, renderTableRegion(tr, options)))
+            for (tr in result.tableRegions) {
+                // Skip per-column tables whose elements are all suppressed (consumed by a cross-column table)
+                if (tr.allElements.all { it.key() in suppressedKeys }) continue
+                // If extended cross-column, use the extended version
+                val extended = extendedTableRegions.firstOrNull { (minY, ext) ->
+                    minY == tr.minY && ext.colCount > tr.colCount
+                }?.second
+                if (extended != null) {
+                    chunks.add(Chunk(tr.minY, renderTableRegion(extended, options)))
+                } else {
+                    chunks.add(Chunk(tr.minY, renderTableRegion(tr, options)))
+                }
             }
+        }
+        // Render cross-column tables discovered by pair-wise detection
+        for (ct in crossColumnTables) {
+            chunks.add(Chunk(ct.minY, renderTableRegion(ct, options)))
         }
 
         chunks.sortBy { it.y }
@@ -527,6 +666,7 @@ object DeterministicMarkdownConverter {
             // Fire on small italic text (original heuristic), OR on medium italic
             // text that begins with an opening-quote character or em-dash attribution
             // (signals a displayed quotation, not regular body prose).
+            // Guard: text starting with "|" is an embedded table row — never treat as epigraph.
             val epSz = fontSizeToCssKeyword(el.fontSize, modeFontSize)
             val isMediumQuote = epSz == "medium" &&
                 (el.font == "italic" || el.font == "bold-italic") &&
@@ -534,7 +674,8 @@ object DeterministicMarkdownConverter {
                     it.startsWith('"') || it.startsWith('\u201c') ||
                     it.startsWith('—') || it.startsWith('–')
                 }
-            if ((el.font == "italic" || el.font == "bold-italic") &&
+            if (!el.text.trimStart().startsWith("|") &&
+                (el.font == "italic" || el.font == "bold-italic") &&
                 (isSmallSize(epSz) || isMediumQuote)) {
                 val epLines = mutableListOf(el)
                 var j = i + 1
@@ -542,8 +683,10 @@ object DeterministicMarkdownConverter {
                     val next = elements[j]
                     val sz   = fontSizeToCssKeyword(next.fontSize, modeFontSize)
                     val yGap = next.y - (epLines.last().y + epLines.last().height)
-                    // Allow configurable gap multiplier and accept both sizes (last line may differ slightly)
-                    if ((next.font == "italic" || next.font == "bold-italic") &&
+                    // Allow configurable gap multiplier and accept both sizes (last line may differ slightly).
+                    // Guard: stop absorbing "|"-starting lines — those are embedded table rows.
+                    if (!next.text.trimStart().startsWith("|") &&
+                        (next.font == "italic" || next.font == "bold-italic") &&
                         (isSmallSize(sz) || sz == "medium") &&
                         yGap <= epLines.last().height * tuning.epigraphYGapMultiplier) {
                         epLines.add(next); j++
@@ -592,8 +735,11 @@ object DeterministicMarkdownConverter {
                 // A line that starts a new bullet/numbered item must not be absorbed into
                 // the preceding paragraph even when it is vertically close.
                 val nextBullet = hasBulletOrNumberedPrefix(next.text.trim(), bulletRegex)
+                // A line that begins with "|" (embedded table-row syntax) should not be
+                // merged into a preceding paragraph — it needs to render as a bare line.
+                val nextIsTableRow = next.text.trim().startsWith("|")
                 if (next.font == el.font && yGap <= maxGap &&
-                    !nextMono && !nextHead && !nextAdv && !nextValidAsOf && !nextXFar && !nextBullet) {
+                    !nextMono && !nextHead && !nextAdv && !nextValidAsOf && !nextXFar && !nextBullet && !nextIsTableRow) {
                     paraLines.add(next); j++
                 } else break
             }
@@ -677,7 +823,11 @@ object DeterministicMarkdownConverter {
 
         is Block.Paragraph -> renderParagraph(block.lines, options)
 
-        is Block.ListItems -> block.items.joinToString("\n") { "- " + stripBulletPrefix(it.text.trim(), patterns?.bulletPrefixRegex ?: DEFAULT_BULLET_PREFIX_REGEX) }
+        is Block.ListItems -> block.items.joinToString("\n") { item ->
+            val text = item.text.trim()
+            if (NUMBERED_PREFIX_REGEX.containsMatchIn(text)) text
+            else "- " + stripBulletPrefix(text, patterns?.bulletPrefixRegex ?: DEFAULT_BULLET_PREFIX_REGEX)
+        }
 
         is Block.CodeBlock -> buildString {
             appendLine("```")
@@ -730,7 +880,10 @@ object DeterministicMarkdownConverter {
                 }
             }
         }
-        return if (options.stripInlineFormatting) joined else applyEmphasis(joined, lines.first().font)
+        // Text that begins with "|" represents embedded table-row syntax — don't wrap
+        // it in emphasis markers so that it remains parseable as a Markdown table line.
+        return if (options.stripInlineFormatting || joined.trimStart().startsWith("|")) joined
+               else applyEmphasis(joined, lines.first().font)
     }
 
     private fun applyEmphasis(text: String, font: String): String = when (font) {
@@ -772,9 +925,16 @@ object DeterministicMarkdownConverter {
             // section-header divider (e.g. "Bond Market" spanning a multi-section table).
             // We keep it in the run so the rows below still share the full column layout
             // derived from the rows above; it renders as a spanning bold row in the table.
+            // Guard: the y-gap from the previous row must not exceed the threshold —
+            // large gaps indicate that this bold element is a heading after the table, not
+            // a section divider within it.
+            val prevRowBottomY = if (idx > 0) yRows[idx - 1].maxOf { it.y + it.height } else Int.MIN_VALUE
+            val yGapFromPrev = row.minOf { it.y } - prevRowBottomY
+            val prevRowMaxHeight = if (idx > 0) yRows[idx - 1].maxOf { it.height } else 0
             val isSingleBoldDivider = runStart >= 0
                 && row.size == 1
                 && (row[0].font == "bold" || row[0].font == "bold-italic")
+                && (idx == 0 || yGapFromPrev <= prevRowMaxHeight * tuning.tableDividerMaxYGapMultiplier)
             if ((cols >= 2 && shortCells && !isSubHeaderRow) || isSingleBoldDivider) {
                 if (runStart < 0) runStart = idx
             } else {
@@ -912,6 +1072,13 @@ object DeterministicMarkdownConverter {
     private fun <T> identitySetOf(vararg items: T): MutableSet<T> {
         val set: MutableSet<T> = Collections.newSetFromMap(IdentityHashMap())
         items.forEach { set.add(it) }
+        return set
+    }
+
+    /** Collects items into an identity-based set. */
+    private fun <T> Iterable<T>.toIdentitySet(): MutableSet<T> {
+        val set: MutableSet<T> = Collections.newSetFromMap(IdentityHashMap())
+        forEach { set.add(it) }
         return set
     }
 }
