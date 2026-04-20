@@ -249,6 +249,15 @@ data class RuleTuning(
     val columnMinSizeAbsolute: Int = 4,
 
     /**
+     * Minimum fraction of page width that a row must span to be considered a
+     * "column-spanning" row (CSS column-span:all equivalent).  Contiguous
+     * spanning rows are treated as a full-width block that divides the page
+     * into independent column sections above and below it.
+     * Default: 0.70 (70% of page width)
+     */
+    val spanningMinWidthFraction: Double = 0.70,
+
+    /**
      * Maximum x-distance from mode column x for an element to be considered
      * part of a coherent column.
      * Default: 30

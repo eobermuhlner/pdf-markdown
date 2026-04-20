@@ -383,9 +383,82 @@ object DeterministicMarkdownConverter {
             }
         }
 
+        // ── Spanning-band detection (column-span:all pattern) ───────────────────
+        // On multi-column pages, a table that spans the full page width acts as a
+        // "column-span:all" divider — content above it in all columns should be
+        // emitted before the table, and content below it should follow it (newspaper
+        // order applied independently within each section).
+        //
+        // We derive spanning bands purely from TABLE regions (per-column + cross-column),
+        // NOT from raw element coverage, to avoid false positives: in a normal 2-column
+        // layout, rows with elements in both columns have high coverage but are NOT
+        // spanning blocks.  A table spanning ≥ spanningMinWidthFraction of the page
+        // from leftmost to rightmost cell is the reliable indicator.
+        val spanningBands: List<IntRange> = run {
+            if (colBounds.size <= 1) return@run emptyList()
+            val pageLeft  = visible.minOf { it.x }
+            val pageRight = visible.maxOf { it.endX }
+            val pageWidth = (pageRight - pageLeft).coerceAtLeast(1).toDouble()
+
+            // Gather all table regions (per-column + cross-column) sorted by top Y
+            val allTableRegions = (colResults.flatMap { it.tableRegions } + crossColumnTables)
+                .sortedBy { it.minY }
+
+            // Merge overlapping/adjacent table regions into Y-groups
+            data class TableGroup(val yStart: Int, var yEnd: Int, val els: MutableList<TextElement>)
+            val groups = mutableListOf<TableGroup>()
+            for (tr in allTableRegions) {
+                val trEnd = tr.allElements.maxOf { it.y + it.height }
+                val last  = groups.lastOrNull()
+                if (last != null && tr.minY <= last.yEnd + tuning.tableRowTolerance * 2) {
+                    last.yEnd = maxOf(last.yEnd, trEnd)
+                    last.els.addAll(tr.allElements)
+                } else {
+                    groups.add(TableGroup(tr.minY, trEnd, tr.allElements.toMutableList()))
+                }
+            }
+
+            // Keep only groups whose combined X extent spans the page wide enough
+            // AND that have non-table content both above and below (real dividers)
+            groups.filter { g ->
+                val left  = g.els.minOf { it.x }
+                val right = g.els.maxOf { it.endX }
+                val hasAbove = visible.any { it.y < g.yStart }
+                val hasBelow = visible.any { it.y > g.yEnd }
+                hasAbove && hasBelow &&
+                (right - left).toDouble() / pageWidth >= tuning.spanningMinWidthFraction
+            }.map { g -> g.yStart..g.yEnd }
+        }
+
         if (colBounds.size > 1) {
-            // Multi-column: newspaper reading order (col 0 → col 1 → …), Y within each column.
-            allChunks.sortWith(compareBy({ it.colIdx }, { it.minY }))
+            if (spanningBands.isNotEmpty()) {
+                // Section-based newspaper order: for each vertical section between
+                // spanning bands, sort chunks by (colIdx, minY); spanning-band chunks
+                // sort by minY only and appear between the sections they separate.
+                fun sectionOf(y: Int): Int {
+                    var section = 0
+                    for (band in spanningBands) {
+                        when {
+                            y < band.first -> return section
+                            y <= band.last  -> return -1   // within spanning band
+                            else            -> section++
+                        }
+                    }
+                    return section
+                }
+                allChunks.sortWith(Comparator { a, b ->
+                    val sA = sectionOf(a.minY)
+                    val sB = sectionOf(b.minY)
+                    if (sA != sB) return@Comparator sA.compareTo(sB)
+                    if (sA == -1) return@Comparator a.minY.compareTo(b.minY)
+                    val colCmp = a.colIdx.compareTo(b.colIdx)
+                    if (colCmp != 0) return@Comparator colCmp
+                    a.minY.compareTo(b.minY)
+                })
+            } else {
+                // Standard newspaper reading order (col 0 → col 1 → …), Y within each column.
+                allChunks.sortWith(compareBy({ it.colIdx }, { it.minY }))
+            }
         } else {
             allChunks.sortBy { it.minY }
         }
