@@ -1,4 +1,4 @@
-# Cisco Cybersecurity Readiness Index
+Cisco Cybersecurity Readiness Index
 
 Resilience in a Hybrid World
 
@@ -48,8 +48,6 @@ Overall cybersecurity readiness of organizations
 
 In Europe, 14% of organizations are at the Mature stage of readiness, 20% are at the Progressive stage, 41% are Formative, and 25% are Beginners.
 
-## Readiness to protect identity
-
 | Stage | Global | Europe |
 | --- | --- | --- |
 | Mature | 20% | 14% |
@@ -67,8 +65,6 @@ The level of readiness to tackle the cybersecurity risks on this front varies. T
 
 In Europe, 27% of organizations are at the Mature stage of readiness, 12% are at the Progressive stage, 29% are Formative, and 32% are Beginners.
 
-## Readiness to protect devices
-
 | Stage | Global | Europe |
 | --- | --- | --- |
 | Mature | 31% | 27% |
@@ -82,8 +78,6 @@ A hybrid working environment calls for flexibility not only in the number and ty
 
 In Europe, 14% of organizations are at the Mature stage of readiness, 23% are at the Progressive stage, 51% are Formative, and 12% are Beginners.
 
-## Readiness to protect networks
-
 | Stage | Global | Europe |
 | --- | --- | --- |
 | Mature | 19% | 14% |
@@ -91,15 +85,11 @@ In Europe, 14% of organizations are at the Mature stage of readiness, 23% are at
 | Formative | 46% | 51% |
 | Beginner | 10% | 12% |
 
-## Application Workloads
-
 The widespread adoption of applications across businesses, and their importance to customer experience, has added another layer of complexity for cybersecurity teams as malicious actors look at applications as yet another way they can try to infiltrate a company's IT infrastructure.
 
 While companies globally have adopted tools and capabilities to safeguard themselves, the scale of deployment clearly has not kept pace with the speed at which applications have grown. Our survey shows that 65% of companies globally are in the Formative or Beginner stage, and only about 12% are in the Mature stage, the smallest number across the five areas that we have assessed.
 
 In Europe, 7% of organizations are at the Mature stage of readiness, 21% are at the Progressive stage, 55% are Formative, and 17% are Beginners.
-
-## Readiness to protect application workloads
 
 | Stage | Global | Europe |
 | --- | --- | --- |
@@ -114,8 +104,6 @@ Often labelled as the "new currency", it is critical for companies to safeguard 
 
 In Europe, 16% of organizations are at the Mature stage of readiness.
 
-## Readiness to protect data
-
 | Stage | Global | Europe |
 | --- | --- | --- |
 | Mature | 22% | 16% |
@@ -123,23 +111,13 @@ In Europe, 16% of organizations are at the Mature stage of readiness.
 | Formative | 28% | 24% |
 | Beginner | 22% | 32% |
 
-## What do companies need to do to be prepared?
-
-### Building Security Resilience
-
-In critical areas, significant steps have been taken to secure organizations against cybersecurity threats. However, organizations around the world – and perhaps governments – need to recognize that there is a long way to go. Deployments of some solutions, particularly those for identity, devices and networks, are not being rolled out as quickly as they could, leaving some organizations vulnerable to attack.
+Building Security Resilience In critical areas, significant steps have been taken to secure organizations against cybersecurity threats. However, organizations around the world – and perhaps governments – need to recognize that there is a long way to go. Deployments of some solutions, particularly those for identity, devices and networks, are not being rolled out as quickly as they could, leaving some organizations vulnerable to attack.
 
 When the consequences of cyberattacks are so clear to see, resilience must be a priority for all organizations and deployment of solutions needs to be accelerated.
 
-There are five dimensions to security resilience:
+There are five dimensions to security resilience: anticipate what is next using actionable intelligence; prioritize what matters most; close the gaps in your system so you have one, open platform; see more and always be monitoring; automate your response so you can bounce back fast.
 
-1. Anticipate what is next using actionable intelligence
-2. Prioritize what matters most
-3. Close the gaps in your system so you have one, open platform
-4. See more and always be monitoring
-5. Automate your response so you can bounce back fast
-
-## About the Research
+About the Research
 
 The Cybersecurity Readiness Index is sourced from a double-blind survey of 6,700 private sector cybersecurity leaders. The organizations cover 27 territories in North America, Latin America, EMEA and Asia-Pacific: Australia, Brazil, Canada, China, France, Germany, Hong Kong SAR, India, Indonesia, Italy, Japan, Malaysia, Mexico, Netherlands, New Zealand, Philippines, Poland, Singapore, South Africa, South Korea, Spain, Switzerland, Taiwan, Thailand, UK, USA and Vietnam. The index is based on five pillars: Identity, Devices, Network, Application Workloads, and Data. From within those pillars, we examined 19 different solutions required to address them. Respondents were asked to indicate which of these they had deployed, the stage of deployment, and if these solutions were not already deployed then what budgets had been approved, and the intended timeline of deployment. Each solution was assigned an individual weightage based on its relative importance to helping safeguard the applicable pillar. The scores for each organization were then derived based on the stage of deployment of various solutions under each of the five pillars, with partially deployed solutions assigned a 50% weighting and fully deployed solutions weighted at 100%.
 

@@ -1,6 +1,4 @@
-# Americans with Disabilities Act Accommodation Request Form
-
-**FOR ILLINOIS COURTS**
+# Americans with Disabilities Act Accommodation Request Form For Illinois Courts
 
 *Page 1 of 2*
 

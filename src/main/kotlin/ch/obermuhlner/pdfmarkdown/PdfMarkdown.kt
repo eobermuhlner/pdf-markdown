@@ -105,21 +105,54 @@ internal fun extractFilteredPageElements(
             minPages = maxOf(2, allPageElements.size / 3),
         )
 
-        docModeFontSize = allPageElements.flatMap { it.second }
+        val allElements = allPageElements.flatMap { it.second }
+
+        docModeFontSize = allElements
             .groupingBy { it.fontSize }
             .eachCount()
             .maxByOrNull { it.value }
             ?.key ?: 12
 
+        // Document-relative bold detection: find the modal font weight (body weight), then
+        // upgrade elements whose weight is ≥1.5× the modal from "normal"→"bold" / "italic"→"bold-italic".
+        // This catches documents that use a custom weight scale (e.g. body=350, emphasis=600)
+        // where the absolute ≥700 threshold in normalizeFontStyle would miss the bold.
+        val modalFontWeight = allElements
+            .filter { it.fontWeight > 0 }
+            .groupingBy { it.fontWeight }
+            .eachCount()
+            .maxByOrNull { it.value }
+            ?.key ?: 400
+
         for ((_, rawElements) in allPageElements) {
-            val elements = rawElements.filter { el ->
-                Triple(el.x, el.y, el.text.trim()) !in repeatedKeys
-            }
+            val elements = rawElements
+                .filter { el -> Triple(el.x, el.y, el.text.trim()) !in repeatedKeys }
+                .map { el -> upgradeFont(el, modalFontWeight) }
             if (elements.isNotEmpty()) result.add(elements)
         }
     }
 
     return result to docModeFontSize
+}
+
+/**
+ * Upgrades a [TextElement]'s normalized font style when its weight is significantly heavier
+ * than the document's modal (body) font weight.
+ *
+ * A ratio of ≥1.5× triggers an upgrade: `"normal"` → `"bold"`, `"italic"` → `"bold-italic"`.
+ * Elements already classified as bold, or with no descriptor weight (fontWeight == 0), are unchanged.
+ */
+internal fun upgradeFont(el: TextElement, modalFontWeight: Int): TextElement {
+    if (modalFontWeight <= 0 || el.fontWeight <= 0) return el
+    if (el.fontWeight.toFloat() / modalFontWeight < 1.4f) return el
+    val upgraded = when (el.font) {
+        "normal"       -> "bold"
+        "italic"       -> "bold-italic"
+        "normal-mono"  -> "bold-mono"
+        "italic-mono"  -> "bold-italic-mono"
+        else           -> return el   // already bold or unrecognised — leave unchanged
+    }
+    return el.copy(font = upgraded)
 }
 
 internal fun convertPdfToXml(file: File, maxPages: Int = Int.MAX_VALUE, raw: Boolean = false): String {
@@ -154,13 +187,12 @@ internal fun convertPdfToXml(file: File, maxPages: Int = Int.MAX_VALUE, raw: Boo
                     val parts = el.rawFont.split('|')
                     val fp = parts[0]
                     val fn = fp.substringAfter('+')
-                    val fw = parts.getOrNull(1)?.removePrefix("fw=") ?: "?"
                     val fb = parts.getOrNull(2)?.removePrefix("fb=") ?: "?"
                     val fi = parts.getOrNull(3)?.removePrefix("fi=") ?: "?"
-                    """ fn="${escapeXml(fn)}" fp="${escapeXml(fp)}" fw="$fw" fb="$fb" fi="$fi""""
+                    """ fn="${escapeXml(fn)}" fp="${escapeXml(fp)}" fb="$fb" fi="$fi""""
                 } else ""
                 sb.appendLine(
-                    """    <text x="${el.x}" y="${el.y}" r="$r" cx="$cx" s="$size" fs="${el.fontSize}" f="${el.font}"$rawAttrs h="${el.height}">${escapeXml(el.text)}</text>"""
+                    """    <text x="${el.x}" y="${el.y}" r="$r" cx="$cx" s="$size" fs="${el.fontSize}" f="${el.font}" fw="${el.fontWeight}"$rawAttrs h="${el.height}">${escapeXml(el.text)}</text>"""
                 )
             }
             sb.appendLine("  </page>")

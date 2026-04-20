@@ -8,8 +8,11 @@ package ch.obermuhlner.pdfmarkdown
  * @property endX    Right x-coordinate (points)
  * @property height  Line height (points)
  * @property fontSize Font size in points
- * @property font    Normalised font style: one of `normal`, `bold`, `italic`, `bold-italic`,
- *                   or any of those with a `-mono` suffix for monospace fonts
+ * @property font       Normalised font style: one of `normal`, `bold`, `italic`, `bold-italic`,
+ *                      or any of those with a `-mono` suffix for monospace fonts
+ * @property fontWeight Raw font weight from the PDF font descriptor (e.g. 300, 400, 700).
+ *                      Defaults to 400 when no descriptor is available.
+ *                      Used for document-relative bold detection and merge gating.
  * @property text    Decoded text content
  * @property rawFont Raw PDFBox font metadata, only populated when extraction is run in raw mode.
  *                   Format: `"<fullName>|fw=<weight>|fb=<forceBold>|fi=<italic>"`,
@@ -23,5 +26,6 @@ data class TextElement(
     val fontSize: Int,
     val font: String,
     val text: String,
+    val fontWeight: Int = 400,
     val rawFont: String? = null,
 )

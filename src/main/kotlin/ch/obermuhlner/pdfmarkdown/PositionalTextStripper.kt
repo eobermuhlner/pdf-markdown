@@ -136,6 +136,7 @@ class PositionalTextStripper(private val rawMode: Boolean = false) : PDFTextStri
         val fontSize = first.fontSizeInPt.roundToInt()
         val height = textPositions.maxOf { it.heightDir }.roundToInt()
         val font = normalizeFontStyle(first.font)
+        val fontWeight = first.font.fontDescriptor?.fontWeight?.toInt() ?: 400
         val y = first.yDirAdj.roundToInt()
 
         // Split runs at large intra-run gaps (column-sized whitespace that PDFBox delivers
@@ -158,7 +159,8 @@ class PositionalTextStripper(private val rawMode: Boolean = false) : PDFTextStri
                 TextElement(
                     x, y, endX, height, fontSize, font,
                     normalizeText(remapFallbackGlyphs(text, textPositions)),
-                    rawFont,
+                    fontWeight = fontWeight,
+                    rawFont = rawFont,
                 )
             )
         } else {
@@ -178,7 +180,8 @@ class PositionalTextStripper(private val rawMode: Boolean = false) : PDFTextStri
                     TextElement(
                         segX, y, segEndX, height, fontSize, font,
                         normalizeText(remapFallbackGlyphs(segText, segPositions)),
-                        rawFont,
+                        fontWeight = fontWeight,
+                        rawFont = rawFont,
                     )
                 )
             }
@@ -282,6 +285,7 @@ fun canMerge(a: TextElement, b: TextElement): Boolean {
     val maxGap = if (a.fontSize > 0) a.fontSize.toDouble() * 1.0 else a.height.toDouble() * 2.0
     return abs(a.y - b.y) <= yTolerance &&
             a.font == b.font &&
+            abs(a.fontWeight - b.fontWeight) <= 50 &&
             abs(a.fontSize - b.fontSize) <= 1 &&
             b.x >= a.x &&
             (b.x - a.endX) < maxGap
