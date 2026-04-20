@@ -41,6 +41,17 @@ object PdfMarkdown {
         convertPdfToXml(file, maxPages)
 
     /**
+     * Converts a PDF to the intermediate positional XML format, including raw PDFBox font
+     * metadata attributes (`fn`, `fp`, `fw`, `fb`, `fi`) on each `<text>` element for debugging.
+     *
+     * @param file      PDF file to convert.
+     * @param maxPages  Maximum number of pages to process (default: all pages).
+     * @return          XML string with a `<document>` root element.
+     */
+    fun toXmlRaw(file: File, maxPages: Int = Int.MAX_VALUE): String =
+        convertPdfToXml(file, maxPages, raw = true)
+
+    /**
      * Renders each page of [file] as a [BufferedImage].
      *
      * @param file      Input PDF file.
@@ -111,13 +122,13 @@ internal fun extractFilteredPageElements(
     return result to docModeFontSize
 }
 
-internal fun convertPdfToXml(file: File, maxPages: Int = Int.MAX_VALUE): String {
+internal fun convertPdfToXml(file: File, maxPages: Int = Int.MAX_VALUE, raw: Boolean = false): String {
     val sb = StringBuilder()
     sb.appendLine("""<?xml version="1.0" encoding="UTF-8"?>""")
     sb.appendLine("<document>")
 
     Loader.loadPDF(file).use { doc ->
-        val stripper = PositionalTextStripper()
+        val stripper = PositionalTextStripper(rawMode = raw)
         val pageElements = mutableListOf<List<TextElement>>()
         val pagesToProcess = minOf(doc.numberOfPages, maxPages)
         for (pageNum in 1..pagesToProcess) {
@@ -139,8 +150,17 @@ internal fun convertPdfToXml(file: File, maxPages: Int = Int.MAX_VALUE): String 
                 val size = fontSizeToCssKeyword(el.fontSize, modeFontSize)
                 val r = el.endX
                 val cx = (el.x + el.endX) / 2
+                val rawAttrs = if (el.rawFont != null) {
+                    val parts = el.rawFont.split('|')
+                    val fp = parts[0]
+                    val fn = fp.substringAfter('+')
+                    val fw = parts.getOrNull(1)?.removePrefix("fw=") ?: "?"
+                    val fb = parts.getOrNull(2)?.removePrefix("fb=") ?: "?"
+                    val fi = parts.getOrNull(3)?.removePrefix("fi=") ?: "?"
+                    """ fn="${escapeXml(fn)}" fp="${escapeXml(fp)}" fw="$fw" fb="$fb" fi="$fi""""
+                } else ""
                 sb.appendLine(
-                    """    <text x="${el.x}" y="${el.y}" r="$r" cx="$cx" s="$size" fs="${el.fontSize}" f="${el.font}" h="${el.height}">${escapeXml(el.text)}</text>"""
+                    """    <text x="${el.x}" y="${el.y}" r="$r" cx="$cx" s="$size" fs="${el.fontSize}" f="${el.font}"$rawAttrs h="${el.height}">${escapeXml(el.text)}</text>"""
                 )
             }
             sb.appendLine("  </page>")

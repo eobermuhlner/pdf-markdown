@@ -13,7 +13,7 @@ import kotlin.math.roundToInt
  * PDFBox [PDFTextStripper] subclass that captures per-glyph position, size, and font metadata
  * into a list of [TextElement] objects rather than plain text.
  */
-class PositionalTextStripper : PDFTextStripper() {
+class PositionalTextStripper(private val rawMode: Boolean = false) : PDFTextStripper() {
 
     companion object {
         /**
@@ -147,6 +147,8 @@ class PositionalTextStripper : PDFTextStripper() {
             }
         } else emptyList()
 
+        val rawFont = if (rawMode) rawFontInfo(first.font) else null
+
         if (splitPoints.isEmpty()) {
             // Fast path — single element (existing behaviour)
             val x = first.xDirAdj.roundToInt()
@@ -155,7 +157,8 @@ class PositionalTextStripper : PDFTextStripper() {
             elements.add(
                 TextElement(
                     x, y, endX, height, fontSize, font,
-                    normalizeText(remapFallbackGlyphs(text, textPositions))
+                    normalizeText(remapFallbackGlyphs(text, textPositions)),
+                    rawFont,
                 )
             )
         } else {
@@ -174,7 +177,8 @@ class PositionalTextStripper : PDFTextStripper() {
                 elements.add(
                     TextElement(
                         segX, y, segEndX, height, fontSize, font,
-                        normalizeText(remapFallbackGlyphs(segText, segPositions))
+                        normalizeText(remapFallbackGlyphs(segText, segPositions)),
+                        rawFont,
                     )
                 )
             }
@@ -320,6 +324,20 @@ fun normalizeSpreadText(text: String): String {
     }
     if (parts.isEmpty()) return text.trim()
     return parts.joinToString(" ")
+}
+
+/**
+ * Returns raw PDFBox font metadata as a pipe-delimited string for debugging.
+ * Format: `"<fullName>|fw=<weight>|fb=<forceBold>|fi=<italic>"`
+ * where weight/fb/fi come from the font descriptor (`"?"` if no descriptor is present).
+ */
+fun rawFontInfo(font: PDFont): String {
+    val fullName = font.name ?: ""
+    val descriptor = font.fontDescriptor
+    val fw = descriptor?.fontWeight?.toString() ?: "?"
+    val fb = descriptor?.isForceBold?.toString() ?: "?"
+    val fi = descriptor?.isItalic?.toString() ?: "?"
+    return "$fullName|fw=$fw|fb=$fb|fi=$fi"
 }
 
 /** Normalises a [PDFont] into one of the style tokens used throughout this library. */

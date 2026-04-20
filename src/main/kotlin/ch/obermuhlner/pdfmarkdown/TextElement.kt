@@ -11,6 +11,9 @@ package ch.obermuhlner.pdfmarkdown
  * @property font    Normalised font style: one of `normal`, `bold`, `italic`, `bold-italic`,
  *                   or any of those with a `-mono` suffix for monospace fonts
  * @property text    Decoded text content
+ * @property rawFont Raw PDFBox font metadata, only populated when extraction is run in raw mode.
+ *                   Format: `"<fullName>|fw=<weight>|fb=<forceBold>|fi=<italic>"`,
+ *                   e.g. `"BJOPBO+CiscoSans-Light|fw=300.0|fb=false|fi=false"`.
  */
 data class TextElement(
     val x: Int,
@@ -20,4 +23,5 @@ data class TextElement(
     val fontSize: Int,
     val font: String,
     val text: String,
+    val rawFont: String? = null,
 )

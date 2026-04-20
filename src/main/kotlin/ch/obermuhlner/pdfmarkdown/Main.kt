@@ -13,7 +13,7 @@ import com.github.ajalt.clikt.parameters.types.double
 import java.io.File
 
 fun main(args: Array<String>) = PdfMarkdownCli()
-    .subcommands(XmlCommand(), MarkdownCommand(), ImagesCommand())
+    .subcommands(XmlCommand(), XmlRawCommand(), MarkdownCommand(), ImagesCommand())
     .main(args)
 
 class PdfMarkdownCli : CliktCommand(
@@ -63,6 +63,20 @@ class XmlCommand : CliktCommand(
 
     override fun run() {
         val xml = PdfMarkdown.toXml(inputFile, maxPages ?: Int.MAX_VALUE)
+        write(xml, outputFile)
+    }
+}
+
+class XmlRawCommand : CliktCommand(
+    name = "xml-raw",
+    help = "Convert a PDF to positional XML with raw PDFBox font metadata for debugging.",
+) {
+    private val inputFile: File by argument(help = "Input PDF file").file(mustExist = true, canBeDir = false)
+    private val outputFile: File? by argument(help = "Output file (default: stdout)").file().optional()
+    private val maxPages: Int? by option("--max-pages", help = "Maximum number of pages to process").int()
+
+    override fun run() {
+        val xml = PdfMarkdown.toXmlRaw(inputFile, maxPages ?: Int.MAX_VALUE)
         write(xml, outputFile)
     }
 }
