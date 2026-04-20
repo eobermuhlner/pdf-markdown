@@ -151,11 +151,11 @@ class DeterministicMarkdownConverterTest {
         assertFalse(result.contains("**Section Title**"))
     }
 
-    @Test fun `normal font not detected as h4-h6`() {
-        // Non-bold text at any size should not be H4-H6
+    @Test fun `normal large font detected as h2`() {
+        // Non-bold "large" text (ratio 1.10–1.35 vs body) is detected as H2,
+        // matching documents that use a larger-but-not-bold font for section headings.
         val result = page(el(72, 100, "Some text", font = "normal", fontSize = 14))
-        assertFalse(result.contains("#"))
-        assertTrue(result.contains("Some text"))
+        assertTrue(result.contains("## Some text"), "expected H2 but got: $result")
     }
 
     @Test fun `numbered bold heading takes h2 priority over h4`() {

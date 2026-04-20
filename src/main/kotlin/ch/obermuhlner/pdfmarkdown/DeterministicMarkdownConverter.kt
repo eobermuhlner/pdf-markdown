@@ -200,9 +200,6 @@ object DeterministicMarkdownConverter {
         val colBounds  = detectColumnBoundaries(visible, tuning)
         val columns    = splitIntoColumns(visible, colBounds)
 
-        data class Chunk(val y: Int, val text: String)
-
-        val chunks    = mutableListOf<Chunk>()
         val titleUsed = titleAlreadyUsed
 
         // Per-column table detection and block building.
@@ -316,6 +313,21 @@ object DeterministicMarkdownConverter {
                     // such elements are list items, not table cells (e.g. □ reference bullets in sidebars)
                     val bulletPrefixRegex = Regex("^[${Regex.escape(tuning.bulletPrefixChars)}]\\s")
                     if (ct.allElements.any { bulletPrefixRegex.containsMatchIn(it.text) }) continue
+                    // Reject cross-column tables where any element is a section heading —
+                    // such elements are column-section labels, not table cells (e.g. parallel section
+                    // headings like "Speakers | Reservations" in a brochure layout)
+                    if (ct.allElements.any { detectHeadingLevel(it, modeFontSize, isFirstPage, titleUsed, null, tuning.headingMediumMinRatio) > 0 }) continue
+                    // Reject cross-column tables where either source column contains a sub-section
+                    // heading (H2–H6) that appears BEFORE the table's y-start. Such a heading marks
+                    // the column as an independent section (e.g. a "Reservations" section whose
+                    // paragraph text coincidentally shares y-positions with an adjacent column's list
+                    // items). H1 / title-level elements are excluded from this check because decorative
+                    // large-font title words can appear in a column above a legitimate data table.
+                    val hasSubsectionHeadingBeforeTable = { els: List<TextElement> ->
+                        els.any { el -> el.y < ct.minY &&
+                            detectHeadingLevel(el, modeFontSize, isFirstPage, titleUsed, null, tuning.headingMediumMinRatio) in 2..6 }
+                    }
+                    if (hasSubsectionHeadingBeforeTable(leftEls) || hasSubsectionHeadingBeforeTable(rightEls)) continue
                     crossColumnTables.add(ct)
                     ct.allElements.forEach { suppressedKeys.add(it.key()) }
                 }
@@ -332,35 +344,52 @@ object DeterministicMarkdownConverter {
             is Block.Epigraph  -> block.lines + listOfNotNull(block.attribution)
         }
 
-        // Render all column results
+        // Render all column results.
+        // For multi-column pages use "newspaper" reading order: complete the left column
+        // before starting the right column.  Sorting all blocks by Y alone interleaves
+        // columns incorrectly when their Y ranges overlap (e.g. a two-column report where
+        // the right column starts at a smaller Y than the left-column title).
+        // Cross-column tables span all columns; assign them to column 0 so they appear
+        // at the correct Y position within the left-column section.
+        data class BlockChunk(val colIdx: Int, val minY: Int, val rendered: String)
+        val allChunks = mutableListOf<BlockChunk>()
         for (result in colResults) {
             for (block in result.blocks) {
-                // Skip blocks whose elements were consumed by a cross-column table
                 if (blockElements(block).any { it.key() in suppressedKeys }) continue
                 val rendered = renderBlock(block, options, patterns)
-                if (rendered.isNotEmpty()) chunks.add(Chunk(block.minY, rendered))
+                if (rendered.isNotEmpty()) {
+                    allChunks.add(BlockChunk(result.col, block.minY, rendered))
+                }
             }
             for (tr in result.tableRegions) {
-                // Skip per-column tables whose elements are all suppressed (consumed by a cross-column table)
                 if (tr.allElements.all { it.key() in suppressedKeys }) continue
-                // If extended cross-column, use the extended version
                 val extended = extendedTableRegions.firstOrNull { (minY, ext) ->
                     minY == tr.minY && ext.colCount > tr.colCount
                 }?.second
-                if (extended != null) {
-                    chunks.add(Chunk(tr.minY, renderTableRegion(extended, options)))
+                val rendered = if (extended != null) {
+                    renderTableRegion(extended, options)
                 } else {
-                    chunks.add(Chunk(tr.minY, renderTableRegion(tr, options)))
+                    renderTableRegion(tr, options)
+                }
+                if (rendered.isNotEmpty()) {
+                    allChunks.add(BlockChunk(result.col, tr.minY, rendered))
                 }
             }
         }
-        // Render cross-column tables discovered by pair-wise detection
         for (ct in crossColumnTables) {
-            chunks.add(Chunk(ct.minY, renderTableRegion(ct, options)))
+            val rendered = renderTableRegion(ct, options)
+            if (rendered.isNotEmpty()) {
+                allChunks.add(BlockChunk(0, ct.minY, rendered))
+            }
         }
 
-        chunks.sortBy { it.y }
-        return chunks.joinToString("\n\n") { it.text }.trim()
+        if (colBounds.size > 1) {
+            // Multi-column: newspaper reading order (col 0 → col 1 → …), Y within each column.
+            allChunks.sortWith(compareBy({ it.colIdx }, { it.minY }))
+        } else {
+            allChunks.sortBy { it.minY }
+        }
+        return allChunks.joinToString("\n\n") { it.rendered }.trim()
     }
 
     // ─── Page-number filter ───────────────────────────────────────────────────
@@ -780,6 +809,11 @@ object DeterministicMarkdownConverter {
 
         // (3) Large + "N.N" standalone short line → ###
         if (size == "large" && NUMBERED_H3_REGEX.containsMatchIn(text) && text.length < 80) return 3
+
+        // (3b) Non-bold "large" standalone → ##
+        // Catches section headers in documents that use a larger-but-not-bold font for headings
+        // (e.g. brochures where the body font is 9pt and section titles are 12pt normal-weight).
+        if (size == "large" && !isBold && text.length < 80) return 2
 
         // (4) Bold ALL-CAPS short standalone → ##
         // Require at least 5 letters to avoid false positives on short abbreviations

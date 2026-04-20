@@ -40,6 +40,12 @@ class DeterministicMarkdownConverterEvalTest {
         /** Average structural score threshold across all evaluated files. */
         private const val MIN_AVERAGE_STRUCTURAL  = 0.98
 
+        /** Per-file order score threshold — a single file below this fails the suite. */
+        private const val MIN_PER_FILE_ORDER = 0.60
+
+        /** Average order score threshold across all evaluated files. */
+        private const val MIN_AVERAGE_ORDER  = 0.80
+
         /** Number of files evaluated in normal (non-full) mode. */
         private const val DEFAULT_SAMPLE_SIZE   = Int.MAX_VALUE
 
@@ -104,6 +110,7 @@ class DeterministicMarkdownConverterEvalTest {
             val name:       String,
             val coverage:   Double,
             val structural: StructuralScore,
+            val order:      Double,
             val actual:     String,
             val truth:      String,
         )
@@ -114,27 +121,30 @@ class DeterministicMarkdownConverterEvalTest {
                 .joinToString("\n\n")
             val truth = mdFile.readText()
             Result(
-                pdf.nameWithoutExtension,
-                wordCoverage(truth, actual),
-                structuralScore(truth, actual),
-                actual,
-                truth,
+                name       = pdf.nameWithoutExtension,
+                coverage   = wordCoverage(truth, actual),
+                structural = structuralScore(truth, actual),
+                order      = orderScore(truth, actual),
+                actual     = actual,
+                truth      = truth,
             )
         }
 
         // ── Summary table (always printed) ────────────────────────────────────
         val avg = results.map { it.coverage }.average()
         val avgStructural = results.map { it.structural.overall }.average()  // overall already excludes -1 sentinels
+        val avgOrder = results.map { it.order }.average()
         println()
         println("=== DeterministicMarkdownConverter eval (${results.size} files) ===")
-        println("%-20s  %8s  %10s  %8s  %8s  %8s  %8s".format(
-            "File", "Coverage", "Structural", "Headings", "Tables", "Lists", "Code"))
-        println("-".repeat(84))
+        println("%-20s  %8s  %10s  %8s  %8s  %8s  %8s  %8s".format(
+            "File", "Coverage", "Structural", "Headings", "Tables", "Lists", "Code", "Order"))
+        println("-".repeat(94))
         fun fmt(v: Double) = if (v < 0.0) "%8s".format("n/a") else "%7.1f%%".format(v * 100)
         results.sortedBy { it.name }.forEach { r ->
             val wMark = if (r.coverage < MIN_PER_FILE_COVERAGE) "!" else " "
             val sMark = if (r.structural.overall < MIN_PER_FILE_STRUCTURAL) "!" else " "
-            println("%-20s  %7.1f%% %s %8.1f%% %s %s  %s  %s  %s".format(
+            val oMark = if (r.order < MIN_PER_FILE_ORDER) "!" else " "
+            println("%-20s  %7.1f%% %s %8.1f%% %s %s  %s  %s  %s  %7.1f%% %s".format(
                 r.name,
                 r.coverage * 100, wMark,
                 r.structural.overall * 100, sMark,
@@ -142,16 +152,18 @@ class DeterministicMarkdownConverterEvalTest {
                 fmt(r.structural.tables),
                 fmt(r.structural.lists),
                 fmt(r.structural.code),
+                r.order * 100, oMark,
             ))
         }
-        println("-".repeat(84))
+        println("-".repeat(94))
         val wAvgMark = if (avg < MIN_AVERAGE_COVERAGE) "!" else " "
         val sAvgMark = if (avgStructural < MIN_AVERAGE_STRUCTURAL) "!" else " "
+        val oAvgMark = if (avgOrder < MIN_AVERAGE_ORDER) "!" else " "
         fun avgFmt(values: List<Double>): String {
             val valid = values.filter { it >= 0.0 }
             return if (valid.isEmpty()) "%8s".format("n/a") else "%7.1f%%".format(valid.average() * 100)
         }
-        println("%-20s  %7.1f%% %s %8.1f%% %s %s  %s  %s  %s".format(
+        println("%-20s  %7.1f%% %s %8.1f%% %s %s  %s  %s  %s  %7.1f%% %s".format(
             "Average",
             avg * 100, wAvgMark,
             avgStructural * 100, sAvgMark,
@@ -159,11 +171,14 @@ class DeterministicMarkdownConverterEvalTest {
             avgFmt(results.map { it.structural.tables }),
             avgFmt(results.map { it.structural.lists }),
             avgFmt(results.map { it.structural.code }),
+            avgOrder * 100, oAvgMark,
         ))
 
         // ── Failure details (printed when a file is below any per-file threshold) ──
         val perFileFailures = results.filter {
-            it.coverage < MIN_PER_FILE_COVERAGE || it.structural.overall < MIN_PER_FILE_STRUCTURAL
+            it.coverage < MIN_PER_FILE_COVERAGE ||
+            it.structural.overall < MIN_PER_FILE_STRUCTURAL ||
+            it.order < MIN_PER_FILE_ORDER
         }
         if (perFileFailures.isNotEmpty()) {
             println()
@@ -172,7 +187,8 @@ class DeterministicMarkdownConverterEvalTest {
                 val missing = missingWords(r.truth, r.actual).take(30)
                 println()
                 println("--- ${r.name}  (coverage=${"%.1f".format(r.coverage * 100)}%," +
-                    " structural=${"%.1f".format(r.structural.overall * 100)}%) ---")
+                    " structural=${"%.1f".format(r.structural.overall * 100)}%," +
+                    " order=${"%.1f".format(r.order * 100)}%) ---")
                 println("Missing words (top 30): ${missing.joinToString(", ")}")
                 // Per-type missing word details for structural failures
                 if (r.structural.overall < MIN_PER_FILE_STRUCTURAL) {
@@ -184,6 +200,11 @@ class DeterministicMarkdownConverterEvalTest {
                     if (missingT.isNotEmpty()) println("  Missing table words:   ${missingT.joinToString(", ")}")
                     if (missingL.isNotEmpty()) println("  Missing list words:    ${missingL.joinToString(", ")}")
                     if (missingC.isNotEmpty()) println("  Missing code words:    ${missingC.joinToString(", ")}")
+                }
+                if (r.order < MIN_PER_FILE_ORDER) {
+                    val truthWords = extractOrderedWords(r.truth).take(500)
+                    val actualWords = extractOrderedWords(r.actual)
+                    printOrderDiagnostic(truthWords, actualWords)
                 }
                 println("--- Ground truth (first 30 lines) ---")
                 r.truth.lines().take(30).forEach { println(it) }
@@ -220,6 +241,17 @@ class DeterministicMarkdownConverterEvalTest {
             if (avgStructural < MIN_AVERAGE_STRUCTURAL) {
                 appendLine("Average structural score ${"%.1f".format(avgStructural * 100)}% " +
                     "below threshold ${"%.0f".format(MIN_AVERAGE_STRUCTURAL * 100)}%")
+            }
+            if (results.any { it.order < MIN_PER_FILE_ORDER }) {
+                val failures = results.filter { it.order < MIN_PER_FILE_ORDER }
+                appendLine("${failures.size} file(s) below per-file order threshold " +
+                    "(${"%.0f".format(MIN_PER_FILE_ORDER * 100)}%):")
+                failures.sortedBy { it.name }
+                    .forEach { appendLine("  ${it.name}: ${"%.1f".format(it.order * 100)}%") }
+            }
+            if (avgOrder < MIN_AVERAGE_ORDER) {
+                appendLine("Average order score ${"%.1f".format(avgOrder * 100)}% " +
+                    "below threshold ${"%.0f".format(MIN_AVERAGE_ORDER * 100)}%")
             }
         }.trimEnd()
 
@@ -304,10 +336,53 @@ class DeterministicMarkdownConverterEvalTest {
             .sorted()
     }
 
-    private fun extractWords(text: String): Set<String> =
+    private fun extractOrderedWords(text: String): List<String> =
         text.lowercase()
             .replace(Regex("[^a-z0-9\\s]"), " ")
             .split(Regex("\\s+"))
             .filter { it.length >= 3 }
-            .toSet()
+
+    private fun extractWords(text: String): Set<String> =
+        extractOrderedWords(text).toSet()
+
+    // ── Order scoring ─────────────────────────────────────────────────────────
+
+    private fun orderScore(groundTruth: String, actual: String): Double {
+        val maxWords = 500
+        val truth = extractOrderedWords(groundTruth).take(maxWords)
+        val act   = extractOrderedWords(actual).take(maxWords)
+        if (truth.isEmpty()) return 1.0
+        return lcsLength(truth, act).toDouble() / truth.size
+    }
+
+    private fun lcsLength(a: List<String>, b: List<String>): Int {
+        val m = a.size; val n = b.size
+        val dp = Array(m + 1) { IntArray(n + 1) }
+        for (i in 1..m) for (j in 1..n)
+            dp[i][j] = if (a[i-1] == b[j-1]) dp[i-1][j-1] + 1
+                       else maxOf(dp[i-1][j], dp[i][j-1])
+        return dp[m][n]
+    }
+
+    private fun printOrderDiagnostic(truth: List<String>, actual: List<String>) {
+        val probeCount = 10
+        val step = maxOf(1, truth.size / probeCount)
+        val actualIndex = buildMap<String, Int> {
+            actual.forEachIndexed { idx, word -> putIfAbsent(word, idx) }
+        }
+        println("  Order diagnostic (${truth.size} truth words, ${actual.size} actual words):")
+        var lastActualPos = -1
+        for (i in 0 until truth.size step step) {
+            val word = truth[i]
+            val pos  = actualIndex[word]
+            if (pos == null) {
+                println("    truth[%3d] %-16s -> NOT FOUND".format(i, "\"$word\""))
+            } else {
+                val reversal = if (pos < lastActualPos) "  <-- REVERSAL" else ""
+                println("    truth[%3d] %-16s -> actual[%3d]  %+d%s".format(
+                    i, "\"$word\"", pos, pos - lastActualPos, reversal))
+                lastActualPos = pos
+            }
+        }
+    }
 }
