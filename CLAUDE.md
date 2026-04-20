@@ -24,6 +24,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ./gradlew run --args="markdown input.pdf"
 ./gradlew run --args="xml input.pdf"
 ./gradlew run --args="markdown input.pdf output.md --max-pages 5"
+./gradlew run --args="images input.pdf" # images may be used to visually analyze the PDF
 
 # Publish to local staging directory (build/staging-deploy)
 ./gradlew publishMavenJavaPublicationToStagingRepository
